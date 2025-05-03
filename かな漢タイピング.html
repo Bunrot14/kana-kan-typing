@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>かな漢タイピング　実践的練習</title>
+  <style>
+    body {
+      font-family: 'Yu Gothic', sans-serif;
+      background: #f5f5f5;
+      padding: 2rem;
+      line-height: 1.8;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .problem-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .problem-buttons button {
+      padding: 0.5rem 1rem;
+      background: #ccc;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .problem-buttons button:hover {
+      background: #aaa;
+    }
+
+    #display,
+    #typing-area {
+      width: 65vw;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+
+    #display {
+      background-color: black;
+      color: white;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    #display span {
+      white-space: pre;
+    }
+
+    .correct {
+      background-color: #ccc !important;
+      color: white !important;
+    }
+
+    .incorrect {
+      color: rgb(0, 160, 199) !important;
+    }
+
+    .untyped {
+      color: white !important;
+    }
+
+    #typingArea {
+      width: 65vw;
+      height: 6em;
+      font-size: 16px;
+      padding: 1rem;
+      line-height: 1.5;
+      resize: none;
+      border-radius: 8px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      font-family: inherit;
+    }
+
+    #popup {
+      display: none;
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 2rem;
+      border: 2px solid #666;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+      z-index: 10;
+    }
+
+    #popup ul {
+      padding-left: 1.5rem;
+      list-style-type: disc;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>かな漢タイピング</h1>
+
+  <div class="problem-buttons">
+    <button onclick="setEssay(0)">問題1</button>
+    <button onclick="setEssay(1)">問題2</button>
+    <button onclick="setEssay(2)">問題3</button>
+  </div>
+
+  <div id="display"></div>
+
+  <textarea id="typingArea" placeholder="ここに全文を入力してください..."></textarea>
+
+  <div id="popup">
+    <ul id="popupList"></ul>
+    <p>（Qキーで閉じる）</p>
+  </div>
+
+  <script>
+    const essays = [
+      "人は過去を編集できないが、記憶はいつだって書き換えられる。これは罪の意識ではなく、生き延びるための防衛機能である。",
+      "幸福は目標ではなく副産物である。だからこそ、それを追いかける者はいつも迷子になる。",
+      "世界の複雑さに耐えるため、人は単純化という名の嘘に救いを求める。だがその嘘が、やがて現実より重くなる。"
+    ];
+
+    const display = document.getElementById("display");
+    const typingArea = document.getElementById("typingArea");
+    const popup = document.getElementById("popup");
+    const popupList = document.getElementById("popupList");
+
+    let currentEssay = "";
+    let startTime = null;
+
+    function setEssay(index) {
+      currentEssay = essays[index];
+      typingArea.value = "";
+      updateDisplay();
+      typingArea.focus();
+      startTime = null;
+    }
+
+    function updateDisplay() {
+      const input = typingArea.value;
+      display.innerHTML = "";
+      let errorMarked = false;
+
+      for (let i = 0; i < currentEssay.length; i++) {
+        const span = document.createElement("span");
+        const expected = currentEssay[i];
+        const typed = input[i];
+
+        if (i < input.length) {
+          if (!errorMarked) {
+            if (typed === expected) {
+              span.className = "correct";
+            } else {
+              span.className = "incorrect";
+              errorMarked = true;
+            }
+          } else {
+            span.className = "untyped";
+          }
+        } else {
+          span.className = "untyped";
+        }
+
+        span.textContent = expected;
+        display.appendChild(span);
+      }
+
+      if (!errorMarked && input === currentEssay) {
+        showResult();
+      }
+    }
+
+    function getEvaluationMessage(wpm) {
+      if (wpm >= 400) return "You are god.";
+      if (wpm >= 300) return "あなたは鍵をもつ風。";
+      if (wpm >= 200) return "あなたの言葉は稲妻。世界を貫いている。";
+      if (wpm >= 120) return "思考と指先が調和して、美しい旋律を奏でている。";
+      if (wpm >= 60) return "確かな歩みが、言葉をひとつずつ紡いでいく。";
+      if (wpm >= 30) return "急がず焦らず、言葉と心を結びつける旅の途中。";
+      return "複雑に考えず、自分自身でいること。";
+    }
+
+    function showResult() {
+      const elapsed = ((Date.now() - startTime) / 1000); // 秒
+      const charCount = typingArea.value.length;
+      const wpm = Math.round((charCount / elapsed) * 60);
+
+      popupList.innerHTML = "";
+
+      const createItem = (text) => {
+        const li = document.createElement("li");
+        li.textContent = text;
+        return li;
+      };
+
+      popupList.appendChild(createItem(`所要時間：${elapsed.toFixed(1)}秒`));
+      popupList.appendChild(createItem(`入力文字数：${charCount}文字`));
+      popupList.appendChild(createItem(`WPM：${wpm}文字/分`));
+      popupList.appendChild(createItem(`評価：${getEvaluationMessage(wpm)}`));
+
+      popup.style.display = "block";
+      typingArea.blur();
+    }
+
+    typingArea.addEventListener("input", () => {
+      if (!startTime) {
+        startTime = Date.now();
+      }
+      updateDisplay();
+    });
+
+    typingArea.addEventListener("paste", function (event) {
+      event.preventDefault();
+      alert("ペーストは無効です。");
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (popup.style.display === 'block' && (e.key === 'q' || e.key === 'Q')) {
+        popup.style.display = 'none';
+        typingArea.focus();
+        e.preventDefault();
+      }
+    });
+
+    setEssay(0);
+  </script>
+</body>
+</html>
