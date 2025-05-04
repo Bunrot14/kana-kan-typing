@@ -2,8 +2,26 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>かな漢タイピング　実践的練習</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO関連 -->
+  <title>かな漢タイピング｜静かに集中する長文タイピング練習</title>
+  <meta name="description" content="哲学的で詩的な日本語文を使ったかな漢字交じりの長文タイピング練習サイト。無心で打鍵することで集中力を養い心を整える瞑想的な体験を。随時更新される創作文で、言葉とリズムの調和を楽しめます。" />
+  <meta name="keywords" content="タイピング, 長文, かな漢字, 瞑想, 無心, 日本語, 練習, 哲学, 詩, ポエジー, タイピングサイト" />
+  <meta name="author" content="Bunrot" />
+
+  <!-- OGP (SNS共有時に美しく表示) -->
+  <meta property="og:title" content="かな漢タイピング｜静かに集中する長文タイピング練習" />
+  <meta property="og:description" content="詩的で哲学的な日本語長文で、無心の打鍵。心を整えるタイピング体験を。" />
+  <meta property="og:image" content="https://yourdomain.com/og-image.jpg" /> <!-- 後で画像を指定 -->
+  <meta property="og:url" content="https://bunrot14.github.io/kana-kan-typing/" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitterカード -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="かな漢タイピング" />
+  <meta name="twitter:description" content="哲学的で詩的な日本語長文で、無心の打鍵。心を整えるタイピング体験を。" />
+  <meta name="twitter:image" content="https://yourdomain.com/og-image.jpg" />
   <style>
     body {
       font-family: 'Yu Gothic', sans-serif;
@@ -37,9 +55,9 @@
     }
 
     #display,
-    #typing-area {
+    #typingArea {
       width: 65vw;
-      font-size: 16px;
+      font-size: 15px;
       border-radius: 8px;
     }
 
@@ -72,8 +90,8 @@
 
     #typingArea {
       width: 65vw;
-      height: 6em;
-      font-size: 16px;
+      height: 10em;
+      font-size: 15px;
       padding: 1rem;
       line-height: 1.5;
       resize: none;
@@ -154,11 +172,30 @@
   
 
   <script>
-    const essays = [
-      "人は過去を編集できないが、記憶はいつだって書き換えられる。これは罪の意識ではなく、生き延びるための防衛機能である。",
-      "幸福は目標ではなく副産物である。だからこそ、それを追いかける者はいつも迷子になる。",
-      "世界の複雑さに耐えるため、人は単純化という名の嘘に救いを求める。だがその嘘が、やがて現実より重くなる。"
-    ];
+   const essays = [
+  // 問題1：紹介・コンセプト
+  `タイピングは、静かな呼吸のように　～タイピングの瞑想性～
+「かな漢タイピング」は、かな漢字交じりの長文入力を通じて、
+集中と沈静を同時に得ることのできる練習サイトです。
+音も言葉もリズムも、内なる静けさに導くように設計されています。
+随時更新される哲学的かつユーモラスな文章に没頭することで、タイピングという瞑想を楽しみましょう。`,
+
+  // 問題2：幸福の副産物について
+  `幸福とは、目指して手に入れるものではなく、ふとした瞬間に訪れる副産物のようなものだ。
+目的として追いかければ逃げていき、意識を向けるほど不在が際立つ。
+それでも人は幸福を求め、時にそれが他者との比較や幻想の上に成り立っていることに気づかない。
+幸福は、意志や努力とは別の流れの中で生まれる。結果ではなく副作用として。
+それゆえに、幸福を追う者ほどしばしば道に迷い、自分の現在地さえ見失ってしまうのかもしれない。`,
+
+  // 問題3：世界の複雑さと嘘の重み
+  `世界は複雑だ。そう断言することさえもまた、簡略化された表現にすぎない。
+人は混沌に耐えきれず、単純化という名の嘘にしがみつく。白か黒か、善か悪か、
+その二項で構成された仮想の秩序のなかで安心を得ようとする。
+だがその嘘はやがて現実を蝕み、見たいものしか見えなくなるフィルターへと変わっていく。
+嘘は最初こそ軽やかだが、積もればやがて真実よりも重くなる。
+その重さに押しつぶされる前に、人は沈黙と観察という静かな技法を取り戻すべきだ。`
+];
+
   
     const display = document.getElementById("display");
     const typingArea = document.getElementById("typingArea");
