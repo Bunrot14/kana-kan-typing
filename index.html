@@ -84,23 +84,43 @@
     }
 
     #popup {
-      display: none;
-      position: fixed;
-      top: 30%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      padding: 2rem;
-      border: 2px solid #666;
-      box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
-      z-index: 10;
-    }
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 2px solid #888;
+  padding: 1.5em;
+  min-width: 300px;       /* 最小幅：小さい表示にも対応 */
+  max-width: 90vw;        /* 最大幅：画面の90%まで広がる */
+  width: fit-content;     /* 内容に応じて幅を調整 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  font-family: "Yu Gothic", sans-serif;
+  line-height: 1.5;
+  word-break: break-word;
+  white-space: normal;    /* 長文がちゃんと改行されるように */
+}
 
-    #popup ul {
-      padding-left: 1.5rem;
-      list-style-type: disc;
-      margin: 1rem 0;
-    }
+#popup ul {
+  padding-left: 1.5rem;
+  list-style-type: none;
+  margin: 1rem 0;
+}
+
+#popup ul li::before {
+  content: "◆ ";
+  color: #777;
+}
+
+#popupList li {
+  margin-bottom: 0.6em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
   </style>
 </head>
 <body>
@@ -121,21 +141,33 @@
     <p>（Qキーで閉じる）</p>
   </div>
 
+  <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 10px; background: #f5f5f5;">
+    <p>
+      練習用テキストはすべてフィクションであり、特定の思想、団体、個人を揶揄・批判する意図はありません。
+      タイピング練習を目的とした創作文としてお楽しみください。<br>
+      <a href="terms.html" style="color: #007acc; text-decoration: none;">利用規約</a> |
+      <a href="privacy.html" style="color: #007acc; text-decoration: none;">プライバシーポリシー</a> |
+      <a href="contact.html" style="color: #007acc; text-decoration: none;">お問い合わせ</a>
+    </p>
+    <p>&copy; 2025 Bunrot's Typing Site. All Rights Reserved.</p>
+  </footer>
+  
+
   <script>
     const essays = [
       "人は過去を編集できないが、記憶はいつだって書き換えられる。これは罪の意識ではなく、生き延びるための防衛機能である。",
       "幸福は目標ではなく副産物である。だからこそ、それを追いかける者はいつも迷子になる。",
       "世界の複雑さに耐えるため、人は単純化という名の嘘に救いを求める。だがその嘘が、やがて現実より重くなる。"
     ];
-
+  
     const display = document.getElementById("display");
     const typingArea = document.getElementById("typingArea");
     const popup = document.getElementById("popup");
     const popupList = document.getElementById("popupList");
-
+  
     let currentEssay = "";
     let startTime = null;
-
+  
     function setEssay(index) {
       currentEssay = essays[index];
       typingArea.value = "";
@@ -143,17 +175,17 @@
       typingArea.focus();
       startTime = null;
     }
-
+  
     function updateDisplay() {
       const input = typingArea.value;
       display.innerHTML = "";
       let errorMarked = false;
-
+  
       for (let i = 0; i < currentEssay.length; i++) {
         const span = document.createElement("span");
         const expected = currentEssay[i];
         const typed = input[i];
-
+  
         if (i < input.length) {
           if (!errorMarked) {
             if (typed === expected) {
@@ -168,16 +200,16 @@
         } else {
           span.className = "untyped";
         }
-
+  
         span.textContent = expected;
         display.appendChild(span);
       }
-
+  
       if (!errorMarked && input === currentEssay) {
         showResult();
       }
     }
-
+  
     function getEvaluationMessage(wpm) {
       if (wpm >= 400) return "You are god.";
       if (wpm >= 300) return "あなたは鍵をもつ風。";
@@ -187,41 +219,54 @@
       if (wpm >= 30) return "急がず焦らず、言葉と心を結びつける旅の途中。";
       return "複雑に考えず、自分自身でいること。";
     }
-
+  
+    function getLevelComment(wpm) {
+      if (wpm >= 400) return "神速の領域。指先で詩を書いているようです。";
+      if (wpm >= 300) return "プロフェッショナルの風格。キーボードもあなたに従っている。";
+      if (wpm >= 200) return "洗練された速度。タイピングが日常の一部となっている証です。";
+      if (wpm >= 120) return "実務でも十分通用します。滑らかな言葉の流れが感じられます。";
+      if (wpm >= 60) return "落ち着いたテンポ。着実な力を育んでいます。";
+      if (wpm >= 30) return "丁寧さが光っています。正確さは力です。";
+      return "始まりの一歩。焦らず、楽しみながら育てていきましょう。";
+    }
+  
     function showResult() {
       const elapsed = ((Date.now() - startTime) / 1000); // 秒
       const charCount = typingArea.value.length;
       const wpm = Math.round((charCount / elapsed) * 60);
-
+  
       popupList.innerHTML = "";
-
-      const createItem = (text) => {
+  
+      const createItem = (label, content) => {
         const li = document.createElement("li");
-        li.textContent = text;
+        li.style.whiteSpace = "nowrap";
+        li.style.overflow = "hidden";
+        li.style.textOverflow = "ellipsis";
+        li.innerHTML = `<strong>${label}</strong> ${content}`;
         return li;
       };
-
-      popupList.appendChild(createItem(`所要時間：${elapsed.toFixed(1)}秒`));
-      popupList.appendChild(createItem(`入力文字数：${charCount}文字`));
-      popupList.appendChild(createItem(`WPM：${wpm}文字/分`));
-      popupList.appendChild(createItem(`評価：${getEvaluationMessage(wpm)}`));
-
+  
+      popupList.appendChild(createItem("所要時間：", `${elapsed.toFixed(1)}秒`));
+      popupList.appendChild(createItem("入力文字数：", `${charCount}文字`));
+      popupList.appendChild(createItem("WPM：", `${wpm}文字/分　${getLevelComment(wpm)}`));
+      popupList.appendChild(createItem("評価：", getEvaluationMessage(wpm)));
+  
       popup.style.display = "block";
       typingArea.blur();
     }
-
+  
     typingArea.addEventListener("input", () => {
       if (!startTime) {
         startTime = Date.now();
       }
       updateDisplay();
     });
-
+  
     typingArea.addEventListener("paste", function (event) {
       event.preventDefault();
       alert("ペーストは無効です。");
     });
-
+  
     document.addEventListener('keydown', function (e) {
       if (popup.style.display === 'block' && (e.key === 'q' || e.key === 'Q')) {
         popup.style.display = 'none';
@@ -229,8 +274,10 @@
         e.preventDefault();
       }
     });
-
+  
     setEssay(0);
   </script>
+  
+  
 </body>
 </html>
