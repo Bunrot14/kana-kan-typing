@@ -164,6 +164,48 @@ html, body {
   text-overflow: ellipsis;
 }
 
+#archive-list {
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.archive-entry {
+  margin-bottom: 1rem;
+}
+
+.archive-entry p {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.archive-titles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.archive-titles button {
+  padding: 0.3rem 1rem;
+  background: #ccc;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.archive-titles button:hover {
+  background: #aaa;
+}
+
+#archive-list a {
+  text-align: left;
+  margin-left: 0;
+  display: inline-block;
+  margin-top: 1rem;
+  color: #007acc;
+  text-decoration: none;
+}
+
   </style>
   <style>
     /* ヘッダーに表示するメッセージのスタイル */
@@ -186,11 +228,15 @@ html, body {
     </p>
   
     <div style="display: flex; align-items: center; justify-content: center; width: 100%;">
-      <div class="problem-buttons" id="problem-buttons" style="position: absolute; left: 10px;">
-        <button onclick="setEssay(0)">問題1</button>
-        <button onclick="setEssay(1)">問題2</button>
-        <button onclick="setEssay(2)">問題3</button>
-      </div>
+        <div class="problem-buttons" id="problem-buttons" style="position: absolute; left: 10px;">
+            <button onclick="setEssay(0)">問題1</button>
+            <button onclick="setEssay(1)">問題2</button>
+            <button onclick="setEssay(2)">問題3</button>
+            <button onclick="setEssay(3)">問題4</button>
+            <button onclick="setEssay(4)">問題5</button>
+            <button onclick="setEssay(5)">問題6</button>
+          </div>
+          
       <h1 style="text-align: center; flex-grow: 1;">かな漢タイピング</h1>
     </div>
   </header>
@@ -201,17 +247,16 @@ html, body {
 
   <textarea id="typingArea" placeholder="ここに全文を入力してください..."></textarea>
 
-  <section id="archive" style="margin-top: 2rem; text-align: center;">
-    <h2>バックナンバーから選ぶ</h2>
-    <div class="problem-buttons" style="flex-wrap: wrap;">
-      <button onclick="setEssay(0)" title="タイピングは、静かな呼吸のように…">タイピングの瞑想性</button>
-      <button onclick="setEssay(1)" title="猫は時計を見ない。けれども時間を…">猫は時計を見ない</button>
-      <button onclick="setEssay(2)" title="名前のない感情がある。それは…">名前のない感情</button>
-      <button onclick="setEssay(3)" title="朝の一杯のコーヒー。それは…">朝の一杯のコーヒー</button>
-      <button onclick="setEssay(4)" title="幸福とは…">幸福とは</button>
-      <button onclick="setEssay(5)" title="世界は複雑だ。…">単純化と真実</button>
-    </div>
-  </section>
+<section id="archive" style="margin-top: 2rem;">
+  <!-- バックナンバー見出しなど必要であれば追加 -->
+  <div id="archive-list">
+    <!-- 動的に生成されるバックナンバーの情報がここに表示されます -->
+  </div>
+  <div style="margin-top: 1rem; text-align: left;">
+    <a href="archive.html" style="color: #007acc; text-decoration: none;">バッグナンバーはこちら</a>
+  </div>
+</section>
+
   
 
   <div id="popup">
@@ -428,7 +473,42 @@ window.onload = () => {
     element.style.height = element.scrollHeight + "px"; // 自動調整
   }
 
-  
+  const archiveData = [
+  { date: "2025-05-05", titles: ["タイピングの瞑想性", "猫は時計を見ない", "名前のない感情","朝の一杯のコーヒー","幸福とは","単純化と真実"] },
+  { date: "2025-xx-xx", titles: ["test", "test", "test"] },
+  { date: "2025-xx-xx", titles: ["test", "test", "test"] }
+];
+
+// バックナンバーを表示する関数
+function renderArchive() {
+  const archiveList = document.getElementById("archive-list");
+  archiveData.forEach(entry => {
+    const dateDiv = document.createElement("div");
+    dateDiv.classList.add("archive-entry");
+
+    // 日付を表示
+    const dateElement = document.createElement("p");
+    dateElement.textContent = entry.date;
+    dateDiv.appendChild(dateElement);
+
+    // タイトルを横並びで表示
+    const titleDiv = document.createElement("div");
+    titleDiv.classList.add("archive-titles");
+    entry.titles.forEach(title => {
+      const titleButton = document.createElement("button");
+      titleButton.textContent = title;
+      titleButton.onclick = () => alert(`選択された問題: ${title}`);
+      titleDiv.appendChild(titleButton);
+    });
+    dateDiv.appendChild(titleDiv);
+
+    archiveList.appendChild(dateDiv);
+  });
+}
+
+// ページ読み込み時にバックナンバーを表示
+window.onload = renderArchive;
+
     setEssay(0);
   </script>
   
