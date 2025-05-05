@@ -34,6 +34,16 @@
   <meta name="twitter:description" content="哲学的で詩的な日本語長文で、無心の打鍵。心を整えるタイピング体験を。" />
   <meta name="twitter:image" content="https://yourdomain.com/og-image.jpg" />
   <style>
+    * {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+
     body {
       font-family: 'Yu Gothic', sans-serif;
       background: #f5f5f5;
@@ -191,12 +201,25 @@
 
   <textarea id="typingArea" placeholder="ここに全文を入力してください..."></textarea>
 
+  <section id="archive" style="margin-top: 2rem; text-align: center;">
+    <h2>バックナンバーから選ぶ</h2>
+    <div class="problem-buttons" style="flex-wrap: wrap;">
+      <button onclick="setEssay(0)" title="タイピングは、静かな呼吸のように…">タイピングの瞑想性</button>
+      <button onclick="setEssay(1)" title="猫は時計を見ない。けれども時間を…">猫は時計を見ない</button>
+      <button onclick="setEssay(2)" title="名前のない感情がある。それは…">名前のない感情</button>
+      <button onclick="setEssay(3)" title="朝の一杯のコーヒー。それは…">朝の一杯のコーヒー</button>
+      <button onclick="setEssay(4)" title="幸福とは…">幸福とは</button>
+      <button onclick="setEssay(5)" title="世界は複雑だ。…">単純化と真実</button>
+    </div>
+  </section>
+  
+
   <div id="popup">
     <ul id="popupList"></ul>
     <p>（Qキーで閉じる）</p>
   </div>
 
-  <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 1px; background: #f5f5f5;">
+  <footer style="position: static; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 1px; background: #f5f5f5;">
     <p style="margin: 0;">
       練習用テキストはすべてフィクションであり、特定の思想、団体、個人を揶揄・批判する意図はありません。
       <br>
