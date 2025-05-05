@@ -101,7 +101,11 @@
 
     #typingArea {
       width: 65vw;
-      height: 10em;
+    height: auto;
+    min-height: 150px; /* 最小高さ */
+    max-height: 450px; /* 最大高さ */
+    overflow-y: auto; /* 内容が最大を超えたらスクロール */
+
       font-size: 15px;
       padding: 1rem;
       line-height: 1.5;
@@ -151,15 +155,37 @@
 }
 
   </style>
+  <style>
+    /* ヘッダーに表示するメッセージのスタイル */
+    .site-intro {
+      font-size: 0.8em; /* 小さめの文字サイズ */
+      color: #888; /* 優しいグレー */
+      text-align: center; /* 中央揃え */
+      margin: 1px 0; /* 上下のマージンで余裕を持たせる */
+      font-family: 'Arial', sans-serif; /* 優しい雰囲気のフォント */
+    }
+  </style>
+  
 </head>
 <body>
-  <h1>かな漢タイピング</h1>
+  <header style="display: flex; flex-direction: column; align-items: center;">
+    <p class="site-intro">
+      このサイトは静かに集中してタイピングの瞑想性を楽しむことと、漢字変換ありの実践的なタイピングスキルを向上させることを目的とした無償の学習サービスです。<br>
+      言葉のリズムと流れに身を任せ、指先で紡ぐ文章が心を穏やかにし、思考を深めていく。<br>
+      ここではただ速さを追い求めるのではなく、ひとつひとつの文字に心を込めて、タイピングを楽しんでください。
+    </p>
+  
+    <div style="display: flex; align-items: center; justify-content: center; width: 100%;">
+      <div class="problem-buttons" id="problem-buttons" style="position: absolute; left: 10px;">
+        <button onclick="setEssay(0)">問題1</button>
+        <button onclick="setEssay(1)">問題2</button>
+        <button onclick="setEssay(2)">問題3</button>
+      </div>
+      <h1 style="text-align: center; flex-grow: 1;">かな漢タイピング</h1>
+    </div>
+  </header>
 
-  <div class="problem-buttons">
-    <button onclick="setEssay(0)">問題1</button>
-    <button onclick="setEssay(1)">問題2</button>
-    <button onclick="setEssay(2)">問題3</button>
-  </div>
+ 
 
   <div id="display"></div>
 
@@ -170,20 +196,21 @@
     <p>（Qキーで閉じる）</p>
   </div>
 
-  <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 10px; background: #f5f5f5;">
-    <p>
+  <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 1px; background: #f5f5f5;">
+    <p style="margin: 0;">
       練習用テキストはすべてフィクションであり、特定の思想、団体、個人を揶揄・批判する意図はありません。
-      タイピング練習を目的とした創作文としてお楽しみください。<br>
+      <br>
       <a href="terms.html" style="color: #007acc; text-decoration: none;">利用規約</a> |
       <a href="privacy.html" style="color: #007acc; text-decoration: none;">プライバシーポリシー</a> |
       <a href="contact.html" style="color: #007acc; text-decoration: none;">お問い合わせ</a>
     </p>
-    <p>&copy; 2025 Bunrot's Typing Site. All Rights Reserved.</p>
+    <p style="margin: 0;">&copy; 2025 Bunrot's Typing Site. All Rights Reserved.</p>
   </footer>
+  
   
 
   <script>
-   const essays = [
+ const essays = [
   // 問題1：紹介・コンセプト
   `タイピングは、静かな呼吸のように　～タイピングの瞑想性～
 「かな漢タイピング」は、かな漢字交じりの長文入力を通じて、
@@ -191,14 +218,36 @@
 音も言葉もリズムも、内なる静けさに導くように設計されています。
 随時更新される哲学的かつユーモラスな文章に没頭することで、タイピングという瞑想を楽しみましょう。`,
 
-  // 問題2：幸福の副産物について
+  // 問題2:猫は時間を知っている
+ `猫は時計を見ない。けれども、時間を知っている。
+日差しの角度や空気のにおい、眠気の質感から、今がどんな「とき」なのかを感じ取る。
+それは人間のように分単位で刻まれた時間ではなく、もっと流動的で肌に馴染んだもの。
+猫のまどろみを眺めていると、効率や生産性という言葉がひどく無粋に思えてくる。
+私たちはいつから時間に飼い慣らされてしまったのだろう。`,
+
+  // 問題3：世界の複雑さと嘘の重み
+  `名前のない感情がある。それは喜びと悲しみの中間に位置し、懐かしさとも違う、
+けれど確かに胸に波を起こす。
+言葉を与えられていないがゆえに、それは純粋で、壊れやすい。
+人はそれを詩にしたり、音楽にしたり、遠くを見つめてやり過ごしたりする。
+名づけることで安心したがる心と、名づけぬことで守られる感情。
+そのあわいに、私たちはよく立ち尽くしている。`,
+
+  // 問題4：コーヒーと反抗
+  `朝の一杯のコーヒー。それは眠気を覚ますだけでなく、日常という制度へのささやかな反抗でもある。
+社会が用意したルールに乗る前に、自分のリズムで世界を飲み干すその瞬間。
+香りは記憶を呼び起こし、苦味は思考を深める。
+忙しさに飲み込まれる前に、私たちは一杯の中に自分の速度を取り戻す。
+カップの底に残る沈黙が、その証だ。`,
+
+  // 問題5：幸福なんやかんや
   `幸福とは、目指して手に入れるものではなく、ふとした瞬間に訪れる副産物のようなものだ。
 目的として追いかければ逃げていき、意識を向けるほど不在が際立つ。
 それでも人は幸福を求め、時にそれが他者との比較や幻想の上に成り立っていることに気づかない。
 幸福は、意志や努力とは別の流れの中で生まれる。結果ではなく副作用として。
 それゆえに、幸福を追う者ほどしばしば道に迷い、自分の現在地さえ見失ってしまうのかもしれない。`,
 
-  // 問題3：世界の複雑さと嘘の重み
+  // 問題6：名前のない感情
   `世界は複雑だ。そう断言することさえもまた、簡略化された表現にすぎない。
 人は混沌に耐えきれず、単純化という名の嘘にしがみつく。白か黒か、善か悪か、
 その二項で構成された仮想の秩序のなかで安心を得ようとする。
@@ -206,6 +255,33 @@
 嘘は最初こそ軽やかだが、積もればやがて真実よりも重くなる。
 その重さに押しつぶされる前に、人は沈黙と観察という静かな技法を取り戻すべきだ。`
 ];
+
+// タイピング開始用関数（あなたのsetEssay関数と連携）
+function setEssay(index) {
+  // この中身は元の処理をそのままお使いください（表示の切り替えなど）
+  currentEssay = essays[index];
+  startTyping(currentEssay);
+}
+
+// ボタン自動生成
+function renderProblemButtons() {
+  const container = document.getElementById("problem-buttons");
+  container.innerHTML = "";
+
+  for (let i = 0; i < essays.length; i++) {
+    const button = document.createElement("button");
+    button.textContent = `問題${i + 1}`;
+    button.addEventListener("click", () => setEssay(i));
+    container.appendChild(button);
+  }
+}
+
+// 初期化（ページ読み込み時）
+window.onload = () => {
+  renderProblemButtons();
+  setEssay(0);
+};
+
 
   
     const display = document.getElementById("display");
@@ -322,6 +398,13 @@
         e.preventDefault();
       }
     });
+
+    //入力フォームの自動調整
+    function adjustHeight(element) {
+    element.style.height = "auto"; // 高さをリセット
+    element.style.height = element.scrollHeight + "px"; // 自動調整
+  }
+
   
     setEssay(0);
   </script>
