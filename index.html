@@ -224,24 +224,37 @@ html, body {
     <p class="site-intro">
       このサイトは静かに集中してタイピングの瞑想性を楽しむことと、漢字変換ありの実践的なタイピングスキルを向上させることを目的とした無償の学習サービスです。<br>
       言葉のリズムと流れに身を任せ、指先で紡ぐ文章が心を穏やかにし、思考を深めていく。<br>
-      ここではただ速さを追い求めるのではなく、ひとつひとつの文字に心を込めてタイピングを楽しんでください。
+      ここではただ速さを追い求めるのではなく、ひとつひとつの文字に心を込めてタイピングを楽しんでください。<br>
+      ※黎明期のサイトであり、今後問題文やバッグナンバー機能の拡充に励んでいきます。応援よろしくお願いします。
     </p>
-  
-    <div style="display: flex; align-items: center; justify-content: center; width: 100%;">
-        <div class="problem-buttons" id="problem-buttons" style="position: absolute; left: 10px;">
-            <button onclick="setEssay(0)">問題1</button>
-            <button onclick="setEssay(1)">問題2</button>
-            <button onclick="setEssay(2)">問題3</button>
-            <button onclick="setEssay(3)">問題4</button>
-            <button onclick="setEssay(4)">問題5</button>
-            <button onclick="setEssay(5)">問題6</button>
-          </div>
-          
-      <h1 style="text-align: center; flex-grow: 1;">かな漢タイピング</h1>
-    </div>
-  </header>
 
- 
+    <div class="problem-container" style="display: flex; justify-content: center; align-items: center; width: 100%; position: relative;">
+      <!-- 左側に配置される部分（更新日とボタン） -->
+      <div style="display: flex; flex-direction: column; align-items: flex-start; position: absolute; left: 0; padding-left: 1em;">
+        <!-- 更新日 -->
+        <div class="problem-header" style="font-size: 0.9em; color: #555; text-align: left; margin-top: 0; margin-bottom: 5px;">
+          2025年05月05日 更新分
+        </div>
+        
+        <!-- ボタン -->
+        <div style="display: block;">
+          <div class="problem-buttons" id="problem-buttons">
+            <button onclick="setEssay(0)" style="font-size: 0.8em; padding: 5px 10px;">問題1</button>
+            <button onclick="setEssay(1)" style="font-size: 0.8em; padding: 5px 10px;">問題2</button>
+            <button onclick="setEssay(2)" style="font-size: 0.8em; padding: 5px 10px;">問題3</button>
+            <button onclick="setEssay(3)" style="font-size: 0.8em; padding: 5px 10px;">問題4</button>
+            <button onclick="setEssay(4)" style="font-size: 0.8em; padding: 5px 10px;">問題5</button>
+            <button onclick="setEssay(5)" style="font-size: 0.8em; padding: 5px 10px;">問題6</button>
+          </div>
+        </div>
+      </div>
+    
+      <!-- タイトル -->
+      <h1 style="text-align: center; margin: 0; padding: 0; margin-top: 20px; margin-bottom: 20px;">かな漢タイピング</h1>
+
+    </div>
+    
+  </header>  
 
   <div id="display"></div>
 
@@ -273,6 +286,7 @@ html, body {
       <a href="contact.html" style="color: #007acc; text-decoration: none;">お問い合わせ</a>
     </p>
     <p style="margin: 0;">&copy; 2025 Bunrot's Typing Site. All Rights Reserved.</p>
+    <p style="margin: 0;">運営者：Bunrot</p>
   </footer>
   
   
