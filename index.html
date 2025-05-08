@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-84N6PLRMJY"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-84N6PLRMJY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -15,10 +14,8 @@
 
   <meta name="google-site-verification" content="ZqIqYlZDifbNwvYH5bcib3CigI-syrHrCMTkBAhal7c" />
 
-  <!-- SEO関連 -->
   <title>かな漢タイピング｜静かに集中する長文タイピング練習</title>
  
-  <!--adsenseのやつ-->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8332431277909692"
   crossorigin="anonymous"></script>
 
@@ -26,14 +23,11 @@
   <meta name="keywords" content="タイピング, 長文, かな漢字, 瞑想, 無心, 日本語, 練習, 哲学, 詩, ポエジー, タイピングサイト" />
   <meta name="author" content="Bunrot" />
 
-  <!-- OGP (SNS共有時に美しく表示) -->
   <meta property="og:title" content="かな漢タイピング｜静かに集中する長文タイピング練習" />
   <meta property="og:description" content="詩的で哲学的な日本語長文で、無心の打鍵。心を整えるタイピング体験を。" />
-  <meta property="og:image" content="https://yourdomain.com/og-image.jpg" /> <!-- 後で画像を指定 -->
-  <meta property="og:url" content="https://bunrot14.github.io/kana-kan-typing/" />
+  <meta property="og:image" content="https://yourdomain.com/og-image.jpg" /> <meta property="og:url" content="https://bunrot14.github.io/kana-kan-typing/" />
   <meta property="og:type" content="website" />
 
-  <!-- Twitterカード -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="かな漢タイピング" />
   <meta name="twitter:description" content="哲学的で詩的な日本語長文で、無心の打鍵。心を整えるタイピング体験を。" />
@@ -66,6 +60,7 @@ html, body {
       justify-content: center;
       gap: 10px;
       margin-bottom: 1rem;
+      flex-wrap: wrap; /* ボタンが多すぎるときに折り返すように */
     }
 
     .problem-buttons button {
@@ -78,6 +73,11 @@ html, body {
 
     .problem-buttons button:hover {
       background: #aaa;
+    }
+    
+    .problem-buttons button.active { /* 現在選択中の問題セットのボタンを強調 */
+      background: #888;
+      color: white;
     }
 
     #display,
@@ -95,6 +95,7 @@ html, body {
       white-space: pre-wrap;
       overflow-wrap: break-word;
       word-break: break-word;
+      min-height: 100px; /* 文章量によって高さが変わるため最小高さを指定 */
     }
 
     #display span {
@@ -229,32 +230,20 @@ html, body {
     <p class="site-intro">
       このサイトは静かに集中してタイピングの瞑想性を楽しむことと、漢字変換ありの実践的なタイピングスキルを向上させることを目的とした無償の学習サービスです。<br>
       言葉のリズムと流れに身を任せ、指先で紡ぐ文章が心を穏やかにし、思考を深めていく。<br>
-      ここではただ速さを追い求めるのではなく、ひとつひとつの文字に心を込めてタイピングを楽しんでください。<br>
-      ※黎明期のサイトであり、今後問題文やバッグナンバー機能の拡充に励んでいきます。応援よろしくお願いします。
+      ここではただ速さを追い求めるのではなく、ひとつひとつの文字に心を込めてタイピングを楽しんでください。
     </p>
 
     <div class="problem-container" style="display: flex; justify-content: center; align-items: center; width: 100%; position: relative;">
-      <!-- 左側に配置される部分（更新日とボタン） -->
       <div style="display: flex; flex-direction: column; align-items: flex-start; position: absolute; left: 0; padding-left: 1em;">
-        <!-- 更新日 -->
-        <div class="problem-header" style="font-size: 0.9em; color: #555; text-align: left; margin-top: 0; margin-bottom: 5px;">
-          2025年05月05日 更新分
-        </div>
+        <div class="problem-header" id="problem-header-date" style="font-size: 0.9em; color: #555; text-align: left; margin-top: 0; margin-bottom: 5px;">
+          </div>
         
-        <!-- ボタン -->
         <div style="display: block;">
           <div class="problem-buttons" id="problem-buttons">
-            <button onclick="setEssay(0)" style="font-size: 0.8em; padding: 5px 10px;">問題1</button>
-            <button onclick="setEssay(1)" style="font-size: 0.8em; padding: 5px 10px;">問題2</button>
-            <button onclick="setEssay(2)" style="font-size: 0.8em; padding: 5px 10px;">問題3</button>
-            <button onclick="setEssay(3)" style="font-size: 0.8em; padding: 5px 10px;">問題4</button>
-            <button onclick="setEssay(4)" style="font-size: 0.8em; padding: 5px 10px;">問題5</button>
-            <button onclick="setEssay(5)" style="font-size: 0.8em; padding: 5px 10px;">問題6</button>
-          </div>
+            </div>
         </div>
       </div>
     
-      <!-- タイトル -->
       <h1 style="text-align: center; margin: 0; padding: 0; margin-top: 20px; margin-bottom: 20px;">かな漢タイピング</h1>
 
     </div>
@@ -266,12 +255,11 @@ html, body {
   <textarea id="typingArea" placeholder="ここに全文を入力してください..."></textarea>
 
 <section id="archive" style="margin-top: 2rem;">
-  <!-- バックナンバー見出しなど必要であれば追加 -->
+  <h2>バックナンバー</h2>
   <div id="archive-list">
-    <!-- 動的に生成されるバックナンバーの情報がここに表示されます -->
-  </div>
+    </div>
   <div style="margin-top: 1rem; text-align: left;">
-    <a href="archive.html" style="color: #007acc; text-decoration: none;">バッグナンバーはこちら</a>
+    <a href="archive.html" style="color: #007acc; text-decoration: none;">すべてのバッグナンバーはこちら</a>
   </div>
 </section>
 
@@ -282,7 +270,7 @@ html, body {
     <p>（Qキーで閉じる）</p>
   </div>
 
-  <footer style="position: static; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 1px; background: #f5f5f5;">
+  <footer style="position: static; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 1px; background: #f5f5f5; margin-top: 2rem;">
     <p style="margin: 0;">
       練習用テキストはすべてフィクションであり、特定の思想、団体、個人を揶揄・批判する意図はありません。
       <br>
@@ -297,226 +285,311 @@ html, body {
   
 
   <script>
- const essays = [
-  // 問題1：紹介・コンセプト
-  `タイピングは、静かな呼吸のように　～タイピングの瞑想性～
-「かな漢タイピング」は、かな漢字交じりの長文入力を通じて、
-集中と沈静を同時に得ることのできる練習サイトです。
-音も言葉もリズムも、内なる静けさに導くように設計されています。
-随時更新される哲学的かつユーモラスな文章に没頭することで、タイピングという瞑想を楽しみましょう。`,
+  
+  const display = document.getElementById("display");
+  const typingArea = document.getElementById("typingArea");
+  const popup = document.getElementById("popup");
+  const popupList = document.getElementById("popupList");
+  const problemHeaderDate = document.getElementById("problem-header-date");
+  const problemButtonsContainer = document.getElementById("problem-buttons");
 
-  // 問題2:猫は時間を知っている
- `猫は時計を見ない。けれども、時間を知っている。
-日差しの角度や空気のにおい、眠気の質感から、今がどんな「とき」なのかを感じ取る。
-それは人間のように分単位で刻まれた時間ではなく、もっと流動的で肌に馴染んだもの。
-猫のまどろみを眺めていると、効率や生産性という言葉がひどく無粋に思えてくる。
-私たちはいつから時間に飼い慣らされてしまったのだろう。`,
+  let allEssays = []; // 全ての問題文テキストを格納する配列
+  let archiveStructure = []; // 新しいバックナンバー情報の構造を格納する配列
 
-  // 問題3：世界の複雑さと嘘の重み
-  `名前のない感情がある。それは喜びと悲しみの中間に位置し、懐かしさとも違う、
-けれど確かに胸に波を起こす。
-言葉を与えられていないがゆえに、それは純粋で、壊れやすい。
-人はそれを詩にしたり、音楽にしたり、遠くを見つめてやり過ごしたりする。
-名づけることで安心したがる心と、名づけぬことで守られる感情。
-そのあわいに、私たちはよく立ち尽くしている。`,
+  let currentEssayIndex = 0; // 現在表示している問題のessays配列でのグローバルインデックス
+  let currentProblemSetStartIndex = 0; // 現在選択されている問題セットの開始インデックス
+  let currentProblemSetNumProblems = 0; // 現在選択されている問題セットの問題数
+  let startTime = null;
 
-  // 問題4：コーヒーと反抗
-  `朝の一杯のコーヒー。それは眠気を覚ますだけでなく、日常という制度へのささやかな反抗でもある。
-社会が用意したルールに乗る前に、自分のリズムで世界を飲み干すその瞬間。
-香りは記憶を呼び起こし、苦味は思考を深める。
-忙しさに飲み込まれる前に、私たちは一杯の中に自分の速度を取り戻す。
-カップの底に残る沈黙が、その証だ。`,
+  async function loadTypingData() {
+  try {
+    const response = await fetch('typing_data.json'); // JSONファイルを非同期で取得
+    if (!response.ok) {
+      // fetchが成功しても、HTTPステータスがエラーを示す場合 (404 Not Found, 500 Internal Server Errorなど)
+      throw new Error(`JSONファイルの読み込みに失敗しました。ステータス: ${response.status}`);
+    }
+    const jsonData = await response.json(); // レスポンスをJSONとしてパース
 
-  // 問題5：幸福なんやかんや
-  `幸福とは、目指して手に入れるものではなく、ふとした瞬間に訪れる副産物のようなものだ。
-目的として追いかければ逃げていき、意識を向けるほど不在が際立つ。
-それでも人は幸福を求め、時にそれが他者との比較や幻想の上に成り立っていることに気づかない。
-幸福は、意志や努力とは別の流れの中で生まれる。結果ではなく副作用として。
-それゆえに、幸福を追う者ほどしばしば道に迷い、自分の現在地さえ見失ってしまうのかもしれない。`,
+    // jsonDataが配列であることを確認 (typing_data.jsonのルートが配列なので)
+    if (!Array.isArray(jsonData)) {
+        throw new Error("JSONデータの形式が正しくありません。ルートは配列であるべきです。");
+    }
 
-  // 問題6：名前のない感情
-  `世界は複雑だ。そう断言することさえもまた、簡略化された表現にすぎない。
-人は混沌に耐えきれず、単純化という名の嘘にしがみつく。白か黒か、善か悪か、
-その二項で構成された仮想の秩序のなかで安心を得ようとする。
-だがその嘘はやがて現実を蝕み、見たいものしか見えなくなるフィルターへと変わっていく。
-嘘は最初こそ軽やかだが、積もればやがて真実よりも重くなる。
-その重さに押しつぶされる前に、人は沈黙と観察という静かな技法を取り戻すべきだ。`
-];
+    let currentIndex = 0;
+    // JSONデータから allEssays と archiveStructure を構築
+    jsonData.forEach(dailyEntry => {
+      const titles = [];
+      const dailyEssaysTexts = [];
 
-// タイピング開始用関数（あなたのsetEssay関数と連携）
-function setEssay(index) {
-  // この中身は元の処理をそのままお使いください（表示の切り替えなど）
-  currentEssay = essays[index];
-  startTyping(currentEssay);
-}
+      if (!dailyEntry.essays || !Array.isArray(dailyEntry.essays)) {
+        console.warn(`日付 ${dailyEntry.date} の 'essays' 配列が見つからないか、形式が正しくありません。スキップします。`);
+        return; // このdailyEntryをスキップして次に進む
+      }
 
-// ボタン自動生成
-function renderProblemButtons() {
-  const container = document.getElementById("problem-buttons");
-  container.innerHTML = "";
+      dailyEntry.essays.forEach(essay => {
+        titles.push(essay.title || "タイトルなし"); // titleがない場合のフォールバック
+        dailyEssaysTexts.push(essay.text || ""); // textがない場合のフォールバック
+      });
 
-  for (let i = 0; i < essays.length; i++) {
-    const button = document.createElement("button");
-    button.textContent = `問題${i + 1}`;
-    button.addEventListener("click", () => setEssay(i));
-    container.appendChild(button);
+      archiveStructure.push({
+        date: dailyEntry.date,
+        titles: titles,
+        essayStartIndex: currentIndex,
+        numProblems: dailyEssaysTexts.length 
+      });
+
+      allEssays.push(...dailyEssaysTexts); // 個々の問題文テキストをallEssaysに追加
+      currentIndex += dailyEssaysTexts.length;
+    });
+
+    // データ読み込みと処理が成功したらサイトの初期化処理を呼び出す
+    initializeSite();
+
+  } catch (error) {
+    console.error("問題データの処理中にエラーが発生しました:", error);
+    // ユーザーにエラーを通知するためのシンプルな表示
+    document.body.innerHTML = `<p style="text-align:center; padding: 20px; font-size: 1.2em;">サイトのデータの読み込みに失敗しました。<br>お手数ですが、ページを再読み込みするか、しばらくしてから再度お試しください。<br><small>エラー詳細: ${error.message}</small></p>`;
   }
 }
 
-// 初期化（ページ読み込み時）
-window.onload = () => {
+function initializeSite() {
+  console.log("JSONデータが読み込まれ、データ構造が準備できました。");
+  // console.log("allEssays:", allEssays); // デバッグ用。不要ならコメントアウト
+  // console.log("archiveStructure:", archiveStructure); // デバッグ用。不要ならコメントアウト
+
+  if (archiveStructure.length > 0 && allEssays.length > 0) {
+    // データが正常に読み込めた場合のみサイトの表示を開始
+    setActiveProblemSet(0); // 最新の問題セット（archiveStructureの0番目）をアクティブにする
+    renderArchive();        // バックナンバーリストを生成・表示する
+  } else {
+    // データが空か、正しく読み込めなかった場合
+    console.error("問題データが空か、正しく読み込めませんでした。サイトの初期化をスキップします。");
+    // loadTypingData内のエラー処理で既にメッセージが表示されているかもしれないが、念のためここでも制御
+    if (!document.querySelector('p[style*="データの読み込みに失敗しました"]') && !document.querySelector('p[style*="問題データがありません"]')) {
+         document.body.innerHTML = `<p style="text-align:center; padding: 20px; font-size: 1.2em;">問題データの読み込みに問題があるため、サイトを表示できません。</p>`;
+    }
+  }
+}
+
+function setActiveProblemSet(problemSetIndex) {
+  // const problemSet = archiveData[problemSetIndex]; // ← 古い行 (コメントアウトまたは削除)
+  const problemSet = archiveStructure[problemSetIndex]; // ← 新しい行
+  if (!problemSet) {
+    console.error("指定された問題セットが見つかりません:", problemSetIndex);
+    // エラー発生時はここで処理を中断するか、適切なフォールバックを行う
+    // 例えば、最初の問題セットを表示する、エラーメッセージを出すなど
+    if (archiveStructure.length > 0) {
+        // archiveStructureが空でなければ、最初の問題セットを試みる
+        // ただし、無限ループにならないように注意が必要
+        // ここでは単純にエラーログに留め、呼び出し元でケアする想定
+    }
+    return; 
+  }
+
+  currentProblemSetStartIndex = problemSet.essayStartIndex;
+  currentProblemSetNumProblems = problemSet.numProblems;
+
+  const dateObj = new Date(problemSet.date);
+  const year = dateObj.getFullYear();
+  const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+  const day = dateObj.getDate().toString().padStart(2, '0');
+  problemHeaderDate.textContent = `${year}年${month}月${day}日 更新分`;
+
   renderProblemButtons();
-  setEssay(0);
-};
+  setEssay(problemSet.essayStartIndex); 
+}
+  
+  function renderProblemButtons() {
+    problemButtonsContainer.innerHTML = ""; // ボタンをクリア
 
-
-  
-    const display = document.getElementById("display");
-    const typingArea = document.getElementById("typingArea");
-    const popup = document.getElementById("popup");
-    const popupList = document.getElementById("popupList");
-  
-    let currentEssay = "";
-    let startTime = null;
-  
-    function setEssay(index) {
-      currentEssay = essays[index];
-      typingArea.value = "";
-      updateDisplay();
-      typingArea.focus();
-      startTime = null;
-    }
-  
-    function updateDisplay() {
-      const input = typingArea.value;
-      display.innerHTML = "";
-      let errorMarked = false;
-  
-      for (let i = 0; i < currentEssay.length; i++) {
-        const span = document.createElement("span");
-        const expected = currentEssay[i];
-        const typed = input[i];
-  
-        if (i < input.length) {
-          if (!errorMarked) {
-            if (typed === expected) {
-              span.className = "correct";
-            } else {
-              span.className = "incorrect";
-              errorMarked = true;
-            }
-          } else {
-            span.className = "untyped";
-          }
-        } else {
-          span.className = "untyped";
-        }
-  
-        span.textContent = expected;
-        display.appendChild(span);
+    for (let i = 0; i < currentProblemSetNumProblems; i++) {
+      const button = document.createElement("button");
+      const essayGlobalIndex = currentProblemSetStartIndex + i;
+      button.textContent = `問題${i + 1}`;
+      button.style.fontSize = "0.8em";
+      button.style.padding = "5px 10px";
+      button.onclick = () => setEssay(essayGlobalIndex);
+      if (essayGlobalIndex === currentEssayIndex) {
+        button.classList.add("active"); // 現在の問題にactiveクラスを付与
       }
-  
-      if (!errorMarked && input === currentEssay) {
-        showResult();
-      }
+      problemButtonsContainer.appendChild(button);
     }
-  
-    function getEvaluationMessage(wpm) {
-      if (wpm >= 400) return "You are god.";
-      if (wpm >= 300) return "あなたは鍵をもつ風。";
-      if (wpm >= 200) return "あなたの言葉は稲妻。世界を貫いている。";
-      if (wpm >= 120) return "思考と指先が調和して、美しい旋律を奏でている。";
-      if (wpm >= 60) return "確かな歩みが、言葉をひとつずつ紡いでいく。";
-      if (wpm >= 30) return "急がず焦らず、言葉と心を結びつける旅の途中。";
-      return "複雑に考えず、自分自身でいること。";
-    }
-  
-    function getLevelComment(wpm) {
-      if (wpm >= 400) return "神速の領域。指先で詩を書いているようです。";
-      if (wpm >= 300) return "プロフェッショナルの風格。キーボードもあなたに従っている。";
-      if (wpm >= 200) return "洗練された速度。タイピングが日常の一部となっている証です。";
-      if (wpm >= 120) return "実務でも十分通用します。滑らかな言葉の流れが感じられます。";
-      if (wpm >= 60) return "落ち着いたテンポ。着実な力を育んでいます。";
-      if (wpm >= 30) return "丁寧さが光っています。正確さは力です。";
-      return "始まりの一歩。焦らず、楽しみながら育てていきましょう。";
-    }
-  
-    function showResult() {
-      const elapsed = ((Date.now() - startTime) / 1000); // 秒
-      const charCount = typingArea.value.length;
-      const wpm = Math.round((charCount / elapsed) * 60);
-  
-      popupList.innerHTML = "";
-  
-      const createItem = (label, content) => {
-        const li = document.createElement("li");
-        li.style.whiteSpace = "nowrap";
-        li.style.overflow = "hidden";
-        li.style.textOverflow = "ellipsis";
-        li.innerHTML = `<strong>${label}</strong> ${content}`;
-        return li;
-      };
-  
-      popupList.appendChild(createItem("所要時間：", `${elapsed.toFixed(1)}秒`));
-      popupList.appendChild(createItem("入力文字数：", `${charCount}文字`));
-      popupList.appendChild(createItem("WPM：", `${wpm}文字/分　${getLevelComment(wpm)}`));
-      popupList.appendChild(createItem("評価：", getEvaluationMessage(wpm)));
-  
-      popup.style.display = "block";
-      typingArea.blur();
-    }
-  
-    typingArea.addEventListener("input", () => {
-      if (!startTime) {
-        startTime = Date.now();
-      }
-      updateDisplay();
-    });
-  
-    typingArea.addEventListener("paste", function (event) {
-      event.preventDefault();
-      alert("ペーストは無効です。");
-    });
-  
-    document.addEventListener('keydown', function (e) {
-      if (popup.style.display === 'block' && (e.key === 'q' || e.key === 'Q')) {
-        popup.style.display = 'none';
-        typingArea.focus();
-        e.preventDefault();
-      }
-    });
-
-    //入力フォームの自動調整
-    function adjustHeight(element) {
-    element.style.height = "auto"; // 高さをリセット
-    element.style.height = element.scrollHeight + "px"; // 自動調整
   }
 
-  const archiveData = [
-  { date: "2025-05-05", titles: ["タイピングの瞑想性", "猫は時計を見ない", "名前のない感情","朝の一杯のコーヒー","幸福とは","単純化と真実"] },
-  { date: "2025-xx-xx", titles: ["test", "test", "test"] },
-  { date: "2025-xx-xx", titles: ["test", "test", "test"] }
-];
+  function setEssay(index) {
+    currentEssayIndex = index;
+    typingArea.value = "";
+    updateDisplay();
+    typingArea.focus();
+    startTime = null;
+    renderProblemButtons(); // ボタンのactive状態を更新するために再描画
+  }
 
-// バックナンバーを表示する関数
-function renderArchive() {
+  function updateDisplay() {
+  // const currentEssay = essays[currentEssayIndex]; // ← 古い行
+  const currentEssayText = allEssays[currentEssayIndex]; // ← 新しい行
+
+  if (typeof currentEssayText === 'undefined') {
+      display.innerHTML = "問題が選択されていません。";
+      // console.warn("updateDisplay: currentEssayText is undefined for index", currentEssayIndex);
+      return;
+  }
+  const input = typingArea.value;
+  display.innerHTML = "";
+  let errorMarked = false;
+
+  for (let i = 0; i < currentEssayText.length; i++) { // currentEssay を currentEssayText に変更
+    const span = document.createElement("span");
+    const expected = currentEssayText[i]; // currentEssay を currentEssayText に変更
+    const typed = input[i];
+
+    if (i < input.length) {
+      if (!errorMarked) {
+        if (typed === expected) {
+          span.className = "correct";
+        } else {
+          span.className = "incorrect";
+          errorMarked = true;
+        }
+      } else {
+        span.className = "untyped";
+      }
+    } else {
+      span.className = "untyped";
+    }
+
+    span.textContent = expected;
+    display.appendChild(span);
+  }
+
+  if (!errorMarked && input === currentEssayText && currentEssayText.length > 0) { // currentEssay を currentEssayText に変更
+    showResult();
+  }
+}
+
+  function getEvaluationMessage(wpm) {
+    if (wpm >= 400) return "You are god.";
+    if (wpm >= 300) return "あなたは鍵をもつ風。";
+    if (wpm >= 200) return "あなたの言葉は稲妻。世界を貫いている。";
+    if (wpm >= 120) return "思考と指先が調和して、美しい旋律を奏でている。";
+    if (wpm >= 60) return "確かな歩みが、言葉をひとつずつ紡いでいく。";
+    if (wpm >= 30) return "急がず焦らず、言葉と心を結びつける旅の途中。";
+    return "複雑に考えず、自分自身でいること。";
+  }
+
+  function getLevelComment(wpm) {
+    if (wpm >= 400) return "神速の領域。指先で詩を書いているようです。";
+    if (wpm >= 300) return "プロフェッショナルの風格。キーボードもあなたに従っている。";
+    if (wpm >= 200) return "洗練された速度。タイピングが日常の一部となっている証です。";
+    if (wpm >= 120) return "実務でも十分通用します。滑らかな言葉の流れが感じられます。";
+    if (wpm >= 60) return "落ち着いたテンポ。着実な力を育んでいます。";
+    if (wpm >= 30) return "丁寧さが光っています。正確さは力です。";
+    return "始まりの一歩。焦らず、楽しみながら育てていきましょう。";
+  }
+
+  function showResult() {
+    if (!startTime) return; // startTimeがnullの場合は結果を表示しない
+    const elapsed = ((Date.now() - startTime) / 1000); // 秒
+    const charCount = typingArea.value.length;
+    const wpm = charCount > 0 && elapsed > 0 ? Math.round((charCount / elapsed) * 60) : 0;
+
+    popupList.innerHTML = "";
+
+    const createItem = (label, content) => {
+      const li = document.createElement("li");
+      li.style.whiteSpace = "nowrap";
+      li.style.overflow = "hidden";
+      li.style.textOverflow = "ellipsis";
+      li.innerHTML = `<strong>${label}</strong> ${content}`;
+      return li;
+    };
+
+    popupList.appendChild(createItem("所要時間：", `${elapsed.toFixed(1)}秒`));
+    popupList.appendChild(createItem("入力文字数：", `${charCount}文字`));
+    popupList.appendChild(createItem("WPM：", `${wpm}文字/分　${getLevelComment(wpm)}`));
+    popupList.appendChild(createItem("評価：", getEvaluationMessage(wpm)));
+
+    popup.style.display = "block";
+    typingArea.blur();
+  }
+
+  typingArea.addEventListener("input", () => {
+    if (!startTime && typingArea.value.length > 0) { // 入力が開始されたらstartTimeを設定
+      startTime = Date.now();
+    }
+    if (typingArea.value.length === 0) { // 入力がクリアされたらstartTimeをリセット
+        startTime = null;
+    }
+    updateDisplay();
+  });
+
+  typingArea.addEventListener("paste", function (event) {
+    event.preventDefault();
+    alert("ペーストは無効です。");
+  });
+
+  document.addEventListener('keydown', function (e) {
+  if (popup.style.display === 'block' && (e.key === 'q' || e.key === 'Q')) {
+    popup.style.display = 'none';
+    // const currentProblemSet = archiveData.find(set => set.essayStartIndex === currentProblemSetStartIndex); // ← 古い行
+    const currentProblemSet = archiveStructure.find(set => set.essayStartIndex === currentProblemSetStartIndex); // ← 新しい行
+    if (currentProblemSet) {
+        const nextProblemInSetIndex = currentEssayIndex + 1;
+        if (nextProblemInSetIndex < currentProblemSet.essayStartIndex + currentProblemSet.numProblems) {
+            setEssay(nextProblemInSetIndex); 
+        } else {
+            setEssay(currentProblemSet.essayStartIndex); 
+        }
+    }
+    typingArea.focus();
+    e.preventDefault();
+  }
+});
+  //入力フォームの自動調整 (今回は使っていないが、必要であれば)
+  // function adjustHeight(element) {
+  //   element.style.height = "auto"; // 高さをリセット
+  //   element.style.height = element.scrollHeight + "px"; // 自動調整
+  // }
+
+  // バックナンバーを表示する関数
+  function renderArchive() {
   const archiveList = document.getElementById("archive-list");
-  archiveData.forEach(entry => {
+  archiveList.innerHTML = ""; 
+
+  // archiveData.forEach((entry, problemSetGlobalIndex) => { // ← 古い行
+  archiveStructure.forEach((entry, problemSetGlobalIndex) => { // ← 新しい行
     const dateDiv = document.createElement("div");
     dateDiv.classList.add("archive-entry");
 
-    // 日付を表示
     const dateElement = document.createElement("p");
-    dateElement.textContent = entry.date;
+    const dateLink = document.createElement("a");
+    dateLink.href = "#"; 
+
+    const dateObj = new Date(entry.date);
+    const year = dateObj.getFullYear();
+    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+    const day = dateObj.getDate().toString().padStart(2, '0');
+    dateLink.textContent = `${year}年${month}月${day}日`; 
+    
+    dateLink.style.fontWeight = "bold";
+    dateLink.style.textDecoration = "none";
+    dateLink.style.color = "#333";
+    dateLink.onclick = (e) => {
+      e.preventDefault();
+      setActiveProblemSet(problemSetGlobalIndex);
+    };
+    dateElement.appendChild(dateLink);
     dateDiv.appendChild(dateElement);
 
-    // タイトルを横並びで表示
     const titleDiv = document.createElement("div");
     titleDiv.classList.add("archive-titles");
-    entry.titles.forEach(title => {
+    entry.titles.forEach((title, indexInSet) => {
       const titleButton = document.createElement("button");
       titleButton.textContent = title;
-      titleButton.onclick = () => alert(`選択された問題: ${title}`);
+      titleButton.onclick = () => {
+          setActiveProblemSet(problemSetGlobalIndex); 
+          setEssay(entry.essayStartIndex + indexInSet); 
+      };
       titleDiv.appendChild(titleButton);
     });
     dateDiv.appendChild(titleDiv);
@@ -525,12 +598,9 @@ function renderArchive() {
   });
 }
 
-// ページ読み込み時にバックナンバーを表示
-window.onload = renderArchive;
+loadTypingData(); // ← これを新しく追加
 
-    setEssay(0);
   </script>
-  
   
 </body>
 </html>
