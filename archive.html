@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>すべてのバックナンバー - かな漢タイピング</title>
+  <style>
+    body { font-family: 'Yu Gothic', sans-serif; background: #f5f5f5; padding: 2rem; line-height: 1.8; }
+    h1 { text-align: center; margin-bottom: 2rem; }
+    a { color: #007acc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .archive-container { max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .archive-entry { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee; }
+    .archive-entry:last-child { border-bottom: none; }
+    .archive-date { font-weight: bold; font-size: 1.2em; margin-bottom: 0.8em; color: #333; }
+    .archive-titles { list-style-type: none; padding-left: 0; }
+    .archive-titles li { margin-bottom: 0.5em; }
+    .archive-titles a { display: inline-block; padding: 0.3em 0.6em; border-radius: 4px; transition: background-color 0.2s; }
+    .archive-titles a:hover { background-color: #e9ecef; }
+    .back-to-main a { display: inline-block; margin-top: 2rem; padding: 0.5em 1em; background: #007acc; color: white; border-radius: 5px; text-decoration: none; }
+    .back-to-main a:hover { background: #005fa3; }
+  </style>
+</head>
+<body>
+  <div class="archive-container">
+    <h1>すべてのバックナンバー</h1>
+    <div id="full-archive-list">
+      </div>
+    <p class="back-to-main"><a href="index.html">メインページに戻る</a></p>
+  </div>
+
+  <script>
+   const fullArchiveListContainer = document.getElementById('full-archive-list');
+let localArchiveStructure = []; // archive.html専用のデータ保持用
+
+async function loadAndDisplayFullArchive() {
+  try {
+    const response = await fetch('typing_data.json');
+    if (!response.ok) {
+      throw new Error(`JSONファイルの読み込みに失敗しました。ステータス: ${response.status}`);
+    }
+    const jsonData = await response.json();
+    if (!Array.isArray(jsonData)) {
+      throw new Error("JSONデータの形式が正しくありません。");
+    }
+
+    let currentIndex = 0;
+    jsonData.forEach(dailyEntry => {
+      const titles = [];
+      const dailyEssaysTexts = [];
+      if (!dailyEntry.essays || !Array.isArray(dailyEntry.essays)) {
+        console.warn(`日付 ${dailyEntry.date} の 'essays' 配列処理をスキップします。`);
+        return;
+      }
+      dailyEntry.essays.forEach(essay => {
+        titles.push(essay.title || "タイトルなし");
+        dailyEssaysTexts.push(essay.text || "");
+      });
+      localArchiveStructure.push({
+        date: dailyEntry.date,
+        titles: titles,
+        essayStartIndex: currentIndex, // index.html側でのグローバルな開始インデックス
+        numProblems: dailyEssaysTexts.length
+      });
+      currentIndex += dailyEssaysTexts.length;
+    });
+
+    renderFullArchive();
+
+  } catch (error) {
+    console.error("バックナンバーデータの処理中にエラー:", error);
+    fullArchiveListContainer.innerHTML = `<p>バックナンバーの読み込みに失敗しました: ${error.message}</p>`;
+  }
+}
+
+function renderFullArchive() {
+  if (localArchiveStructure.length === 0) {
+    fullArchiveListContainer.innerHTML = '<p>バックナンバーはありません。</p>';
+    return;
+  }
+
+  let htmlContent = '';
+  localArchiveStructure.forEach((entry, setIndex) => { // setIndex は localArchiveStructure でのインデックス
+    const dateObj = new Date(entry.date);
+    const year = dateObj.getFullYear();
+    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+    const day = dateObj.getDate().toString().padStart(2, '0');
+
+    htmlContent += `<div class="archive-entry">`;
+    // ↓↓↓ ここが修正された日付表示の行です ↓↓↓
+    htmlContent += `<h2 class="archive-date">${year}年${month}月${day}日</h2>`; 
+    htmlContent += `<ul class="archive-titles">`;
+    entry.titles.forEach((title, indexInSet) => {
+      // ↓↓↓ ここが修正されたリンクとデータ属性の行です ↓↓↓
+      htmlContent += `<li><a href="#" data-set-index="${setIndex}" data-essay-index-in-set="${indexInSet}">${title}</a></li>`;
+    });
+    htmlContent += `</ul>`;
+    htmlContent += `</div>`;
+  });
+  fullArchiveListContainer.innerHTML = htmlContent;
+
+  // イベントリスナーを追加
+  addArchiveLinkListeners();
+}
+
+// ページ読み込み時に実行
+loadAndDisplayFullArchive();
+
+// --- ステップ4で追加する関数 ---
+function addArchiveLinkListeners() {
+  const links = fullArchiveListContainer.querySelectorAll('.archive-titles a');
+  links.forEach(link => {
+    link.addEventListener('click', function(event) {
+      event.preventDefault();
+      const setIndex = parseInt(this.dataset.setIndex, 10);
+      const essayIndexInSet = parseInt(this.dataset.essayIndexInSet, 10);
+
+      const problemInfo = {
+        setIndex: setIndex, // localArchiveStructure (つまり元の archiveStructure と同じ) でのインデックス
+        essayIndexInSet: essayIndexInSet
+      };
+      localStorage.setItem('selectedTypingProblem', JSON.stringify(problemInfo));
+      window.location.href = 'index.html'; // index.htmlに遷移
+    });
+  });
+}
+</script>
+  </script>
+</body>
+</html>
