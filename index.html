@@ -272,6 +272,8 @@ html, body {
 
   <footer style="position: static; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 1px; background: #f5f5f5; margin-top: 2rem;">
     <p style="margin: 0;">
+      <a href="meditation_typing.html" style="color: #007acc; text-decoration: none;">瞑想的タイピングのすすめ</a>
+      <br>
       練習用テキストはすべてフィクションであり、特定の思想、団体、個人を揶揄・批判する意図はありません。
       <br>
       <a href="terms.html" style="color: #007acc; text-decoration: none;">利用規約</a> |
@@ -354,17 +356,31 @@ html, body {
 
 function initializeSite() {
   console.log("JSONデータが読み込まれ、データ構造が準備できました。");
-  // console.log("allEssays:", allEssays); // デバッグ用。不要ならコメントアウト
-  // console.log("archiveStructure:", archiveStructure); // デバッグ用。不要ならコメントアウト
+  // console.log("allEssays:", allEssays);
+  // console.log("archiveStructure:", archiveStructure); 
 
   if (archiveStructure.length > 0 && allEssays.length > 0) {
-    // データが正常に読み込めた場合のみサイトの表示を開始
-    setActiveProblemSet(0); // 最新の問題セット（archiveStructureの0番目）をアクティブにする
-    renderArchive();        // バックナンバーリストを生成・表示する
+    // localStorageから選択された問題の情報を読み取る (これはステップ4で詳しく実装)
+    const selectedProblemInfo = JSON.parse(localStorage.getItem('selectedTypingProblem'));
+    if (selectedProblemInfo) {
+      localStorage.removeItem('selectedTypingProblem'); // 読み取ったら削除
+      setActiveProblemSet(selectedProblemInfo.setIndex);
+      if (typeof selectedProblemInfo.essayIndexInSet !== 'undefined') {
+          // essayIndexInSet があれば、それを使って特定の問題を表示
+          // archiveStructure[selectedProblemInfo.setIndex].essayStartIndex と selectedProblemInfo.essayIndexInSet からグローバルインデックスを計算
+          const globalEssayIndex = archiveStructure[selectedProblemInfo.setIndex].essayStartIndex + selectedProblemInfo.essayIndexInSet;
+          setEssay(globalEssayIndex);
+      }
+    } else {
+      // localStorageに情報がなければ、通常通り最新の問題セットを表示
+      setActiveProblemSet(0); 
+    }
+
+    // バックナンバー表示を最新4件に絞る
+    const recentArchives = archiveStructure.slice(0, 4); // 最新の4件を取得
+    renderArchive(recentArchives); // 絞ったデータをrenderArchiveに渡す
   } else {
-    // データが空か、正しく読み込めなかった場合
     console.error("問題データが空か、正しく読み込めませんでした。サイトの初期化をスキップします。");
-    // loadTypingData内のエラー処理で既にメッセージが表示されているかもしれないが、念のためここでも制御
     if (!document.querySelector('p[style*="データの読み込みに失敗しました"]') && !document.querySelector('p[style*="問題データがありません"]')) {
          document.body.innerHTML = `<p style="text-align:center; padding: 20px; font-size: 1.2em;">問題データの読み込みに問題があるため、サイトを表示できません。</p>`;
     }
@@ -551,16 +567,29 @@ function setActiveProblemSet(problemSetIndex) {
   //   element.style.height = element.scrollHeight + "px"; // 自動調整
   // }
 
-  // バックナンバーを表示する関数
-  function renderArchive() {
+// バックナンバーを表示する関数
+function renderArchive(archivesToDisplay) { // ← 新しい定義 (引数を追加)
   const archiveList = document.getElementById("archive-list");
   archiveList.innerHTML = ""; 
 
-  // archiveData.forEach((entry, problemSetGlobalIndex) => { // ← 古い行
-  archiveStructure.forEach((entry, problemSetGlobalIndex) => { // ← 新しい行
+  // archiveStructure.forEach((entry, problemSetGlobalIndex) => { // ← 古いループ
+  archivesToDisplay.forEach((entry, index) => { // ← 新しいループ (引数のデータを使用)
+    // problemSetGlobalIndex を entry から取得するか、元の archiveStructure でのインデックスを保持する必要がある。
+    // 簡単なのは、archiveStructure 全体から元のインデックスを検索するか、
+    // archivesToDisplay に渡す時点で元のインデックス情報も付与すること。
+    // ここでは、archiveStructure全体から検索する方法を取ります。
+    // ただし、パフォーマンス的にはデータが多いと不利なので、データ構造の工夫も考えられます。
+    // よりシンプルなのは、`index` が `archivesToDisplay` 内でのインデックスなので、
+    // `setActiveProblemSet` に渡すのは `archiveStructure` 全体でのインデックスである必要がある。
+    // `entry` オブジェクト自体は `archiveStructure` の要素なので、`archiveStructure.indexOf(entry)` で元のインデックスを取得可能。
+    const problemSetGlobalIndex = archiveStructure.indexOf(entry);
+
     const dateDiv = document.createElement("div");
     dateDiv.classList.add("archive-entry");
 
+    // ... (以降のdateDivを組み立てる部分は変更なし、ただし setActiveProblemSet に渡すインデックスに注意) ...
+    // dateLink.onclick の中の setActiveProblemSet(problemSetGlobalIndex) はそのままでOK
+    // titleButton.onclick の中の setActiveProblemSet(problemSetGlobalIndex) もそのままでOK
     const dateElement = document.createElement("p");
     const dateLink = document.createElement("a");
     dateLink.href = "#"; 
@@ -570,13 +599,13 @@ function setActiveProblemSet(problemSetIndex) {
     const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
     const day = dateObj.getDate().toString().padStart(2, '0');
     dateLink.textContent = `${year}年${month}月${day}日`; 
-    
+
     dateLink.style.fontWeight = "bold";
     dateLink.style.textDecoration = "none";
     dateLink.style.color = "#333";
     dateLink.onclick = (e) => {
       e.preventDefault();
-      setActiveProblemSet(problemSetGlobalIndex);
+      setActiveProblemSet(problemSetGlobalIndex); // ここは元の配列でのインデックスを使う
     };
     dateElement.appendChild(dateLink);
     dateDiv.appendChild(dateElement);
@@ -587,7 +616,7 @@ function setActiveProblemSet(problemSetIndex) {
       const titleButton = document.createElement("button");
       titleButton.textContent = title;
       titleButton.onclick = () => {
-          setActiveProblemSet(problemSetGlobalIndex); 
+          setActiveProblemSet(problemSetGlobalIndex); // ここは元の配列でのインデックスを使う
           setEssay(entry.essayStartIndex + indexInSet); 
       };
       titleDiv.appendChild(titleButton);
@@ -597,7 +626,6 @@ function setActiveProblemSet(problemSetIndex) {
     archiveList.appendChild(dateDiv);
   });
 }
-
 loadTypingData(); // ← これを新しく追加
 
   </script>
