@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>クラヴィエの寓話集 – 指先から静けさを打つ – | かな漢タイピング</title>
+    <meta name="description" content="「かな漢タイピング」に登場するキャラクター「クラヴィエ」の物語を集めたページです。鍵を持つ風が紡ぐ、哲学的で詩的なタイピング練習文をお楽しみください。">
+    <meta name="keywords" content="クラヴィエ, タイピング, 物語, 詩, 哲学, バックナンバー, かな漢タイピング">
+
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+
+    <style>
+        body {
+            font-family: "Yu Gothic", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+            background-color: #f5f5f5; /* ページ全体の背景を少しだけグレーに */
+            color: #333;
+            margin: 0;
+            padding: 20px; /* bodyに少しパディングを持たせる */
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container { /* 利用規約ページの .container スタイルをベースに調整 */
+            max-width: 720px;
+            margin: 20px auto; /* 上下のマージンも追加 */
+            padding: 2rem;     /* 利用規約ページと同様のパディング */
+            background-color: #fff; /* コンテナの背景は白 */
+            border-radius: 8px;     /* 少し角を丸める */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* 控えめな影 */
+        }
+
+        header { /* ページタイトル部分のスタイル */
+            text-align: center;
+            margin-bottom: 2.5rem; /* 副題との間を少し空ける */
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee; /* 利用規約ページのh1の下線より控えめに */
+        }
+
+        h1 { /* メインタイトル */
+            font-size: 2rem; /* 利用規約ページの1.8remより少し大きく、特集感を出す */
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .subtitle { /* 副題 */
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-top: 0;
+            font-weight: 300;
+        }
+
+        /* JavaScriptで挿入される各物語のエントリのスタイル */
+        .story-entry {
+            margin-bottom: 2.5rem; /* 各物語の間隔 */
+            padding-bottom: 1.5rem;
+        }
+        .story-entry:not(:last-child) { /* 最後の要素以外の下に区切り線 */
+             border-bottom: 1px dotted #ddd;
+        }
+
+
+        .story-title { /* 各物語のタイトル (h3タグで生成される想定) */
+            font-size: 1.5rem; /* 利用規約ページのh2に近いサイズ感 */
+            color: #34495e;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .story-date { /* 初出日 */
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 0.8rem;
+        }
+
+        .story-excerpt { /* 本文抜粋 */
+            font-size: 1em;
+            color: #555;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+       .practice-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem; /* .problem-buttons と同じパディング */
+  background: #ccc;      /* 初期の背景色を統一 */
+  color: black;          /* デフォルト文字色（必要に応じて調整） */
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;     /* .problem-buttons と統一 */
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.practice-link:hover {
+  background: #aaa;       /* .problem-buttons:hover と一致 */
+}
+
+.practice-link.active {
+  background: #888;       /* .problem-buttons .active と一致 */
+  color: white;
+}
+
+
+        /* ページ下部のナビゲーションリンク */
+        .nav-links {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        .nav-links a {
+            color: #007acc;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .nav-links a:hover {
+            background-color: #007acc;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* smallタグは利用規約ページから拝借 */
+        small {
+             display: block;
+             font-size: 0.8rem;
+             color: #666;
+             margin-top: 3rem;
+             text-align: center;
+        }
+
+/* clavier_collection.html の <style> タグ内に追加 */
+
+        .featured-stories-container {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+        }
+        .featured-story { /* 特集する各物語のコンテナ */
+            background-color: #f9f9f9; /* 少し背景色を変えて目立たせる（任意）*/
+            border-left: 5px solid #007acc; /* 左側にアクセントボーダー（任意）*/
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 6px;
+        }
+        .featured-story .story-title { /* 特集内のタイトルは少し小さめにしても良いかも */
+            font-size: 1.3em; 
+        }
+        .featured-story .story-excerpt {
+            font-size: 0.95em;
+        }
+        .section-divider {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 2rem 0;
+        }
+
+    </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+        <h1>クラヴィエの寓話集</h1>
+        <p class="subtitle">── 鍵を持つ風が紡ぐ、ささやかな奇跡 ──</p>
+    </header>
+
+<div id="featured-clavier-stories" class="featured-stories-container">
+        </div>
+    <hr class="section-divider"> <main id="clavier-stories-list">
+        </main>
+
+    <main id="clavier-stories-list">
+        </main>
+
+    <nav class="nav-links">
+        <a href="index.html">タイピング練習に戻る</a>
+        <a href="archive.html">すべてのバックナンバー</a>
+    </nav>
+    
+    </div>
+
+  <script>
+    // clavier_collection.html の <script> タグ内の既存コードを以下のように修正・追加
+
+document.addEventListener('DOMContentLoaded', function() {
+    const featuredStoriesContainer = document.getElementById('featured-clavier-stories'); // 追加
+    const clavierStoriesListContainer = document.getElementById('clavier-stories-list');
+    let allSiteData = []; 
+
+    async function loadAndDisplayClavierStories() {
+      if (!clavierStoriesListContainer || !featuredStoriesContainer) { // featuredも確認
+        console.error('必要なHTML要素が見つかりません。処理を中断します。');
+        return;
+      }
+      try {
+        const response = await fetch('typing_data.json');
+        if (!response.ok) {
+          throw new Error(`JSONファイルの読み込みに失敗しました。ステータス: ${response.status}`);
+        }
+        allSiteData = await response.json(); 
+        if (!Array.isArray(allSiteData)) {
+          throw new Error("読み込まれたJSONデータの形式が正しくありません。");
+        }
+        
+        renderFeaturedStories(); // ★ 特集表示関数を呼び出し
+        renderClavierStories();  // 通常リスト表示関数を呼び出し
+
+      } catch (error) {
+        console.error("データ処理中にエラー:", error);
+        clavierStoriesListContainer.innerHTML = `<p style="color: red; text-align:center;">データの読み込みエラー: ${error.message}</p>`;
+        featuredStoriesContainer.innerHTML = ''; // 特集エリアもクリア
+      }
+    }
+
+    /**
+     * 指定されたタイトル「鍵を持つ風」と「Clavier」を特集表示する関数
+     */
+    function renderFeaturedStories() {
+      const featuredTitles = ["鍵を持つ風", "Clavier"];
+      let featuredHtmlContent = '';
+      let foundStoriesCount = 0;
+
+      allSiteData.forEach((dailyEntry, setIndex) => {
+        if (dailyEntry.essays && Array.isArray(dailyEntry.essays)) {
+          dailyEntry.essays.forEach((essay, indexInSet) => {
+            if (featuredTitles.includes(essay.title)) {
+              foundStoriesCount++;
+              const story = { // renderClavierStories と同じようなstoryオブジェクトを作成
+                title: essay.title || "タイトルなし",
+                text: essay.text || "",
+                date: dailyEntry.date,
+                sessionName: dailyEntry.sessionName || "",
+                setIndex: setIndex,
+                indexInSet: indexInSet
+              };
+
+              const dateObj = new Date(story.date);
+              const year = dateObj.getFullYear();
+              const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+              const day = dateObj.getDate().toString().padStart(2, '0');
+              const displayDate = `${year}年${month}月${day}日 ${story.sessionName}`.trim();
+              
+              const excerptLength = 120; // 特集なので少し長めに抜粋
+              const excerpt = story.text.substring(0, excerptLength).replace(/\n/g, ' ') + (story.text.length > excerptLength ? '...' : '');
+
+              featuredHtmlContent += `
+                <div class="featured-story"> 
+                  <h3 class="story-title">${story.title}</h3>
+                  <p class="story-date">初出: ${displayDate}</p>
+                  <p class="story-excerpt">${excerpt}</p>
+                  <a href="index.html" class="practice-link" 
+                     data-set-index="${story.setIndex}" 
+                     data-essay-index-in-set="${story.indexInSet}">「${story.title}」でタイピング練習</a>
+                </div>
+              `;
+            }
+          });
+        }
+      });
+      
+      if (foundStoriesCount > 0) {
+          featuredStoriesContainer.innerHTML = `<h2>クラヴィエとは？</h2>` + featuredHtmlContent;
+      } else {
+          featuredStoriesContainer.innerHTML = ''; // 見つからなければ何も表示しない
+      }
+      // 特集表示されたリンクにもイベントリスナーを設定する必要がある
+      // addClavierStoryLinkListeners は #clavier-stories-list を対象にしているので、
+      // こちらは別途設定するか、addClavierStoryLinkListeners を汎用的にする
+      addLinkListenersToContainer(featuredStoriesContainer); // ★ 新しい関数呼び出し
+    }
+
+    /**
+     * 通常のクラヴィエ物語リストを描画する関数
+     */
+    function renderClavierStories() {
+      const clavierEssays = []; 
+      allSiteData.forEach((dailyEntry, setIndex) => {
+        if (dailyEntry.essays && Array.isArray(dailyEntry.essays)) {
+          dailyEntry.essays.forEach((essay, indexInSet) => {
+            if (essay.tags && Array.isArray(essay.tags) && essay.tags.includes("クラヴィエ")) {
+              clavierEssays.push({
+                title: essay.title || "タイトルなし",
+                text: essay.text || "",
+                date: dailyEntry.date, 
+                sessionName: dailyEntry.sessionName || "", 
+                setIndex: setIndex, 
+                indexInSet: indexInSet  
+              });
+            }
+          });
+        }
+      });
+
+      if (!clavierStoriesListContainer) return; // 念のため
+
+      if (clavierEssays.length === 0) {
+        clavierStoriesListContainer.innerHTML = '<p style="text-align:center;">現在、クラヴィエが登場する物語は見つかりませんでした。</p>';
+        return;
+      }
+
+      let htmlContent = '<h2>すべてのクラヴィエの物語</h2>'; // 通常リストの前に見出しを追加
+      clavierEssays.forEach(story => {
+        const dateObj = new Date(story.date);
+        const year = dateObj.getFullYear();
+        const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+        const day = dateObj.getDate().toString().padStart(2, '0');
+        const displayDate = `${year}年${month}月${day}日 ${story.sessionName}`.trim();
+        const excerptLength = 80; 
+        const excerpt = story.text.substring(0, excerptLength).replace(/\n/g, ' ') + (story.text.length > excerptLength ? '...' : '');
+
+        htmlContent += `
+          <div class="story-entry">
+            <h3 class="story-title">${story.title}</h3>
+            <p class="story-date">初出: ${displayDate}</p>
+            <p class="story-excerpt">${excerpt}</p>
+            <a href="index.html" class="practice-link" 
+               data-set-index="${story.setIndex}" 
+               data-essay-index-in-set="${story.indexInSet}">この物語でタイピング練習</a>
+          </div>
+        `;
+      });
+      clavierStoriesListContainer.innerHTML = htmlContent;
+      addLinkListenersToContainer(clavierStoriesListContainer); // ★ 関数名を変更して汎用化
+    }
+
+    /**
+     * 指定されたコンテナ内の練習リンクにイベントリスナーを設定する汎用関数
+     */
+    function addLinkListenersToContainer(containerElement) { // ★ 引数を取るように変更
+      if (!containerElement) return;
+      const links = containerElement.querySelectorAll('.practice-link');
+      links.forEach(link => {
+        // 既にリスナーが設定されていないか確認 (二重設定を防ぐ簡単な方法)
+        if (link.dataset.listenerAttached) return;
+
+        link.addEventListener('click', function(event) {
+          event.preventDefault(); 
+          const setIndex = parseInt(this.dataset.setIndex, 10);
+          const essayIndexInSet = parseInt(this.dataset.essayIndexInSet, 10);
+          const problemInfo = {
+            setIndex: setIndex,
+            essayIndexInSet: essayIndexInSet
+          };
+          localStorage.setItem('selectedTypingProblem', JSON.stringify(problemInfo));
+          window.location.href = this.href; 
+        });
+        link.dataset.listenerAttached = 'true'; // リスナーを設定した目印
+      });
+    }
+
+    loadAndDisplayClavierStories();
+});
+  </script>
+</body>
+</html>
