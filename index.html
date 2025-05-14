@@ -20,18 +20,18 @@
 
   <title>かな漢タイピング｜静かに集中する長文タイピング練習</title>
 
-  <meta name="description" content="哲学的で詩的な日本語文を使ったかな漢字交じりの長文タイピング練習サイト。無心で打鍵することで集中力を養い心を整える瞑想的な体験を。随時更新される創作文で、言葉とリズムの調和を楽しめます。" />
-  <meta name="keywords" content="タイピング, 長文, かな漢字, 瞑想, 無心, 日本語, 練習, 哲学, 詩, ポエジー, タイピングサイト" />
+  <meta name="description" content="哲学的かつ文学的、詩的な日本語文を使ったかな漢字交じりの長文タイピング練習サイト。打鍵することで集中力を養い心を整える瞑想的な体験を。随時更新される創作文で、言葉とリズムの調和を楽しめます。" />
+  <meta name="keywords" content="タイピング, 長文, かな漢字, 瞑想, 文学, 日本語, 練習, 哲学, 詩, 読書, タイピングサイト" />
   <meta name="author" content="Bunrot" />
 
   <meta property="og:title" content="かな漢タイピング｜静かに集中する長文タイピング練習" />
-  <meta property="og:description" content="詩的で哲学的な日本語長文で、無心の打鍵。心を整えるタイピング体験を。" />
+  <meta property="og:description" content="哲学的・文学的・詩的な日本語長文で心を整えるタイピング体験を。" />
   <meta property="og:image" content="https://yourdomain.com/og-image.jpg" /> <meta property="og:url" content="https://bunrot14.github.io/kana-kan-typing/" />
   <meta property="og:type" content="website" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="かな漢タイピング" />
-  <meta name="twitter:description" content="哲学的で詩的な日本語長文で、無心の打鍵。心を整えるタイピング体験を。" />
+  <meta name="twitter:description" content="哲学的・文学的・詩的な日本語長文で心を整えるタイピング体験を。" />
   <meta name="twitter:image" content="https://yourdomain.com/og-image.jpg" />
   <style>
     * {
@@ -213,6 +213,212 @@ html, body {
   text-decoration: none;
 }
 
+/* index.html の <style> タグ内に追加 */
+
+/* 「使い方」ボタンと「閉じる」ボタンの共通スタイル */
+.usage-action-button {
+    padding: 0.5rem 1rem; /* 既存の問題選択ボタンのpaddingに合わせるか調整 */
+    background: #ccc;    /* 既存のスタイルに合わせる */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.8em;    /* 既存のスタイルに合わせる */
+    transition: background-color 0.2s; /* ホバーエフェクト用 */
+}
+.usage-action-button:hover {
+    background: #aaa;    /* 既存のスタイルに合わせる */
+}
+
+/* 説明文表示エリアのスタイル */
+.usage-guide-wrapper {
+    position: fixed; /* 画面固定表示 (モーダル風) */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景 */
+    display: flex; /* display: none; はJSで制御 */
+    align-items: center;
+    justify-content: center;
+    z-index: 10000; /* 他の要素より手前に */
+    opacity: 0; /* 初期状態は透明 */
+    visibility: hidden; /* 初期状態は非表示 */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.usage-guide-wrapper.visible { /* 表示時のスタイル */
+    opacity: 1;
+    visibility: visible;
+}
+
+.usage-guide-content {
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 680px; /* 最大幅 */
+    max-height: 80vh; /* 最大高さ */
+    overflow-y: auto; /* 内容が多い場合はスクロール */
+    position: relative; /* 閉じるボタンの位置基準用 */
+}
+.usage-guide-content h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 1.6em;
+}
+
+/* アコーディオンリストのスタイル */
+.accordion-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.accordion-list li {
+    margin-bottom: 10px;
+}
+.accordion-header {
+    background-color: #f0f0f0;
+    color: #333;
+    cursor: pointer;
+    padding: 12px 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    display: block; /* 幅100%にするため */
+    margin-bottom: 5px; /* パネルとの間に少し隙間 */
+}
+.accordion-header:hover, .accordion-header.active {
+    background-color: #d8d8d8;
+}
+.accordion-header.active::after { /* 開いている印 (任意) */
+    content: " －"; 
+}
+.accordion-header::after { /* 閉じている印 (任意) */
+    content: " ＋";
+    float: right;
+}
+
+.accordion-panel {
+    padding: 0 18px; /* 上下のpaddingはmax-heightのアニメーション時に調整 */
+    background-color: white;
+    /* display: none; を削除、またはコメントアウト */
+    max-height: 0; /* ★初期状態では高さを0にして内容を隠す */
+    overflow: hidden; /* ★はみ出した内容を隠す */
+     padding-top: 0;    /* ← 初期状態では上下のpaddingも0に */
+    padding-bottom: 0; /* ← 初期状態では上下のpaddingも0に */
+    border: 1px solid #f0f0f0;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    line-height: 1.7;
+    transition: max-height 0.3s ease-out, padding-top 0.3s ease-out, padding-bottom 0.3s ease-out; /* ★スムーズな開閉アニメーション */
+}
+
+.accordion-panel.open { /* パネルが開いた状態のスタイル */
+    max-height: 500px; /* ★内容が表示されるのに十分な高さを設定 (必要なら調整) */
+    padding-top: 15px;    /* 開いた時の上下のpadding */
+    padding-bottom: 15px;
+}
+.accordion-panel p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.accordion-panel p:first-child {
+    margin-top: 0;
+}
+.accordion-panel .text-link { /* 説明文中のリンクスタイル */
+    color: #007acc;
+    text-decoration: none;
+}
+.accordion-panel .text-link:hover {
+    text-decoration: underline;
+}
+
+.usage-guide-content .close-button {
+    display: block;
+    margin: 25px auto 0 auto; /* 中央寄せ */
+    background-color: #555; /* 少し濃いめの背景 */
+    color: white;
+}
+.usage-guide-content .close-button:hover {
+    background-color: #333;
+}
+
+/* index.html の <style> タグ内に追加または既存のものを修正 */
+
+.problem-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 10px; /* 左右のパディングで中央の表示領域を制御 */
+    box-sizing: border-box;
+}
+
+.header-left-controls {
+     /* flex: 3.3; を削除または以下のように変更 */
+    flex-grow: 0;     /* 伸びない */
+    flex-shrink: 0;   /* 基本的に縮まない (コンテンツ幅による) */
+    flex-basis: auto; /* コンテンツに応じた幅 */
+    /* display: flex; flex-direction: column; align-items: flex-start; はそのまま */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+     margin-right: 15px;
+}
+
+.title-and-usage-container { /* ★新しいラッパー要素のスタイル */
+    display: flex;
+    align-items: center; /* タイトルとボタンを垂直中央揃え */
+    /* justify-content: center;  もしこのコンテナ内でさらに中央寄せしたい場合 */
+    position: relative; /* 位置調整の基準を現在の位置にする */
+    left: 75px;       /* 現在の位置から左に10pxオフセット（つまり右に10px移動）*/
+                      /* この値を増やすとより右に、減らすと左に移動します。 */
+                      /* 負の値を指定すると左にずれます (例: left: -5px;) */
+}
+
+.title-and-usage-container h1 {
+    /* margin: 0; */ /* デフォルトのマージンをリセット */
+    margin-right: 15px; /* ★使い方ボタンとの間のスペース */
+    font-size: 1.8em; /* 以下、既存のh1スタイル */
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.problem-container h1 { /* h1のスタイルをここに集約 */
+    /*flex-grow: 1;        ★重要: 残りのスペースを全て取るようにする */
+    text-align: center; /* テキストを中央揃え */
+    margin: 0;     /* 左右の要素との間に最低限の余白 */
+    padding: 0;
+    font-size: 2.0em;
+    font-weight: 600;
+    color: #000000;
+    min-width: 0;
+    /* flex-shrink: 0; は flex-grow: 1 があれば通常不要 */
+}
+
+.header-right-controls {
+    flex-grow: 0;     /* 伸びない */
+    flex-shrink: 0;   /* 基本的に縮まない */
+    flex-basis: auto; /* コンテンツに応じた幅 */
+    /* display: flex; justify-content: flex-end; align-items: center; はそのまま */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+     margin-left: 15px;
+}
+
+/* 既存の .problem-header, #problem-buttons, .usage-action-button のスタイルはそのまま活用 */
+
+
+
+</style>
+
   </style>
   <style>
     /* ヘッダーに表示するメッセージのスタイル */
@@ -240,22 +446,66 @@ html, body {
       ここではただ速さを追い求めるのではなく、ひとつひとつの文字に心を込めてタイピングを楽しんでください。
     </p>
 
-    <div class="problem-container" style="display: flex; justify-content: center; align-items: center; width: 100%; position: relative;">
-      <div style="display: flex; flex-direction: column; align-items: flex-start; position: absolute; left: 0; padding-left: 1em;">
-        <div class="problem-header" id="problem-header-date" style="font-size: 0.9em; color: #555; text-align: left; margin-top: 0; margin-bottom: 5px;">
-          </div>
-        
-        <div style="display: block;">
-          <div class="problem-buttons" id="problem-buttons">
-            </div>
-        </div>
-      </div>
-    
-      <h1 style="text-align: center; margin: 0; padding: 0; margin-top: 20px; margin-bottom: 20px;">かな漢タイピング</h1>
-
+ <div class="problem-container">
+    <div class="header-left-controls">
+        <div class="problem-header" id="problem-header-date" style="font-size: 0.9em; color: #555; text-align: left; margin-bottom: 5px;"></div>
+        <div class="problem-buttons" id="problem-buttons"></div>
     </div>
-    
+
+    <div class="title-and-usage-container">  <h1>かな漢タイピング</h1>
+        <div class="header-right-controls"> <button id="showUsageGuideButton" class="usage-action-button">使い方</button>
+        </div>
+    </div>
+    <div class="header-spacer-right">
+        </div>
+</div>
+
   </header>  
+
+<div id="usageGuideContainer" class="usage-guide-wrapper">
+    <div class="usage-guide-content">
+        <h2>サイトの使い方・概要</h2>
+        <ul class="accordion-list">
+            <li>
+                <button class="accordion-header">サイトの目的</button>
+                <div class="accordion-panel">
+                    <p>本サイトはタイピングを単なる技術訓練ではなく、静かに心を澄ませるための行為として捉え直すことを目指しています。速さを追い求めるのではなく、ひとつひとつの文字に意識を向け、文章の流れに身を委ねる。打ち終えたあとに得られる静かに醒めた満足──それがこのサイトの核心です。<br>詳しくは<a href="meditation_typing.html" class="text-link">「瞑想的タイピングのすすめ」</a>をご覧ください。</p>
+                </div>
+            </li>
+            <li>
+                <button class="accordion-header">問題文の特徴</button>
+                <div class="accordion-panel">
+                    <p>毎日更新している問題文は、単なる練習素材ではなく、小さな読書体験となるよう目指しています。そこにはちょっと立ち止まって考えたくなる問い、ほほえましいユーモア、そして詩のような静かな力があります。タイピングしながら読むことの喜びを味わい心を耕す──そんな豊かな時間のため、一つ一つの文章に心を込めています。</p>
+                </div>
+            </li>
+            <li>
+                <button class="accordion-header">クラヴィエとは</button>
+                <div class="accordion-panel">
+                    <p>「クラヴィエ（Clavier）」は、このサイトに時折現れる「鍵を持つ風」の名です。彼は気まぐれに様々な扉を開き、思いがけない発見や大切な気づきをもたらしてくれるかもしれません。<a href="clavier_collection.html" class="text-link">「クラヴィエの寓話集」</a>では、彼が登場する物語を集めています。</p>
+                </div>
+            </li>
+            <li>
+                <button class="accordion-header">バックナンバー機能について</button>
+                <div class="accordion-panel">
+                    <p>過去に登場した問題文はバックナンバーとして保存されています。メインページ下部には最新の数日分が、<a href="archive.html" class="text-link">「すべてのバックナンバーはこちら」</a>からは全履歴が確認でき、いつでも好きな問題に再挑戦できます。</p>
+                </div>
+            </li>            
+            <li>
+                <button class="accordion-header">全文入力が完了したら</button>
+                <div class="accordion-panel">
+                    <p>問題文をすべて正しく入力すると、所要時間、入力文字数、WPM（1分間あたりの入力文字数）、ささやかな評価メッセージが表示されます。結果に一喜一憂するよりも、入力中の集中や、言葉との出会いをお楽しみください。「Q」キーで結果を閉じ、次の練習に進めます。</p>
+                </div>
+            </li>
+             <li>
+                <button class="accordion-header">寄付について（今後実装予定）</button>
+                <div class="accordion-panel">
+                    <p>もし、このサイトの活動に共感していただける方がいらっしゃいましたら、寄付を通じて支援していただけると大変ありがたいです。ご寄付は、サイトの運営費や今後のコンテンツ作成に活用させていただきます。</p>
+                </div>
+            </li>
+        </ul>
+        <button id="closeUsageGuideButton" class="usage-action-button close-button">閉じる</button>
+    </div>
+</div>
 
   <div id="display"></div>
 
@@ -270,8 +520,6 @@ html, body {
     <span style="margin: 0 0.5em; color: #555;">｜</span> <a href="archive.html" style="color: #007acc; text-decoration: none;">すべてのバックナンバーはこちら</a>
   </div>
 </section>
-
-  
 
   <div id="popup">
     <ul id="popupList"></ul>
@@ -384,8 +632,8 @@ function initializeSite() {
       setActiveProblemSet(0); 
     }
 
-    // バックナンバー表示を最新4件に絞る
-    const recentArchives = archiveStructure.slice(0, 4); // 最新の4件を取得
+    // バックナンバー表示を最新5件に絞る
+    const recentArchives = archiveStructure.slice(0, 5); // 最新の5件を取得
     renderArchive(recentArchives); // 絞ったデータをrenderArchiveに渡す
   } else {
     console.error("問題データが空か、正しく読み込めませんでした。サイトの初期化をスキップします。");
@@ -635,6 +883,170 @@ function renderArchive(archivesToDisplay) { // ← 新しい定義 (引数を追
   });
 }
 loadTypingData(); // ← これを新しく追加
+
+// index.html の <script> タグ内に追加 (既存のコードの下など)
+
+document.addEventListener('DOMContentLoaded', function() {
+    // (既存のDOMContentLoaded内の処理はこのまま or この中に追加しても良い)
+
+    const showUsageGuideButton = document.getElementById('showUsageGuideButton');
+    const closeUsageGuideButton = document.getElementById('closeUsageGuideButton');
+    const usageGuideContainer = document.getElementById('usageGuideContainer');
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+    // 「使い方」ボタンの処理
+    if (showUsageGuideButton && usageGuideContainer) {
+        showUsageGuideButton.addEventListener('click', function() {
+            usageGuideContainer.classList.add('visible');
+            // 背景をスクロールさせないようにする (任意)
+            // document.body.style.overflow = 'hidden'; 
+        });
+    }
+
+    // 「閉じる」ボタンの処理
+    if (closeUsageGuideButton && usageGuideContainer) {
+        closeUsageGuideButton.addEventListener('click', function() {
+            usageGuideContainer.classList.remove('visible');
+            // 背景のスクロール禁止を解除 (任意)
+            // document.body.style.overflow = '';
+        });
+    }
+
+    // モーダル背景クリックで閉じる (任意)
+    if (usageGuideContainer) {
+        usageGuideContainer.addEventListener('click', function(event) {
+            if (event.target === usageGuideContainer) { // 背景部分のクリックか判定
+                usageGuideContainer.classList.remove('visible');
+                // document.body.style.overflow = '';
+            }
+        });
+    }
+
+    // index.html の <script> タグ内、アコーディオンの処理部分を以下のように修正
+
+// --- アコーディオンの処理 ---
+if (accordionHeaders.length > 0) {
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            console.log('アコーディオンヘッダー「' + this.textContent.trim() + '」がクリックされました！');
+            
+            this.classList.toggle('active'); // ヘッダーの .active クラスをトグル
+            console.log('ヘッダーのクラスリスト:', this.classList.toString());
+
+            const panel = this.nextElementSibling;
+            console.log('取得したパネル要素:', panel);
+
+            if (panel && panel.classList.contains('accordion-panel')) {
+                panel.classList.toggle('open'); // ★パネルの .open クラスをトグル
+
+                if (panel.classList.contains('open')) {
+                    console.log('パネルを開きました (クラス .open を付与)');
+                } else {
+                    console.log('パネルを閉じました (クラス .open を削除)');
+                }
+                // console.log('パネルの現在の max-height:', window.getComputedStyle(panel).maxHeight); // デバッグ用
+            } else {
+                console.error('エラー: 対応する .accordion-panel が見つかりませんでした。HTML構造を確認してください。');
+                if(panel) console.log('取得した次の要素のクラス名:', panel.className);
+            }
+
+            // 他の開いているパネルを閉じる (オプション：もし一つだけ開くようにしたい場合)
+             accordionHeaders.forEach(otherHeader => {
+                 if (otherHeader !== this && otherHeader.classList.contains('active')) {
+                     otherHeader.classList.remove('active');
+                     const otherPanel = otherHeader.nextElementSibling;
+                     if (otherPanel && otherPanel.classList.contains('accordion-panel')) {
+                         otherPanel.classList.remove('open');
+                     }
+                 }
+             });
+        });
+    });
+} else {
+    console.warn('アコーディオンヘッダー (.accordion-header) が見つかりません。');
+}
+});
+
+// index.html の <script> タグ内
+document.addEventListener('DOMContentLoaded', function() {
+    // 要素取得の確認
+    const showUsageGuideButton = document.getElementById('showUsageGuideButton');
+    const closeUsageGuideButton = document.getElementById('closeUsageGuideButton');
+    const usageGuideContainer = document.getElementById('usageGuideContainer');
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+    console.log('showUsageGuideButton:', showUsageGuideButton);
+    console.log('closeUsageGuideButton:', closeUsageGuideButton);
+    console.log('usageGuideContainer:', usageGuideContainer);
+    console.log('accordionHeaders:', accordionHeaders); // NodeListが表示されるはず
+    console.log('accordionHeaders.length:', accordionHeaders.length); // アコーディオンの項目数が表示されるはず
+
+    // --- 「使い方」ボタンの処理 ---
+    if (showUsageGuideButton && usageGuideContainer) {
+        showUsageGuideButton.addEventListener('click', function() {
+            console.log('「使い方」ボタンがクリックされました！'); // ★クリック時にコンソールに出るか確認
+            usageGuideContainer.classList.add('visible');
+        });
+    } else {
+        console.error('「使い方」ボタンまたはコンテナが見つかりません。'); // ★もし要素が見つからない場合
+    }
+
+    // --- 「閉じる」ボタンの処理 ---
+    if (closeUsageGuideButton && usageGuideContainer) {
+        closeUsageGuideButton.addEventListener('click', function() {
+            console.log('「閉じる」ボタンがクリックされました！'); // ★クリック時にコンソールに出るか確認
+            usageGuideContainer.classList.remove('visible');
+        });
+    } else {
+        console.error('「閉じる」ボタンまたはコンテナが見つかりません。'); // ★もし要素が見つからない場合
+    }
+    
+    // --- モーダル背景クリックで閉じる ---
+    if (usageGuideContainer) {
+        usageGuideContainer.addEventListener('click', function(event) {
+            if (event.target === usageGuideContainer) { 
+                console.log('モーダル背景がクリックされました！'); // ★クリック時にコンソールに出るか確認
+                usageGuideContainer.classList.remove('visible');
+            }
+        });
+    }
+
+    // index.html の <script> タグ内、アコーディオンの処理部分
+
+// --- アコーディオンの処理 ---
+if (accordionHeaders.length > 0) {
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            console.log('アコーディオンヘッダー「' + this.textContent.trim() + '」がクリックされました！'); // クリックされたヘッダーのテキスト
+            
+            // 'active' クラスをヘッダーに付けたり外したりします
+            this.classList.toggle('active'); 
+            console.log('クリックされたヘッダーの現在のクラスリスト:', this.classList.toString()); // クラスリストの状態を確認
+
+            const panel = this.nextElementSibling; // ヘッダーの「次の兄弟要素」を取得
+            console.log('取得したパネル要素 (panel):', panel); // panel が正しいHTML要素か、それとも null かを確認
+
+            if (panel && panel.classList.contains('accordion-panel')) { // panel が存在し、かつ accordion-panel クラスを持っているか確認
+                if (panel.style.display === "block") {
+                    console.log('パネルを閉じます。');
+                    panel.style.display = "none";
+                } else {
+                    console.log('パネルを開きます。');
+                    panel.style.display = "block";
+                }
+                console.log('パネルの現在の display スタイル:', panel.style.display);
+            } else {
+                console.error('エラー: 対応する .accordion-panel が見つかりませんでした。HTML構造を確認してください。');
+                if(panel) console.log('取得した次の要素のクラス名:', panel.className); // もし panel が null でないなら、そのクラス名を表示
+            }
+        });
+    });
+} else {
+    console.warn('アコーディオンヘッダー (.accordion-header) が見つかりません。');
+}
+
+    // (↓既存の他のDOMContentLoaded内の処理があれば、それはこの下に続けるか、このコードを既存のDOMContentLoaded内に追加)
+});
 
   </script>
   
