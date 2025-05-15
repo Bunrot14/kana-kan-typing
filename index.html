@@ -356,7 +356,7 @@ html, body {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 10px 10px; /* 左右のパディングで中央の表示領域を制御 */
+    padding: 5px 0px; /* 左右のパディングで中央の表示領域を制御 */
     box-sizing: border-box;
 }
 
@@ -671,22 +671,37 @@ function setActiveProblemSet(problemSetIndex) {
   setEssay(problemSet.essayStartIndex); 
 }
   
-  function renderProblemButtons() {
-    problemButtonsContainer.innerHTML = ""; // ボタンをクリア
+  // index.html の <script> タグ内
+// 既存の renderProblemButtons 関数を以下のように修正
 
-    for (let i = 0; i < currentProblemSetNumProblems; i++) {
-      const button = document.createElement("button");
-      const essayGlobalIndex = currentProblemSetStartIndex + i;
-      button.textContent = `問題${i + 1}`;
-      button.style.fontSize = "0.8em";
-      button.style.padding = "5px 10px";
-      button.onclick = () => setEssay(essayGlobalIndex);
-      if (essayGlobalIndex === currentEssayIndex) {
-        button.classList.add("active"); // 現在の問題にactiveクラスを付与
-      }
-      problemButtonsContainer.appendChild(button);
+function renderProblemButtons() {
+  problemButtonsContainer.innerHTML = ""; // 既存のボタンをクリア
+
+  // 現在選択されている問題セットのボタンを生成 (既存のループ処理)
+  for (let i = 0; i < currentProblemSetNumProblems; i++) {
+    const button = document.createElement("button");
+    const essayGlobalIndex = currentProblemSetStartIndex + i;
+    button.textContent = `問題${i + 1}`;
+    button.style.fontSize = "0.8em"; // またはCSSクラスで統一
+    button.style.padding = "5px 10px";  // またはCSSクラスで統一
+    button.onclick = () => setEssay(essayGlobalIndex);
+    if (essayGlobalIndex === currentEssayIndex) {
+      button.classList.add("active"); 
     }
+    problemButtonsContainer.appendChild(button);
   }
+
+  // --- ↓↓↓ 「ランダム」ボタンをここに追加 ↓↓↓ ---
+  const randomButton = document.createElement("button");
+  randomButton.id = "randomProblemButton"; // IDを付与
+  randomButton.textContent = "ランダム";
+  randomButton.style.fontSize = "0.8em"; // 他のボタンとスタイルを合わせる
+  randomButton.style.padding = "5px 10px"; // 他のボタンとスタイルを合わせる
+  randomButton.onclick = selectRandomProblem; // ★★★ ここで直接イベントハンドラを設定 ★★★
+  // randomButton.classList.add('your-button-class'); // もし共通のCSSクラスがあればそれを使う
+  problemButtonsContainer.appendChild(randomButton);
+  // --- ↑↑↑ 「ランダム」ボタン追加ここまで ↑↑↑ ---
+}
 
   function setEssay(index) {
     currentEssayIndex = index;
@@ -737,6 +752,64 @@ function setActiveProblemSet(problemSetIndex) {
   if (!errorMarked && input === currentEssayText && currentEssayText.length > 0) { // currentEssay を currentEssayText に変更
     showResult();
   }
+}
+
+  // index.html の <script> タグ内に追加
+
+function selectRandomProblem() {
+  if (allEssays.length === 0) {
+    console.warn("問題文データがまだ読み込まれていません。");
+    return;
+  }
+
+  // 1. 全問題文の中からランダムなインデックスを選ぶ
+  const randomIndex = Math.floor(Math.random() * allEssays.length);
+
+  // 2. 選ばれた問題がどの問題セットに属するかを探し、ヘッダーの日付表示を更新
+  let selectedProblemSetIndex = -1;
+  let cumulativeEssays = 0;
+  for (let i = 0; i < archiveStructure.length; i++) {
+    // archiveStructure[i].numProblems が存在することを確認
+    if (typeof archiveStructure[i].numProblems === 'number') {
+      cumulativeEssays += archiveStructure[i].numProblems;
+      if (randomIndex < cumulativeEssays) {
+        selectedProblemSetIndex = i;
+        break;
+      }
+    } else {
+      console.warn(`archiveStructure[${i}] に numProblems がないか、数値ではありません。`);
+    }
+  }
+
+  if (selectedProblemSetIndex !== -1 && archiveStructure[selectedProblemSetIndex]) {
+    const problemSet = archiveStructure[selectedProblemSetIndex];
+    const dateObj = new Date(problemSet.date);
+    const year = dateObj.getFullYear();
+    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+    const day = dateObj.getDate().toString().padStart(2, '0');
+    // problemHeaderDate (グローバル変数として定義されている想定)
+    if (problemHeaderDate) {
+       problemHeaderDate.textContent = `${year}年${month}月${day}日 ${problemSet.sessionName || ''} 更新分`.trim(); 
+    }
+    // currentProblemSetStartIndex と currentProblemSetNumProblems も更新して、
+    // renderProblemButtons で正しいボタンが active になるようにする
+    currentProblemSetStartIndex = problemSet.essayStartIndex;
+    currentProblemSetNumProblems = problemSet.numProblems;
+
+  } else {
+    // どのセットにも属さない場合 (通常は起こらないはずだが、念のため)
+    if (problemHeaderDate) {
+      problemHeaderDate.textContent = "ランダムな問題";
+    }
+    // currentProblemSetStartIndex と currentProblemSetNumProblems をリセットするか、
+    // あるいは、どの問題セットのボタンもアクティブにならないようにする
+    currentProblemSetStartIndex = -1; // どのセットにも属さないことを示す
+    currentProblemSetNumProblems = 0;
+  }
+
+  // 3. ランダムに選ばれた問題を表示
+  setEssay(randomIndex); 
+  // setEssayの中で renderProblemButtons が呼ばれるので、アクティブボタンも再描画されるはず
 }
 
   function getEvaluationMessage(wpm) {
