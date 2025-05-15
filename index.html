@@ -469,7 +469,7 @@ html, body {
             <li>
                 <button class="accordion-header">サイトの目的</button>
                 <div class="accordion-panel">
-                    <p>本サイトはタイピングを単なる技術訓練ではなく、静かに心を澄ませるための行為として捉え直すことを目指しています。速さを追い求めるのではなく、ひとつひとつの文字に意識を向け、文章の流れに身を委ねる。打ち終えたあとに得られる静かに醒めた満足──それがこのサイトの核心です。<br>詳しくは<a href="meditation_typing.html" class="text-link">「瞑想的タイピングのすすめ」</a>をご覧ください。</p>
+                    <p>本サイトはタイピングを静かに心を澄ませるための行為として捉えることを目指しています。速さを追い求めるのではなく、ひとつひとつの文字に意識を向け、文章の流れに身を委ねる。打ち終えたあとに得られる静かに醒めた満足──それがこのサイトの核心です。<br>詳しくは<a href="meditation_typing.html" class="text-link">「瞑想的タイピングのすすめ」</a>をご覧ください。</p>
                 </div>
             </li>
             <li>
@@ -612,37 +612,82 @@ html, body {
 
 function initializeSite() {
   console.log("JSONデータが読み込まれ、データ構造が準備できました。");
-  // console.log("allEssays:", allEssays);
-  // console.log("archiveStructure:", archiveStructure); 
 
   if (archiveStructure.length > 0 && allEssays.length > 0) {
-    // localStorageから選択された問題の情報を読み取る (これはステップ4で詳しく実装)
-    const selectedProblemInfo = JSON.parse(localStorage.getItem('selectedTypingProblem'));
-    if (selectedProblemInfo) {
-      localStorage.removeItem('selectedTypingProblem'); // 読み取ったら削除
-      setActiveProblemSet(selectedProblemInfo.setIndex);
-      if (typeof selectedProblemInfo.essayIndexInSet !== 'undefined') {
-          // essayIndexInSet があれば、それを使って特定の問題を表示
-          // archiveStructure[selectedProblemInfo.setIndex].essayStartIndex と selectedProblemInfo.essayIndexInSet からグローバルインデックスを計算
-          const globalEssayIndex = archiveStructure[selectedProblemInfo.setIndex].essayStartIndex + selectedProblemInfo.essayIndexInSet;
-          setEssay(globalEssayIndex);
+    const selectedProblemInfoString = localStorage.getItem('selectedTypingProblem');
+    let processedSelectedProblem = false; // バックナンバーから選択された問題が処理されたかどうかのフラグ
+
+    if (selectedProblemInfoString) {
+      try {
+        const selectedProblemInfo = JSON.parse(selectedProblemInfoString);
+        // ★重要: 読み取ったらlocalStorageから削除します
+        localStorage.removeItem('selectedTypingProblem');
+
+        // selectedProblemInfo に期待するデータがあるか確認
+        if (selectedProblemInfo && typeof selectedProblemInfo.date !== 'undefined' && typeof selectedProblemInfo.essayIndex !== 'undefined') {
+          console.log("バックナンバーページから渡された情報:", selectedProblemInfo);
+
+          // 1. 渡された日付 (selectedProblemInfo.date) に一致する問題セットを archiveStructure から探す
+          const problemSetIndex = archiveStructure.findIndex(entry => entry.date === selectedProblemInfo.date);
+
+          if (problemSetIndex !== -1) {
+            // 2. 該当する問題セットが見つかった場合
+            const problemSet = archiveStructure[problemSetIndex];
+
+            // 3. その問題セット内での問題インデックス (selectedProblemInfo.essayIndex) と、
+            //    問題セットの開始インデックス (problemSet.essayStartIndex) を使って、
+            //    allEssays 配列でのグローバルな問題インデックスを計算
+            const globalEssayIndex = problemSet.essayStartIndex + selectedProblemInfo.essayIndex;
+
+            // 4. 計算されたインデックスが有効範囲内か確認
+            if (globalEssayIndex >= 0 && globalEssayIndex < allEssays.length &&
+                selectedProblemInfo.essayIndex >= 0 && selectedProblemInfo.essayIndex < problemSet.numProblems) {
+
+              console.log(`日付 ${selectedProblemInfo.date} の ${selectedProblemInfo.essayIndex + 1}番目の問題 (グローバルインデックス: ${globalEssayIndex}) を表示します。`);
+              // 5. ヘッダーの日付表示と問題ボタン群を更新するために setActiveProblemSet を呼び出す
+              setActiveProblemSet(problemSetIndex);
+              // 6. 特定の問題を表示するために setEssay を呼び出す
+              setEssay(globalEssayIndex);
+              processedSelectedProblem = true; // 処理成功フラグを立てる
+            } else {
+              console.warn("計算されたグローバルエッセイインデックスまたはセット内のインデックスが無効です。");
+              console.warn(`  Global Index: ${globalEssayIndex}, Max Allowed: ${allEssays.length - 1}`);
+              console.warn(`  Essay Index In Set: ${selectedProblemInfo.essayIndex}, Max Allowed in Set: ${problemSet.numProblems - 1}`);
+            }
+          } else {
+            console.warn("指定された日付の問題セットが見つかりませんでした:", selectedProblemInfo.date);
+          }
+        } else {
+          console.warn("localStorageから読み取ったselectedTypingProblemの形式が正しくありません。", selectedProblemInfo);
+        }
+      } catch (e) {
+        console.error("localStorageのselectedTypingProblemの解析または処理中にエラーが発生しました:", e);
+        // localStorage.removeItem('selectedTypingProblem'); // エラー発生時も削除を試みる
       }
-    } else {
-      // localStorageに情報がなければ、通常通り最新の問題セットを表示
-      setActiveProblemSet(0); 
     }
 
-    // バックナンバー表示を最新5件に絞る
-    const recentArchives = archiveStructure.slice(0, 5); // 最新の5件を取得
-    renderArchive(recentArchives); // 絞ったデータをrenderArchiveに渡す
+    // localStorageに情報がない場合、または処理できなかった場合は、デフォルトの問題を表示
+    if (!processedSelectedProblem) {
+      console.log("バックナンバーからの選択情報がないか、処理に失敗したため、デフォルトの問題セットを表示します。");
+      // typing_data.json が新しい日付順（降順）に並んでいると仮定し、最初の問題セットを表示
+      // もし古い日付順（昇順）の場合は archiveStructure.length - 1 を指定
+      if (archiveStructure.length > 0) {
+        setActiveProblemSet(0); // JSONが新しい順なら0、古い順なら archiveStructure.length - 1
+      }
+    }
+
+    // バックナンバー表示を最新5件に絞る (これは現在のままでOK)
+    // ただし、JSONの日付順に依存します。新しいものが先頭(0番目)ならこれで良いです。
+    const recentArchives = archiveStructure.slice(0, 5);
+    renderArchive(recentArchives);
+
   } else {
     console.error("問題データが空か、正しく読み込めませんでした。サイトの初期化をスキップします。");
     if (!document.querySelector('p[style*="データの読み込みに失敗しました"]') && !document.querySelector('p[style*="問題データがありません"]')) {
-         document.body.innerHTML = `<p style="text-align:center; padding: 20px; font-size: 1.2em;">問題データの読み込みに問題があるため、サイトを表示できません。</p>`;
+        document.body.innerHTML = `<p style="text-align:center; padding: 20px; font-size: 1.2em;">問題データの読み込みに問題があるため、サイトを表示できません。</p>`;
     }
   }
 }
-
 function setActiveProblemSet(problemSetIndex) {
   // const problemSet = archiveData[problemSetIndex]; // ← 古い行 (コメントアウトまたは削除)
   const problemSet = archiveStructure[problemSetIndex]; // ← 新しい行

@@ -13,9 +13,73 @@
     .archive-entry { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee; }
     .archive-entry:last-child { border-bottom: none; }
     .archive-date { font-weight: bold; font-size: 1.2em; margin-bottom: 0.8em; color: #333; }
-    .archive-titles { list-style-type: none; padding-left: 0; }
-    .archive-titles li { margin-bottom: 0.5em; }
-    .archive-titles a { display: inline-block; padding: 0.3em 0.6em; border-radius: 4px; transition: background-color 0.2s; }
+   /* --- 既存のCSSに追加・修正 --- */
+.tag-filter-container { /* タグボタンを囲むコンテナ */
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.tag-button {
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  padding: 0.5em 1em;
+  margin: 0.3em;
+  border-radius: 15px; /* 角を丸くする */
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.tag-button:hover {
+  background-color: #c0c0c0;
+}
+.tag-button.active { /* 選択中のタグボタン */
+  background-color: #007acc;
+  color: white;
+}
+/* 問題リストの横並び対応 */
+.archive-titles {
+  list-style-type: none;
+  padding-left: 0;
+  display: flex; /* Flexbox を利用 */
+  flex-wrap: wrap; /* はみ出た要素を折り返す */
+  gap: 1rem; /* 各問題間の隙間 */
+}
+.archive-titles li {
+  /* margin-bottom: 0.5em; */ /* Flexboxのgapで調整するため不要になるかも */
+  background-color: #f9f9f9; /* カード背景色 */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.8em;
+  width: calc(33.333% - 1rem); /* 例: 3列表示 (gapを考慮) */
+  box-sizing: border-box; /* paddingとborderをwidthに含める */
+}
+.archive-titles li a {
+  display: block; /* リンクをブロック要素にしてカード全体をクリック可能に */
+  /* padding: 0.3em 0.6em; */ /* カード自体のpaddingで調整 */
+  border-radius: 0; /* カードの角丸に合わせる */
+}
+/* 問題カード内のタグ表示（オプション） */
+.problem-tags {
+  font-size: 0.8em;
+  margin-top: 0.5em;
+}
+.problem-tags .tag {
+  background-color: #eee;
+  padding: 0.2em 0.5em;
+  border-radius: 3px;
+  margin-right: 0.3em;
+  color: #555;
+}
+/* スマートフォンなど小さい画面向けの調整 */
+@media (max-width: 768px) {
+  .archive-titles li {
+    width: calc(50% - 1rem); /* 2列表示 */
+  }
+}
+@media (max-width: 480px) {
+  .archive-titles li {
+    width: 100%; /* 1列表示 */
+  }
+}
     .archive-titles a:hover { background-color: #e9ecef; }
     .back-to-main a { display: inline-block; margin-top: 2rem; padding: 0.5em 1em; background: #007acc; color: white; border-radius: 5px; text-decoration: none; }
     .back-to-main a:hover { background: #005fa3; }
@@ -37,101 +101,210 @@
   </div>
 
   <script>
-   const fullArchiveListContainer = document.getElementById('full-archive-list');
-let localArchiveStructure = []; // archive.html専用のデータ保持用
+  const fullArchiveListContainer = document.getElementById('full-archive-list');
+  let localArchiveStructure = []; // archive.html専用のデータ保持用
+  let currentFilterTag = null; // 現在選択されているタグ
 
-async function loadAndDisplayFullArchive() {
-  try {
-    const response = await fetch('typing_data.json');
-    if (!response.ok) {
-      throw new Error(`JSONファイルの読み込みに失敗しました。ステータス: ${response.status}`);
-    }
-    const jsonData = await response.json();
-    if (!Array.isArray(jsonData)) {
-      throw new Error("JSONデータの形式が正しくありません。");
-    }
-
-    let currentIndex = 0;
-    jsonData.forEach(dailyEntry => {
-      const titles = [];
-      const dailyEssaysTexts = [];
-      if (!dailyEntry.essays || !Array.isArray(dailyEntry.essays)) {
-        console.warn(`日付 ${dailyEntry.date} の 'essays' 配列処理をスキップします。`);
-        return;
+  async function loadAndDisplayFullArchive() {
+    try {
+      const response = await fetch('typing_data.json');
+      if (!response.ok) {
+        throw new Error(`JSONファイルの読み込みに失敗しました。ステータス: ${response.status}`);
       }
-      dailyEntry.essays.forEach(essay => {
-        titles.push(essay.title || "タイトルなし");
-        dailyEssaysTexts.push(essay.text || "");
+      const jsonData = await response.json();
+      if (!Array.isArray(jsonData)) {
+        throw new Error("JSONデータの形式が正しくありません。");
+      }
+
+      let globalEssayIndexCounter = 0; // グローバルなエッセイインデックスを計算するためのカウンター
+      localArchiveStructure = jsonData.map(dailyEntry => {
+        const essaysData = [];
+        let dailyEssayCount = 0;
+        if (dailyEntry.essays && Array.isArray(dailyEntry.essays)) {
+          dailyEntry.essays.forEach(essay => {
+            essaysData.push({
+              title: essay.title || "タイトルなし",
+              text: essay.text || "", // 今は使用していないが、将来的にプレビュー等で使う可能性を考慮
+              tags: essay.tags || []  // 各エッセイのタグ情報
+            });
+          });
+          dailyEssayCount = essaysData.length;
+        } else {
+          console.warn(`日付 ${dailyEntry.date} の 'essays' 配列処理をスキップします。`);
+        }
+
+        const entryData = {
+          date: dailyEntry.date,
+          essays: essaysData, // 個々のエッセイ情報（タイトル、タグなどを含む）
+          // titles 配列は renderFullArchive で essays から動的に生成するため、ここでは不要
+          essayStartIndex: globalEssayIndexCounter, // この日付セットの最初の問題のグローバルインデックス
+          numProblems: dailyEssayCount
+        };
+        globalEssayIndexCounter += dailyEssayCount;
+        return entryData;
       });
-      localArchiveStructure.push({
-        date: dailyEntry.date,
-        titles: titles,
-        essayStartIndex: currentIndex, // index.html側でのグローバルな開始インデックス
-        numProblems: dailyEssaysTexts.length
+
+      setupTagFilters(); // タグフィルターをセットアップ
+      renderFullArchive(); // 初回レンダリング
+
+    } catch (error) {
+      console.error("バックナンバーデータの処理中にエラー:", error);
+      fullArchiveListContainer.innerHTML = `<p>バックナンバーの読み込みに失敗しました: ${error.message}</p>`;
+    }
+  }
+
+  function setupTagFilters() {
+    const allTags = new Set();
+    localArchiveStructure.forEach(entry => {
+      entry.essays.forEach(essay => {
+        if (essay.tags && Array.isArray(essay.tags)) {
+          essay.tags.forEach(tag => allTags.add(tag));
+        }
       });
-      currentIndex += dailyEssaysTexts.length;
     });
 
-    renderFullArchive();
+    const tagContainer = document.createElement('div');
+    tagContainer.className = 'tag-filter-container'; // CSSでスタイルを適用
 
-  } catch (error) {
-    console.error("バックナンバーデータの処理中にエラー:", error);
-    fullArchiveListContainer.innerHTML = `<p>バックナンバーの読み込みに失敗しました: ${error.message}</p>`;
+    // 「すべて表示」ボタン
+    const allButton = document.createElement('button');
+    allButton.className = 'tag-button active'; // 初期状態でアクティブ
+    allButton.textContent = 'すべて';
+    allButton.addEventListener('click', () => {
+      currentFilterTag = null;
+      document.querySelectorAll('.tag-filter-container .tag-button').forEach(btn => btn.classList.remove('active'));
+      allButton.classList.add('active');
+      renderFullArchive();
+    });
+    tagContainer.appendChild(allButton);
+
+    allTags.forEach(tag => {
+      const button = document.createElement('button');
+      button.className = 'tag-button';
+      button.textContent = tag;
+      button.dataset.tag = tag; // data属性にタグ名を保持
+      button.addEventListener('click', function() {
+        currentFilterTag = this.dataset.tag;
+        document.querySelectorAll('.tag-filter-container .tag-button').forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+        renderFullArchive();
+      });
+      tagContainer.appendChild(button);
+    });
+
+    // h1要素の後にタグフィルターコンテナを挿入
+    const heading = document.querySelector('.archive-container h1');
+    if (heading && heading.parentNode) {
+      // h1の次の要素の前に挿入 (つまりh1の直後)
+      heading.parentNode.insertBefore(tagContainer, heading.nextSibling);
+    } else {
+      // h1が見つからない場合のフォールバック (コンテナの先頭など)
+      const archiveContainer = document.querySelector('.archive-container');
+      if (archiveContainer) {
+        archiveContainer.insertBefore(tagContainer, archiveContainer.firstChild);
+      } else {
+        console.error("'.archive-container' が見つかりません。タグフィルターを配置できませんでした。");
+      }
+    }
   }
-}
 
-function renderFullArchive() {
-  if (localArchiveStructure.length === 0) {
-    fullArchiveListContainer.innerHTML = '<p>バックナンバーはありません。</p>';
-    return;
+  function renderFullArchive() {
+    if (localArchiveStructure.length === 0 && !currentFilterTag) { // 初期ロードでデータがない場合
+      fullArchiveListContainer.innerHTML = '<p>バックナンバーはありません。</p>';
+      return;
+    }
+
+    let htmlContent = '';
+    let hasAnyProblemDisplayed = false; // 何か一つでも問題が表示されたか
+
+    localArchiveStructure.forEach((entry, setIndex) => { // setIndex は localArchiveStructure でのインデックス
+      const dateObj = new Date(entry.date);
+      const year = dateObj.getFullYear();
+      const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+      const day = dateObj.getDate().toString().padStart(2, '0');
+
+      let titlesHtmlForDate = '';
+      let dateHasMatchingProblems = false;
+
+      entry.essays.forEach((essay, indexInSet) => {
+        // タグでフィルタリング
+        if (!currentFilterTag || (essay.tags && essay.tags.includes(currentFilterTag))) {
+          dateHasMatchingProblems = true;
+          hasAnyProblemDisplayed = true; // 表示される問題があった
+
+          titlesHtmlForDate += `<li><a href="#" data-set-index="${setIndex}" data-essay-index-in-set="${indexInSet}">${essay.title}</a>`;
+          // オプション: 問題カード内にタグを表示 (CSSで .problem-tags .tag のスタイル定義が必要)
+          if (essay.tags && essay.tags.length > 0) {
+            titlesHtmlForDate += `<div class="problem-tags">`;
+            essay.tags.forEach(tag => {
+              titlesHtmlForDate += `<span class="tag">${tag}</span>`;
+            });
+            titlesHtmlForDate += `</div>`;
+          }
+          titlesHtmlForDate += `</li>`;
+        }
+      });
+
+      if (dateHasMatchingProblems) {
+        htmlContent += `<div class="archive-entry">`;
+        htmlContent += `<h2 class="archive-date">${year}年${month}月${day}日</h2>`;
+        // CSSで .archive-titles を横並びにするスタイルを適用してください (例: display: flex; flex-wrap: wrap;)
+        htmlContent += `<ul class="archive-titles">${titlesHtmlForDate}</ul>`;
+        htmlContent += `</div>`;
+      }
+    });
+
+    if (!hasAnyProblemDisplayed && currentFilterTag) {
+      fullArchiveListContainer.innerHTML = `<p>タグ「${currentFilterTag}」に一致する問題はありませんでした。</p>`;
+    } else if (!hasAnyProblemDisplayed && localArchiveStructure.length > 0) {
+        // データはあるが、何らかの理由で何も表示されなかった場合（通常はフィルタ結果なしの場合）
+        // currentFilterTag が null の場合は上の「バックナンバーはありません」が優先されるべき
+        // この分岐は主にデバッグ用か、より複雑なフィルターが追加された場合
+        fullArchiveListContainer.innerHTML = '<p>表示できる問題がありません。</p>';
+    } else if (localArchiveStructure.length === 0 && !currentFilterTag) {
+        // データがそもそもない場合 (再掲、上の条件でカバーされるはずだが念のため)
+        fullArchiveListContainer.innerHTML = '<p>バックナンバーはありません。</p>';
+    } else {
+      fullArchiveListContainer.innerHTML = htmlContent;
+    }
+
+    addArchiveLinkListeners();
   }
 
-  let htmlContent = '';
-  localArchiveStructure.forEach((entry, setIndex) => { // setIndex は localArchiveStructure でのインデックス
-    const dateObj = new Date(entry.date);
-    const year = dateObj.getFullYear();
-    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-    const day = dateObj.getDate().toString().padStart(2, '0');
+  function addArchiveLinkListeners() {
+    const links = fullArchiveListContainer.querySelectorAll('.archive-titles a');
+    links.forEach(link => {
+      link.addEventListener('click', function(event) {
+        event.preventDefault();
+        const setIndex = parseInt(this.dataset.setIndex, 10);
+        const essayIndexInSet = parseInt(this.dataset.essayIndexInSet, 10);
 
-    htmlContent += `<div class="archive-entry">`;
-    // ↓↓↓ ここが修正された日付表示の行です ↓↓↓
-    htmlContent += `<h2 class="archive-date">${year}年${month}月${day}日</h2>`; 
-    htmlContent += `<ul class="archive-titles">`;
-    entry.titles.forEach((title, indexInSet) => {
-      // ↓↓↓ ここが修正されたリンクとデータ属性の行です ↓↓↓
-      htmlContent += `<li><a href="#" data-set-index="${setIndex}" data-essay-index-in-set="${indexInSet}">${title}</a></li>`;
+        // localArchiveStructure の構造変更に合わせて、必要な情報を特定する
+        // ここでは setIndex と essayIndexInSet があれば、
+        // localStorage に渡す情報としては十分かもしれない。
+        // index.html 側で localArchiveStructure と同様の構造から問題を取得することを想定。
+
+        const problemInfo = {
+          // メインページ(index.html)で問題を選択するために必要な情報を保存
+          // この情報はメインページが `typing_data.json` を読み込み、
+          // `localArchiveStructure` と同様の構造（あるいは日付とインデックスで特定できる構造）
+          // を持つことを前提とする。
+          date: localArchiveStructure[setIndex].date, // 日付で一意に特定できる場合
+          essayIndex: essayIndexInSet // その日付の中でのインデックス
+          // もしくは、元々のグローバルなインデックスが必要な場合：
+          // globalEssayIndex: localArchiveStructure[setIndex].essayStartIndex + essayIndexInSet
+        };
+        // どの情報が index.html で最も使いやすいかによって調整してください。
+        // ここでは日付と、その日付内でのインデックスを渡す例とします。
+        localStorage.setItem('selectedTypingProblem', JSON.stringify(problemInfo));
+        window.location.href = 'index.html'; // index.htmlに遷移
+      });
     });
-    htmlContent += `</ul>`;
-    htmlContent += `</div>`;
-  });
-  fullArchiveListContainer.innerHTML = htmlContent;
+  }
 
-  // イベントリスナーを追加
-  addArchiveLinkListeners();
-}
-
-// ページ読み込み時に実行
-loadAndDisplayFullArchive();
-
-// --- ステップ4で追加する関数 ---
-function addArchiveLinkListeners() {
-  const links = fullArchiveListContainer.querySelectorAll('.archive-titles a');
-  links.forEach(link => {
-    link.addEventListener('click', function(event) {
-      event.preventDefault();
-      const setIndex = parseInt(this.dataset.setIndex, 10);
-      const essayIndexInSet = parseInt(this.dataset.essayIndexInSet, 10);
-
-      const problemInfo = {
-        setIndex: setIndex, // localArchiveStructure (つまり元の archiveStructure と同じ) でのインデックス
-        essayIndexInSet: essayIndexInSet
-      };
-      localStorage.setItem('selectedTypingProblem', JSON.stringify(problemInfo));
-      window.location.href = 'index.html'; // index.htmlに遷移
-    });
-  });
-}
+  // ページ読み込み時に実行
+  loadAndDisplayFullArchive();
 </script>
-  </script>
+  
 </body>
 </html>
