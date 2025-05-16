@@ -2,10 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <url>
       <loc>https://bunrot14.github.io/kana-kan-typing/index.html</loc>
-        <changefreq>daily</changefreq> <priority>1.0</priority>      </url>
+      <changefreq>daily</changefreq>
+      <priority>1.0</priority>
+   </url>
    <url>
       <loc>https://bunrot14.github.io/kana-kan-typing/archive.html</loc>
-        <changefreq>daily</changefreq>
+      <changefreq>daily</changefreq>
       <priority>0.8</priority>
    </url>
    <url>
@@ -24,12 +26,12 @@
       <priority>0.3</priority>
    </url>
      <url>
-      <loc>  https://bunrot14.github.io/kana-kan-typing/privacy.html</loc>
+      <loc>https://bunrot14.github.io/kana-kan-typing/privacy.html</loc>
       <changefreq>yearly</changefreq>
       <priority>0.3</priority>
    </url>
     <url>
-      <loc>  https://bunrot14.github.io/kana-kan-typing/contact.html </loc>
+      <loc>https://bunrot14.github.io/kana-kan-typing/contact.html </loc>
       <changefreq>yearly</changefreq>
       <priority>0.3</priority>
    </url>
