@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bunrot14.github.io/kana-kan-typing/sitemap.xml
