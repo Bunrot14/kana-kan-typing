@@ -84,7 +84,7 @@ html, body {
     #display,
     #typingArea {
       width: 65vw;
-      font-size: 15px;
+      font-size: 14.5px;
       border-radius: 8px;
     }
 
@@ -123,7 +123,7 @@ html, body {
     max-height: 600px; /* 最大高さ */
     overflow-y: auto; /* 内容が最大を超えたらスクロール */
 
-      font-size: 15px;
+    
       padding: 1rem;
       line-height: 1.5;
       resize: none;
@@ -475,7 +475,7 @@ html, body {
             <li>
                 <button class="accordion-header">問題文の特徴</button>
                 <div class="accordion-panel">
-                    <p>毎日更新している問題文は、単なる練習素材ではなく、小さな読書体験となるよう目指しています。そこにはちょっと立ち止まって考えたくなる問い、ほほえましいユーモア、そして詩のような静かな力があります。タイピングしながら読むことの喜びを味わい心を耕す──そんな豊かな時間のため、一つ一つの文章に心を込めています。</p>
+                    <p>毎日更新している問題文は、単なる練習素材ではなく、小さな読書体験となるよう目指しています。そこにはちょっと立ち止まって考えたくなる問い、ほほえましいユーモア、そして詩のような静かな力があります。タイピングしながら読むことの喜びを味わい心を耕す──そんな豊かな時間のため、一つ一つの文章に心を込めています。<br>詳しくは<a href="philosophy.html" class="text-link">「問題文に込めた想い」</a>をご覧ください。</p>
                 </div>
             </li>
             <li>
@@ -528,7 +528,8 @@ html, body {
 
   <footer style="position: static; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 1px; background: #f5f5f5; margin-top: 2rem;">
     <p style="margin: 0;">
-      <a href="meditation_typing.html" style="color: #007acc; text-decoration: none;">瞑想的タイピングのすすめ</a>
+      <a href="meditation_typing.html" style="color: #007acc; text-decoration: none;">瞑想的タイピングのすすめ</a> |
+       <a href="philosophy.html" style="color: #007acc; text-decoration: none;">問題文に込めた想い</a>
       <br>
       練習用テキストはすべてフィクションであり、特定の思想、団体、個人を揶揄・批判する意図はありません。
       <br>
@@ -739,7 +740,7 @@ function renderProblemButtons() {
   // --- ↓↓↓ 「ランダム」ボタンをここに追加 ↓↓↓ ---
   const randomButton = document.createElement("button");
   randomButton.id = "randomProblemButton"; // IDを付与
-  randomButton.textContent = "ランダム";
+  randomButton.textContent = "全問からランダム";
   randomButton.style.fontSize = "0.8em"; // 他のボタンとスタイルを合わせる
   randomButton.style.padding = "5px 10px"; // 他のボタンとスタイルを合わせる
   randomButton.onclick = selectRandomProblem; // ★★★ ここで直接イベントハンドラを設定 ★★★
@@ -858,8 +859,8 @@ function selectRandomProblem() {
 }
 
   function getEvaluationMessage(wpm) {
-    if (wpm >= 400) return "You are Clavier.";
-    if (wpm >= 300) return "あなたは鍵をもつ風。";
+    if (wpm >= 350) return "You are Clavier.";
+    if (wpm >= 250) return "あなたは鍵をもつ風。";
     if (wpm >= 200) return "あなたの言葉は稲妻。世界を貫いている。";
     if (wpm >= 120) return "思考と指先が調和して、美しい旋律を奏でている。";
     if (wpm >= 60) return "確かな歩みが、言葉をひとつずつ紡いでいく。";
@@ -868,8 +869,8 @@ function selectRandomProblem() {
   }
 
   function getLevelComment(wpm) {
-    if (wpm >= 400) return "神速の領域。指先で詩を書いているようです。";
-    if (wpm >= 300) return "プロフェッショナルの風格。キーボードもあなたに従っている。";
+    if (wpm >= 350) return "神速の領域。指先で詩を書いているようです。";
+    if (wpm >= 250) return "プロフェッショナルの風格。キーボードもあなたに従っている。";
     if (wpm >= 200) return "洗練された速度。タイピングが日常の一部となっている証です。";
     if (wpm >= 120) return "実務でも十分通用します。滑らかな言葉の流れが感じられます。";
     if (wpm >= 60) return "落ち着いたテンポ。着実な力を育んでいます。";
