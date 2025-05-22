@@ -284,19 +284,13 @@
         // localStorage に渡す情報としては十分かもしれない。
         // index.html 側で localArchiveStructure と同様の構造から問題を取得することを想定。
 
-        const problemInfo = {
-          // メインページ(index.html)で問題を選択するために必要な情報を保存
-          // この情報はメインページが `typing_data.json` を読み込み、
-          // `localArchiveStructure` と同様の構造（あるいは日付とインデックスで特定できる構造）
-          // を持つことを前提とする。
-          date: localArchiveStructure[setIndex].date, // 日付で一意に特定できる場合
-          essayIndex: essayIndexInSet // その日付の中でのインデックス
-          // もしくは、元々のグローバルなインデックスが必要な場合：
-          // globalEssayIndex: localArchiveStructure[setIndex].essayStartIndex + essayIndexInSet
-        };
-        // どの情報が index.html で最も使いやすいかによって調整してください。
-        // ここでは日付と、その日付内でのインデックスを渡す例とします。
-        localStorage.setItem('selectedTypingProblem', JSON.stringify(problemInfo));
+       // ...
+const problemInfo = {
+  setIndex: setIndex,         // ★ data-set-index から取得したセットの通し番号
+  essayIndexInSet: essayIndexInSet // ★ data-essay-index-in-set から取得したセット内問題の通し番号
+};
+localStorage.setItem('selectedTypingProblem', JSON.stringify(problemInfo));
+// ...
         window.location.href = 'index.html'; // index.htmlに遷移
       });
     });

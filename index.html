@@ -17,21 +17,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <meta name="google-site-verification" content="ZqIqYlZDifbNwvYH5bcib3CigI-syrHrCMTkBAhal7c" />
+<!--paypal.コード-->
+ <script 
+  src="https://www.paypal.com/sdk/js?client-id=BAAix0TQkbmjXHMdtLABs3WdFS2aVTUl8VGNO3aPgOJcDRsIr2sIMsMjfB3xX0-KxIIHsxrwuqIXVfZ-YI&components=hosted-buttons&disable-funding=venmo&currency=JPY">
+</script>
 
-  <title>かな漢タイピング｜静かに集中する長文タイピング練習</title>
+  <title>かな漢タイピング｜静かに集中する変換あり長文タイピング練習</title>
 
-  <meta name="description" content="哲学的かつ文学的、詩的な日本語文を使ったかな漢字交じりの長文タイピング練習サイト。打鍵することで心を整える瞑想的な体験を。毎日更新される創作文で、言葉とリズムの調和を楽しめます。" />
-  <meta name="keywords" content="タイピング, 長文, かな漢字, 瞑想, 文学, 日本語, 練習, 哲学, 詩, 読書, タイピングサイト" />
+  <meta name="description" content="漢字変換あり長文タイピング練習サイト。文学的な日本語の創作文で心を整える瞑想的な体験を。毎日更新される創作文で静かな集中を" />
+  <meta name="keywords" content="タイピング, 長文, かな漢字, 瞑想, 文学, 日本語, 練習, 哲学, 詩, 読書, かな漢タイピング,変換,クラヴィエ" />
   <meta name="author" content="Bunrot" />
 
-  <meta property="og:title" content="かな漢タイピング｜静かに集中する長文タイピング練習" />
-  <meta property="og:description" content="哲学的・文学的・詩的な日本語長文で心を整えるタイピング体験を。" />
+  <meta property="og:title" content="かな漢タイピング｜静かに集中する変換あり長文タイピング練習" />
+  <meta property="og:description" content="文学的な日本語長文で心を整えるタイピング体験を。" />
   <meta property="og:image" content="https://yourdomain.com/og-image.jpg" /> <meta property="og:url" content="https://bunrot14.github.io/kana-kan-typing/" />
   <meta property="og:type" content="website" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="かな漢タイピング" />
-  <meta name="twitter:description" content="哲学的・文学的・詩的な日本語長文で心を整えるタイピング体験を。" />
+  <meta name="twitter:description" content="文学的な日本語長文で心を整えるタイピング体験を。" />
   <meta name="twitter:image" content="https://yourdomain.com/og-image.jpg" />
   <style>
     * {
@@ -441,7 +445,7 @@ html, body {
 <body>
   <header style="display: flex; flex-direction: column; align-items: center;">
     <p class="site-intro">
-      このサイトは静かに集中してタイピングの瞑想性を楽しむことと、漢字変換ありの実践的なタイピングスキルを向上させることを目的とした無償の学習サービスです。<br>
+      変換あり長文タイピング練習。毎日更新される文学的な創作文で静かな集中を。タイピングの瞑想性を引き出す実践的な無償の学習サービスです。<br>
       言葉のリズムと流れに身を任せ、指先で紡ぐ文章が心を穏やかにし、思考を深めていく。<br>
       ここではただ速さを追い求めるのではなく、ひとつひとつの文字に心を込めてタイピングを楽しんでください。
     </p>
@@ -616,71 +620,83 @@ function initializeSite() {
 
   if (archiveStructure.length > 0 && allEssays.length > 0) {
     const selectedProblemInfoString = localStorage.getItem('selectedTypingProblem');
-    let processedSelectedProblem = false; // バックナンバーから選択された問題が処理されたかどうかのフラグ
+    let processedSelectedProblem = false; // バックナンバー/特集から選択された問題が処理されたかどうかのフラグ
 
     if (selectedProblemInfoString) {
       try {
         const selectedProblemInfo = JSON.parse(selectedProblemInfoString);
-        // ★重要: 読み取ったらlocalStorageから削除します
-        localStorage.removeItem('selectedTypingProblem');
+        localStorage.removeItem('selectedTypingProblem'); // 読み取ったらすぐに削除（成功・失敗に関わらず）
 
-        // selectedProblemInfo に期待するデータがあるか確認
-        if (selectedProblemInfo && typeof selectedProblemInfo.date !== 'undefined' && typeof selectedProblemInfo.essayIndex !== 'undefined') {
-          console.log("バックナンバーページから渡された情報:", selectedProblemInfo);
+        console.log("localStorageから読み取った情報:", selectedProblemInfo);
 
-          // 1. 渡された日付 (selectedProblemInfo.date) に一致する問題セットを archiveStructure から探す
-          const problemSetIndex = archiveStructure.findIndex(entry => entry.date === selectedProblemInfo.date);
+        // 新しい形式 {setIndex, essayIndexInSet} かどうかをまず確認
+        if (selectedProblemInfo && typeof selectedProblemInfo.setIndex === 'number' && typeof selectedProblemInfo.essayIndexInSet === 'number') {
+          console.log("形式 {setIndex, essayIndexInSet} で処理します。");
+          const problemSetIndex = selectedProblemInfo.setIndex;
 
-          if (problemSetIndex !== -1) {
-            // 2. 該当する問題セットが見つかった場合
+          if (problemSetIndex >= 0 && problemSetIndex < archiveStructure.length) {
             const problemSet = archiveStructure[problemSetIndex];
+            const globalEssayIndex = problemSet.essayStartIndex + selectedProblemInfo.essayIndexInSet;
 
-            // 3. その問題セット内での問題インデックス (selectedProblemInfo.essayIndex) と、
-            //    問題セットの開始インデックス (problemSet.essayStartIndex) を使って、
-            //    allEssays 配列でのグローバルな問題インデックスを計算
-            const globalEssayIndex = problemSet.essayStartIndex + selectedProblemInfo.essayIndex;
-
-            // 4. 計算されたインデックスが有効範囲内か確認
             if (globalEssayIndex >= 0 && globalEssayIndex < allEssays.length &&
-                selectedProblemInfo.essayIndex >= 0 && selectedProblemInfo.essayIndex < problemSet.numProblems) {
-
-              console.log(`日付 ${selectedProblemInfo.date} の ${selectedProblemInfo.essayIndex + 1}番目の問題 (グローバルインデックス: ${globalEssayIndex}) を表示します。`);
-              // 5. ヘッダーの日付表示と問題ボタン群を更新するために setActiveProblemSet を呼び出す
-              setActiveProblemSet(problemSetIndex);
-              // 6. 特定の問題を表示するために setEssay を呼び出す
-              setEssay(globalEssayIndex);
-              processedSelectedProblem = true; // 処理成功フラグを立てる
+                selectedProblemInfo.essayIndexInSet >= 0 && selectedProblemInfo.essayIndexInSet < problemSet.numProblems) {
+                
+              console.log(`セット ${problemSetIndex} の ${selectedProblemInfo.essayIndexInSet + 1}番目の問題 (全体の通し番号: ${globalEssayIndex}) を表示します。`);
+              setActiveProblemSet(problemSetIndex); // まず問題セットをアクティブにする
+              setEssay(globalEssayIndex);         // 次に特定の問題を表示する
+              processedSelectedProblem = true;    // 処理が成功したことを記録
             } else {
-              console.warn("計算されたグローバルエッセイインデックスまたはセット内のインデックスが無効です。");
-              console.warn(`  Global Index: ${globalEssayIndex}, Max Allowed: ${allEssays.length - 1}`);
-              console.warn(`  Essay Index In Set: ${selectedProblemInfo.essayIndex}, Max Allowed in Set: ${problemSet.numProblems - 1}`);
+              console.warn("計算された問題インデックスが無効です (setIndexベース)。詳細:", 
+                           {globalEssayIndex, essaysLength: allEssays.length, essayIndexInSet: selectedProblemInfo.essayIndexInSet, setNumProblems: problemSet.numProblems});
             }
           } else {
-            console.warn("指定された日付の問題セットが見つかりませんでした:", selectedProblemInfo.date);
+            console.warn("指定された問題セットのインデックスが無効です (setIndexベース):", problemSetIndex);
+          }
+        } 
+        // フォールバックとして古い形式 {date, essayIndex} を処理 (この形式は同じ日付を区別できません)
+        else if (selectedProblemInfo && typeof selectedProblemInfo.date === 'string' && typeof selectedProblemInfo.essayIndex === 'number') {
+          console.warn("古い形式の情報 {date, essayIndex} で処理を試みます。同じ日付が複数ある場合、最初のセットが対象になります。");
+          const problemSetIndex = archiveStructure.findIndex(entry => entry.date === selectedProblemInfo.date); 
+
+          if (problemSetIndex !== -1) {
+            const problemSet = archiveStructure[problemSetIndex];
+            const globalEssayIndex = problemSet.essayStartIndex + selectedProblemInfo.essayIndex;
+
+            if (globalEssayIndex >= 0 && globalEssayIndex < allEssays.length &&
+                selectedProblemInfo.essayIndex >= 0 && selectedProblemInfo.essayIndex < problemSet.numProblems) {
+              console.log(`日付 ${selectedProblemInfo.date} の最初のセットの ${selectedProblemInfo.essayIndex + 1}番目の問題 (全体の通し番号: ${globalEssayIndex}) を表示します。`);
+              setActiveProblemSet(problemSetIndex);
+              setEssay(globalEssayIndex);
+              processedSelectedProblem = true;
+            } else {
+              console.warn("計算された問題インデックスが無効です (dateベース)。詳細:",
+                           {globalEssayIndex, essaysLength: allEssays.length, essayIndexInSet: selectedProblemInfo.essayIndex, setNumProblems: problemSet.numProblems});
+            }
+          } else {
+            console.warn("指定された日付の問題セットが見つかりませんでした (dateベース):", selectedProblemInfo.date);
           }
         } else {
-          console.warn("localStorageから読み取ったselectedTypingProblemの形式が正しくありません。", selectedProblemInfo);
+          console.warn("localStorageから読み取ったselectedTypingProblemの形式が期待するいずれの形式とも異なります。", selectedProblemInfo);
         }
       } catch (e) {
         console.error("localStorageのselectedTypingProblemの解析または処理中にエラーが発生しました:", e);
-        // localStorage.removeItem('selectedTypingProblem'); // エラー発生時も削除を試みる
+        // selectedProblemInfoString が存在していたがパース等でエラーになった場合も、
+        // removeItem は try の最初で実行済みなのでここでは不要
       }
     }
 
     // localStorageに情報がない場合、または処理できなかった場合は、デフォルトの問題を表示
     if (!processedSelectedProblem) {
-      console.log("バックナンバーからの選択情報がないか、処理に失敗したため、デフォルトの問題セットを表示します。");
-      // typing_data.json が新しい日付順（降順）に並んでいると仮定し、最初の問題セットを表示
-      // もし古い日付順（昇順）の場合は archiveStructure.length - 1 を指定
+      console.log("バックナンバー/特集からの選択情報がないか、処理に失敗したため、デフォルトの問題セットを表示します。");
       if (archiveStructure.length > 0) {
-        setActiveProblemSet(0); // JSONが新しい順なら0、古い順なら archiveStructure.length - 1
+        setActiveProblemSet(0); // JSONが新しい順（最新が0番目）と仮定
       }
     }
 
-    // バックナンバー表示を最新5件に絞る (これは現在のままでOK)
-    // ただし、JSONの日付順に依存します。新しいものが先頭(0番目)ならこれで良いです。
-    const recentArchives = archiveStructure.slice(0,3);
-    renderArchive(recentArchives);
+    // index.htmlに表示するバックナンバーの件数を設定 (例: 最新4件)
+    const recentArchivesToShowOnIndex = 4; 
+    const recentArchives = archiveStructure.slice(0, recentArchivesToShowOnIndex);
+    renderArchive(recentArchives); // index.html側のバックナンバーリスト表示関数
 
   } else {
     console.error("問題データが空か、正しく読み込めませんでした。サイトの初期化をスキップします。");
