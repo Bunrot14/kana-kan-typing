@@ -419,7 +419,25 @@ html, body {
 
 /* 既存の .problem-header, #problem-buttons, .usage-action-button のスタイルはそのまま活用 */
 
+ .donation-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap; /* 画面が狭いときは折り返す */
+    margin: 2em 0;
+  }
 
+  .donation-box {
+    flex: 1 1 300px;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .donation-box h4 {
+    margin-bottom: 1em;
+    font-size: 1rem;
+  }
 
 </style>
 
@@ -497,13 +515,13 @@ html, body {
             <li>
                 <button class="accordion-header">全文入力が完了したら</button>
                 <div class="accordion-panel">
-                    <p>問題文をすべて正しく入力すると、所要時間、入力文字数、WPM（1分間あたりの入力文字数）、ささやかな評価メッセージが表示されます。結果に一喜一憂するよりも、入力中の集中や、言葉との出会いをお楽しみください。「Q」キーで結果を閉じ、次の練習に進めます。</p>
+                    <p>問題文をすべて正しく入力すると、所要時間、入力文字数、WPM（1分間あたりの入力文字数）、ささやかな評価メッセージが表示されます。結果に一喜一憂するよりも、入力中の集中や言葉との出会いをお楽しみください。「Q」キーで結果を閉じ、次の練習に進めます。</p>
                 </div>
             </li>
              <li>
-                <button class="accordion-header">寄付について（今後実装予定）</button>
+                <button class="accordion-header">寄付について（ページの下部から）</button>
                 <div class="accordion-panel">
-                    <p>もし、このサイトの活動に共感していただける方がいらっしゃいましたら、寄付を通じて支援していただけると大変ありがたいです。ご寄付は、サイトの運営費や今後のコンテンツ作成に活用させていただきます。</p>
+                    <p>もし、このサイトの活動に共感していただける方がいらっしゃいましたら、ページの下部から寄付を通じて支援していただけると大変ありがたいです。ご寄付はサイトの運営費や今後のコンテンツ作成に活用させていただきます。</p>
                 </div>
             </li>
         </ul>
@@ -543,18 +561,51 @@ html, body {
     </p>
     <p style="margin: 0;">&copy; 2025 Bunrot's Typing Site. All Rights Reserved.</p>
     <p style="margin: 0;">運営者：Bunrot</p>
+
+<h3 style="text-align: left; font-size: 1.8em; padding-left: 2.5em;">
+  ご支援のかたちをお選びいただけます
+  <span style="font-size: 0.6em;">（この小さなサイトを気に入ってくださったら、そっとご支援いただけると幸いです。）</span>
+</h3>
+
+<div class="donation-container">
+  <!-- OFUSE -->
+  <div class="donation-box">
+    <h4>🟢 OFUSE：言葉と気持ちを届ける</h4>
+    <p>クレジットカードもご利用いただけます。<br>下のボタンを押し「ファンレターを送る」を選択します。<br>（ 「ゲストとして送信する」と、アカウントがなくても送信できます。）</p>
+    <a data-ofuse-widget-button
+       href="https://ofuse.me/o?uid=98141"
+       data-ofuse-id="98141"
+       data-ofuse-size="large"
+       data-ofuse-color="blue-invert"
+       data-ofuse-text="OFUSEでのご寄付">OFUSEでのご寄付</a>
+    <script async src="https://ofuse.me/assets/platform/widget.js" charset="utf-8"></script>
+  </div>
+
+  <!-- PayPal -->
+  <div class="donation-box">
+    <h4>🟢 PayPal：自由な額で静かに支援する</h4>
+    <div id="paypal-container-5ZSTK6FHNDKH4"></div>
+<script>
+  paypal.HostedButtons({
+    hostedButtonId: "5ZSTK6FHNDKH4",
+  }).render("#paypal-container-5ZSTK6FHNDKH4")
+</script>
+  </div>
+</div>
+</div>
+
   </footer>
   
   
 
-  <script>
-  
-  const display = document.getElementById("display");
-  const typingArea = document.getElementById("typingArea");
-  const popup = document.getElementById("popup");
-  const popupList = document.getElementById("popupList");
-  const problemHeaderDate = document.getElementById("problem-header-date");
-  const problemButtonsContainer = document.getElementById("problem-buttons");
+    <script>
+    
+    const display = document.getElementById("display");
+    const typingArea = document.getElementById("typingArea");
+    const popup = document.getElementById("popup");
+    const popupList = document.getElementById("popupList");
+    const problemHeaderDate = document.getElementById("problem-header-date");
+    const problemButtonsContainer = document.getElementById("problem-buttons");
 
   let allEssays = []; // 全ての問題文テキストを格納する配列
   let archiveStructure = []; // 新しいバックナンバー情報の構造を格納する配列
