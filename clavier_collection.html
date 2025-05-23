@@ -14,16 +14,46 @@
     <link rel="manifest" href="site.webmanifest" />
 
     <style>
-        body {
-            font-family: "Yu Gothic", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-            background-color: #f5f5f5; /* ページ全体の背景を少しだけグレーに */
-            color: #333;
-            margin: 0;
-            padding: 20px; /* bodyに少しパディングを持たせる */
-            line-height: 1.8;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+       body {
+    font-family: "Yu Gothic", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    background-color: #f5f5f5; 
+    color: #333;
+    margin: 0;
+    /* padding: 20px; を削除または調整 */
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.page-layout { /* ★新しいラッパー用のスタイル */
+    display: flex;
+    align-items: flex-start; /* 目次とコンテンツを上端揃え */
+    max-width: 1050px;  /* 目次幅(220px) + 隙間(25px) + コンテナ幅(720px) + α の合計幅 */
+    margin: 20px auto;  /* ページ全体を中央寄せ */
+    padding: 0 20px;    /* 画面端の余白 */
+    box-sizing: border-box;
+}
+
+.table-of-contents { /* 目次エリアのスタイル */
+    width: 220px; 
+    flex-shrink: 0; 
+    position: sticky; 
+    top: 20px;      /* 画面上部からの固定位置 (ヘッダーがないページなので小さめでもOK) */
+    max-height: calc(100vh - 40px); /* 上下のマージンを考慮した高さ */
+    overflow-y: auto; 
+    padding: 15px;
+    background-color: #f9f9f9; /* 目次の背景色 */
+    border-radius: 6px;
+    font-size: 0.9em;
+    margin-right: 25px; /* ★メインコンテンツとの間の隙間 (gapの代わり) */
+}
+
+.container.page-with-toc { /* メインコンテンツの白いブロック */
+    flex-grow: 1; /* 残りのスペースを全て使う */
+    /* max-width: 720px; は維持 */
+    margin: 0; /* page-layout が中央寄せするので、ここは0に */
+    /* padding: 2rem; は維持 */
+    /* background-color: #fff; などは維持 */
+}
 
         .container { /* 利用規約ページの .container スタイルをベースに調整 */
             max-width: 720px;
@@ -167,60 +197,169 @@
             margin: 2rem 0;
         }
 
+        /* clavier_collection.html の <style> タグ内に追加・修正 */
+
+/* ... 既存の body, .container, header.page-header などのスタイルはそのまま ... */
+
+/*.page-with-toc .container { /* 必要であればコンテナのpaddingなどを調整 */
+    /* max-width はそのままで良いか、少し広げるか検討 */*/
+
+.table-of-contents { /* 目次エリアのスタイル */
+    width: 220px; /* 目次の幅（お好みで調整） */
+    flex-shrink: 0; /* 目次の幅が縮まないようにする */
+    position: sticky; /* スクロールに追従（ある位置で固定） */
+    top: 80px;      /* 画面の上からどの位置で固定し始めるか (ヘッダーの高さなどを考慮) */
+    max-height: calc(100vh - 100px); /* 目次の最大高さを画面の高さから少し引いた値に */
+    overflow-y: auto; /* 目次が長くなった場合にスクロールできるように */
+    padding: 15px;
+    background-color: #f9f9f9; /* 目次の背景色（任意） */
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+.table-of-contents h2 { /* 目次の「目次」という見出し */
+    font-size: 1.2em;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
+
+.table-of-contents ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.table-of-contents li a {
+    display: block;
+    padding: 6px 0;
+    color: #007acc;
+    text-decoration: none;
+    border-bottom: 1px dotted #eee;
+    transition: background-color 0.2s;
+}
+.table-of-contents li:last-child a {
+    border-bottom: none;
+}
+
+.table-of-contents li a:hover {
+    background-color: #e9ecef;
+    color: #005fa3;
+}
+.table-of-contents li a.active { /* 現在地を示すスタイル (任意) */
+    font-weight: bold;
+    color: #005fa3;
+}
+
+
+.main-content-for-toc { /* メインコンテンツエリアのスタイル */
+    flex-grow: 1; /* 残りの幅を全て使う */
+    min-width: 0; /* flexアイテムが正しく縮小できるように */
+}
+
+/* .story-entry, .story-title などのスタイルは既存のものを活用 */
+/* 必要であれば、目次と連動させるために .story-entry に scroll-margin-top を設定 */
+.story-entry {
+    scroll-margin-top: 40px; /* top: 20px + α のマージンを考慮 */
+}
+
+/* ... 既存の .nav-links, footer などのスタイルはそのまま ... */
+
     </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-        <h1>クラヴィエの寓話集</h1>
-        <p class="subtitle">── 鍵を持つ風が紡ぐ、ささやかな奇跡 ──</p>
-    </header>
+   <div class="page-layout"> <nav id="toc-nav" class="table-of-contents">
+            <h2>目次</h2>
+            <ul id="toc-list">
+                </ul>
+        </nav>
 
-<div id="featured-clavier-stories" class="featured-stories-container">
-        </div>
-    <hr class="section-divider"> <main id="clavier-stories-list">
-        </main>
+        <div class="container page-with-toc"> <header class="page-header">
+                <h1>クラヴィエの寓話集</h1>
+                <p class="subtitle">── 鍵を持つ風が紡ぐ、ささやかな奇跡 ──</p>
+            </header>
 
-    <main id="clavier-stories-list">
-        </main>
+            <div id="featured-clavier-stories" class="featured-stories-container">
+                </div>
+            <hr class="section-divider"> 
+            <main id="clavier-stories-list" class="main-content-for-toc">
+                </main>
 
-    <nav class="nav-links">
-        <a href="index.html">タイピング練習に戻る</a>
-        <a href="archive.html">すべてのバックナンバー</a>
-    </nav>
-    
-    </div>
+            <nav class="nav-links">
+                <a href="index.html">タイピング練習に戻る</a>
+                <a href="archive.html">すべてのバックナンバー</a>
+            </nav>
+</div> </div>
+
+
+<footer style="position: static; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 1px; background: #f5f5f5; margin-top: 2rem;">
+    <p style="margin: 0;">
+      <a href="meditation_typing.html" style="color: #007acc; text-decoration: none;">瞑想的タイピングのすすめ</a> |
+      <a href="philosophy.html" style="color: #007acc; text-decoration: none;">問題文に込めた想い</a>
+      <br>
+      練習用テキストはすべてフィクションであり、特定の思想、団体、個人を揶揄・批判する意図はありません。
+      <br>
+      <a href="terms.html" style="color: #007acc; text-decoration: none;">利用規約</a> |
+      <a href="privacy.html" style="color: #007acc; text-decoration: none;">プライバシーポリシー</a> |
+      <a href="contact.html" style="color: #0f8de1; text-decoration: none;">お問い合わせ</a>
+    </p>
+    <p style="margin: 0;">&copy; 2025 Bunrot's Typing Site. All Rights Reserved.</p>
+    <p style="margin: 0;">運営者：Bunrot</p>
+  </footer>
 
   <script>
-    // clavier_collection.html の <script> タグ内の既存コードを以下のように修正・追加
+ // clavier_collection.html の <script> タグ内に記述する内容
 
 document.addEventListener('DOMContentLoaded', function() {
-    const featuredStoriesContainer = document.getElementById('featured-clavier-stories'); // 追加
+    // HTML要素を取得
+    const featuredStoriesContainer = document.getElementById('featured-clavier-stories');
     const clavierStoriesListContainer = document.getElementById('clavier-stories-list');
+    const tocListContainer = document.getElementById('toc-list');
+
+    // typing_data.json から読み込んだ全データを保持するための配列
     let allSiteData = []; 
 
-    async function loadAndDisplayClavierStories() {
-      if (!clavierStoriesListContainer || !featuredStoriesContainer) { // featuredも確認
-        console.error('必要なHTML要素が見つかりません。処理を中断します。');
+    /**
+     * typing_data.jsonを読み込み、特集ストーリー、クラヴィエ関連ストーリー、目次を表示するメイン関数
+     */
+    async function loadAndProcessStories() {
+      // 主要なコンテナ要素のいずれかが存在するか確認
+      if (!clavierStoriesListContainer && !featuredStoriesContainer && !tocListContainer) {
+        console.error('表示に必要なHTML要素(コンテンツリスト、特集、または目次)が見つかりません。処理を中断します。');
         return;
       }
+
       try {
+        // JSONデータをフェッチ
         const response = await fetch('typing_data.json');
         if (!response.ok) {
           throw new Error(`JSONファイルの読み込みに失敗しました。ステータス: ${response.status}`);
         }
-        allSiteData = await response.json(); 
+        allSiteData = await response.json(); // JSONをパースして変数に格納
+
+        // JSONデータが期待する形式（配列）であるか確認
         if (!Array.isArray(allSiteData)) {
-          throw new Error("読み込まれたJSONデータの形式が正しくありません。");
+          throw new Error("読み込まれたJSONデータの形式が正しくありません。ルートは配列であるべきです。");
         }
-        
-        renderFeaturedStories(); // ★ 特集表示関数を呼び出し
-        renderClavierStories();  // 通常リスト表示関数を呼び出し
+
+        // 特集ストーリーを描画 (対応するHTML要素があれば)
+        if (featuredStoriesContainer) {
+            renderFeaturedStories();
+        }
+        // クラヴィエ関連の通常ストーリーリストと目次を描画 (対応するHTML要素があれば)
+        if (clavierStoriesListContainer && tocListContainer) {
+            renderClavierStoriesAndToc();
+        }
 
       } catch (error) {
-        console.error("データ処理中にエラー:", error);
-        clavierStoriesListContainer.innerHTML = `<p style="color: red; text-align:center;">データの読み込みエラー: ${error.message}</p>`;
-        featuredStoriesContainer.innerHTML = ''; // 特集エリアもクリア
+        console.error("データ処理中にエラーが発生しました:", error);
+        // エラーメッセージを適切な場所に表示
+        const errorMessage = `<p style="color: red; text-align:center;">データの読み込み中にエラーが発生しました。<br>お手数ですが、時間をおいて再度お試しください。<br><small>エラー詳細: ${error.message}</small></p>`;
+        if (clavierStoriesListContainer) clavierStoriesListContainer.innerHTML = errorMessage;
+        if (featuredStoriesContainer) featuredStoriesContainer.innerHTML = ""; // 特集エリアもクリア
+        if (tocListContainer) tocListContainer.innerHTML = '<li>目次を生成できませんでした</li>';
       }
     }
 
@@ -228,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
      * 指定されたタイトル「鍵を持つ風」と「Clavier」を特集表示する関数
      */
     function renderFeaturedStories() {
-      const featuredTitles = ["鍵を持つ風", "Clavier"];
+      const featuredTitles = ["鍵を持つ風", "Clavier"]; // 特集したい物語の正確なタイトル
       let featuredHtmlContent = '';
       let foundStoriesCount = 0;
 
@@ -237,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function() {
           dailyEntry.essays.forEach((essay, indexInSet) => {
             if (featuredTitles.includes(essay.title)) {
               foundStoriesCount++;
-              const story = { // renderClavierStories と同じようなstoryオブジェクトを作成
+              const story = { 
                 title: essay.title || "タイトルなし",
                 text: essay.text || "",
                 date: dailyEntry.date,
@@ -252,7 +391,7 @@ document.addEventListener('DOMContentLoaded', function() {
               const day = dateObj.getDate().toString().padStart(2, '0');
               const displayDate = `${year}年${month}月${day}日 ${story.sessionName}`.trim();
               
-              const excerptLength = 120; // 特集なので少し長めに抜粋
+              const excerptLength = 120; 
               const excerpt = story.text.substring(0, excerptLength).replace(/\n/g, ' ') + (story.text.length > excerptLength ? '...' : '');
 
               featuredHtmlContent += `
@@ -271,21 +410,19 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       
       if (foundStoriesCount > 0) {
-          featuredStoriesContainer.innerHTML = `<h2>クラヴィエとは？</h2>` + featuredHtmlContent;
+          featuredStoriesContainer.innerHTML = `<h2>クラヴィエとは？ - 代表的な物語</h2>` + featuredHtmlContent;
       } else {
-          featuredStoriesContainer.innerHTML = ''; // 見つからなければ何も表示しない
+          featuredStoriesContainer.innerHTML = ''; // 見つからなければ何も表示しないか、代替メッセージ
       }
-      // 特集表示されたリンクにもイベントリスナーを設定する必要がある
-      // addClavierStoryLinkListeners は #clavier-stories-list を対象にしているので、
-      // こちらは別途設定するか、addClavierStoryLinkListeners を汎用的にする
-      addLinkListenersToContainer(featuredStoriesContainer); // ★ 新しい関数呼び出し
+      addLinkListenersToContainer(featuredStoriesContainer); // 特集表示内のリンクにもイベントリスナーを設定
     }
 
     /**
-     * 通常のクラヴィエ物語リストを描画する関数
+     * 抽出されたクラヴィエ関連のストーリーをメインコンテンツと目次に描画する関数
      */
-    function renderClavierStories() {
+    function renderClavierStoriesAndToc() {
       const clavierEssays = []; 
+
       allSiteData.forEach((dailyEntry, setIndex) => {
         if (dailyEntry.essays && Array.isArray(dailyEntry.essays)) {
           dailyEntry.essays.forEach((essay, indexInSet) => {
@@ -296,32 +433,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 date: dailyEntry.date, 
                 sessionName: dailyEntry.sessionName || "", 
                 setIndex: setIndex, 
-                indexInSet: indexInSet  
+                indexInSet: indexInSet,
+                uniqueId: `story-${setIndex}-${indexInSet}` // 各物語にユニークなIDを生成
               });
             }
           });
         }
       });
 
-      if (!clavierStoriesListContainer) return; // 念のため
-
       if (clavierEssays.length === 0) {
         clavierStoriesListContainer.innerHTML = '<p style="text-align:center;">現在、クラヴィエが登場する物語は見つかりませんでした。</p>';
+        tocListContainer.innerHTML = '<li>該当する物語はありません</li>';
         return;
       }
 
-      let htmlContent = '<h2>すべてのクラヴィエの物語</h2>'; // 通常リストの前に見出しを追加
+      let mainHtmlContent = '';
+      let tocHtmlContent = '';
+
+      // 通常リストの見出し (特集表示がない、または特集表示に見出しがない場合に追加)
+      let mainListTitle = '<h2>すべてのクラヴィエの物語</h2>';
+      if (featuredStoriesContainer && featuredStoriesContainer.querySelector('h2')) {
+          mainListTitle = ''; // 特集セクションが既に見出しを持っていれば、通常リストの見出しは不要にするか調整
+      }
+      mainHtmlContent += mainListTitle;
+
+
       clavierEssays.forEach(story => {
         const dateObj = new Date(story.date);
         const year = dateObj.getFullYear();
         const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
         const day = dateObj.getDate().toString().padStart(2, '0');
         const displayDate = `${year}年${month}月${day}日 ${story.sessionName}`.trim();
+        
         const excerptLength = 80; 
         const excerpt = story.text.substring(0, excerptLength).replace(/\n/g, ' ') + (story.text.length > excerptLength ? '...' : '');
 
-        htmlContent += `
-          <div class="story-entry">
+        // メインコンテンツのHTML
+        mainHtmlContent += `
+          <div class="story-entry" id="${story.uniqueId}">
             <h3 class="story-title">${story.title}</h3>
             <p class="story-date">初出: ${displayDate}</p>
             <p class="story-excerpt">${excerpt}</p>
@@ -330,20 +479,26 @@ document.addEventListener('DOMContentLoaded', function() {
                data-essay-index-in-set="${story.indexInSet}">この物語でタイピング練習</a>
           </div>
         `;
+        
+        // 目次のHTML (タイトルのみ)
+        tocHtmlContent += `<li><a href="#${story.uniqueId}">${story.title}</a></li>`;
       });
-      clavierStoriesListContainer.innerHTML = htmlContent;
-      addLinkListenersToContainer(clavierStoriesListContainer); // ★ 関数名を変更して汎用化
+
+      clavierStoriesListContainer.innerHTML = mainHtmlContent;
+      tocListContainer.innerHTML = tocHtmlContent;
+
+      addLinkListenersToContainer(clavierStoriesListContainer); // メインコンテンツの練習リンク
+      addTocLinkSmoothScroll(); // 目次リンクにスムーズスクロールを追加
     }
 
     /**
      * 指定されたコンテナ内の練習リンクにイベントリスナーを設定する汎用関数
      */
-    function addLinkListenersToContainer(containerElement) { // ★ 引数を取るように変更
+    function addLinkListenersToContainer(containerElement) {
       if (!containerElement) return;
       const links = containerElement.querySelectorAll('.practice-link');
       links.forEach(link => {
-        // 既にリスナーが設定されていないか確認 (二重設定を防ぐ簡単な方法)
-        if (link.dataset.listenerAttached) return;
+        if (link.dataset.listenerAttached) return; // 二重登録防止
 
         link.addEventListener('click', function(event) {
           event.preventDefault(); 
@@ -356,12 +511,42 @@ document.addEventListener('DOMContentLoaded', function() {
           localStorage.setItem('selectedTypingProblem', JSON.stringify(problemInfo));
           window.location.href = this.href; 
         });
-        link.dataset.listenerAttached = 'true'; // リスナーを設定した目印
+        link.dataset.listenerAttached = 'true';
       });
     }
 
-    loadAndDisplayClavierStories();
+    /**
+     * 目次の各リンクにスムーズスクロール機能を追加する関数
+     */
+    function addTocLinkSmoothScroll() {
+      if (!tocListContainer) return;
+      const tocLinks = tocListContainer.querySelectorAll('a');
+      tocLinks.forEach(link => {
+        if (link.dataset.scrollListenerAttached) return; // 二重登録防止
+
+        link.addEventListener('click', function(event) {
+          event.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // (任意) クリックされた目次リンクをアクティブにする
+            tocLinks.forEach(tl => tl.classList.remove('active'));
+            this.classList.add('active');
+          }
+        });
+        link.dataset.scrollListenerAttached = 'true';
+      });
+    }
+
+    // ページの読み込みが完了したら、メインの処理を開始
+    loadAndProcessStories();
 });
   </script>
+
+
+
+
 </body>
 </html>
