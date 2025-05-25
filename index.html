@@ -221,16 +221,24 @@ html, body {
 
 /* 「使い方」ボタンと「閉じる」ボタンの共通スタイル */
 .usage-action-button {
-    padding: 0.5rem 1rem; /* 既存の問題選択ボタンのpaddingに合わせるか調整 */
-    background: #ccc;    /* 既存のスタイルに合わせる */
-    border: none;
-    cursor: pointer;
+    padding: 0.6em 1.2em; /* 少し余白を増やして存在感を出す */
+    background: #ffffff;   /* 背景 */
+    color: #2980b9;       /* 文字色 */
+    border: 1px solid #2980b9; /* 枠線 */
     border-radius: 5px;
-    font-size: 0.8em;    /* 既存のスタイルに合わせる */
-    transition: background-color 0.2s; /* ホバーエフェクト用 */
+    cursor: pointer;
+    font-size: 0.85em;      /* 少しだけフォントサイズを上げる */
+    font-weight: 600;       /* 文字を少し太くして視認性アップ */
+    transition: background-color 0.2s ease-out, color 0.2s ease-out, transform 0.1s ease-out, box-shadow 0.2s ease-out;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* ごく控えめな影で立体感を */
 }
+
 .usage-action-button:hover {
-    background: #aaa;    /* 既存のスタイルに合わせる */
+    background: #005a99;   /* ホバーで背景色と文字色を反転 */
+    color: #fff;
+    border-color: #004c80; /* ホバー時の枠線を少し濃く */
+    transform: translateY(-1px); /* わずかに浮き上がる効果 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* 説明文表示エリアのスタイル */
@@ -491,25 +499,25 @@ html, body {
             <li>
                 <button class="accordion-header">サイトの目的</button>
                 <div class="accordion-panel">
-                    <p>本サイトはタイピングを静かに心を澄ませるための行為として捉えることを目指しています。速さを追い求めるのではなく、ひとつひとつの文字に意識を向け、文章の流れに身を委ねる。打ち終えたあとに得られる静かに醒めた満足──それがこのサイトの核心です。<br>詳しくは<a href="meditation_typing.html" class="text-link">「瞑想的タイピングのすすめ」</a>をご覧ください。</p>
+                    <p>本サイトはタイピングを静かに心を澄ませるための行為として捉えることを目指しています。速さを追い求めるのではなく、ひとつひとつの文字に意識を向け、文章の流れに身を委ねる。打ち終えたあとに得られる静かに醒めた満足──それがこのサイトの核心です。<br>詳しくは<a href="meditation_typing.html" class="text-link">瞑想的タイピングのすすめ</a>をご覧ください。</p>
                 </div>
             </li>
             <li>
                 <button class="accordion-header">問題文の特徴</button>
                 <div class="accordion-panel">
-                    <p>毎日更新している問題文は、単なる練習素材ではなく、小さな読書体験となるよう目指しています。そこにはちょっと立ち止まって考えたくなる問い、ほほえましいユーモア、そして詩のような静かな力があります。タイピングしながら読むことの喜びを味わい心を耕す──そんな豊かな時間のため、一つ一つの文章に心を込めています。<br>詳しくは<a href="philosophy.html" class="text-link">「問題文に込めた想い」</a>をご覧ください。</p>
+                    <p>毎日更新している問題文は、単なる練習素材ではなく、小さな読書体験となるよう目指しています。タイピングしながら読むことの喜びを味わい心を耕す──そんな豊かな時間のため、一つ一つの文章に心を込めています。</p>
                 </div>
             </li>
             <li>
                 <button class="accordion-header">クラヴィエとは</button>
                 <div class="accordion-panel">
-                    <p>「クラヴィエ（Clavier）」は、このサイトに時折現れる「鍵を持つ風」の名です。彼は気まぐれに様々な扉を開き、思いがけない発見や大切な気づきをもたらしてくれるかもしれません。<br><a href="clavier_collection.html" class="text-link">「クラヴィエの寓話集」</a>では、彼が登場する物語を集めています。<br><a href="philosophy.html" class="text-link">「問題文に込めた想い」</a>にもクラヴィエについて記載があります。</p>
+                    <p>「クラヴィエ（Clavier）」は、このサイトに時折現れる「鍵を持つ風」の名です。彼は気まぐれに様々な扉を開き、思いがけない発見や大切な気づきをもたらしてくれるかもしれません。<br><a href="clavier_collection.html" class="text-link">「クラヴィエの寓話集」</a>では、彼が登場する物語を集めています。<br><a href="philosophy.html" class="text-link">問題文に込めた想い</a>にもクラヴィエについて記載があります。</p>
                 </div>
             </li>
             <li>
-                <button class="accordion-header">バックナンバー機能について</button>
+                <button class="accordion-header">問題文の詳細な解説もあります</button>
                 <div class="accordion-panel">
-                    <p>過去に登場した問題文はバックナンバーとして保存されています。メインページ下部には最新の数日分が、<a href="archive.html" class="text-link">「すべてのバックナンバーはこちら」</a>からは全履歴が確認でき、いつでも好きな問題に再挑戦できます。</p>
+                    <p>タイピングで通り過ぎた一文に、もう一度立ち止まってみませんか？<br>以下のページでは、各問題文に込めた思考の道筋や、言葉の背景を丁寧にひもといた解説を収録しています。詩のように打ち込んだあの一文が、どんな問いから生まれたのか。笑いの裏にある真剣さや、言葉遊びに託された願いをもう一歩ふかく味わってみたいときに──ぜひ、お立ち寄りください。<br><a href="Criticism_index.html" class="text-link">問題文の裏庭を歩く（解説アーカイブ）</a></p>
                 </div>
             </li>            
             <li>
@@ -539,7 +547,8 @@ html, body {
     </div>
   <div style="margin-top: 1rem; text-align: left;">
     <a href="clavier_collection.html" style="color: #007acc; text-decoration: none;">クラヴィエの寓話集</a>
-    <span style="margin: 0 0.5em; color: #555;">｜</span> <a href="archive.html" style="color: #007acc; text-decoration: none;">すべてのバックナンバーはこちら</a>
+    <span style="margin: 0 0.5em; color: #555;">｜</span> <a href="archive.html" style="color: #007acc; text-decoration: none;">すべてのバックナンバー</a>
+    <span style="margin: 0 0.5em; color: #555;">｜</span> <a href="Criticism_index.html" style="color: #007acc; text-decoration: none;">問題文の裏庭を歩く（解説アーカイブ）</a>
   </div>
 </section>
 

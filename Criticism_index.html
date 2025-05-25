@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>問題文の解説 | かな漢タイピング</title>
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <style>
+        /* ここに共通スタイルと、カード型/リスト型それぞれのスタイルを記述します */
+        body {
+            font-family: 'Yu Gothic', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+        }
+        .page-container { /* ページ全体のコンテナ */
+            max-width: 960px; /* カード型を考慮して少し広めに */
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .page-header h1 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+        .page-header .subtitle {
+            color: #7f8c8d;
+            margin-top: 0;
+            font-size: 1.2em;
+            font-weight: 300;
+        }
+        .article-item-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #34495e;
+            margin-top: 0;
+            margin-bottom: 0.5em;
+        }
+        .article-item-title a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .article-item-title a:hover {
+            color: #007acc;
+        }
+        .article-item-excerpt {
+            font-size: 0.95em;
+            color: #555;
+            margin-bottom: 1em;
+            /* 複数行の末尾を「...」にするためのCSS (必要なら) */
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* 表示する行数 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .article-item-meta {
+            font-size: 0.85em;
+            color: #777;
+        }
+        .article-item-meta .date {
+            margin-right: 1em;
+        }
+        .article-item-meta .tags a {
+            color: #007acc;
+            text-decoration: none;
+            margin-right: 0.5em;
+        }
+        .article-item-meta .tags a:hover {
+            text-decoration: underline;
+        }
+        .read-more-link {
+            display: inline-block;
+            margin-top: 0.8em;
+            color: #007acc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ナビゲーションリンクのスタイル (既存のもの) */
+        .nav-links {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+        .nav-links a {
+            color: #007acc;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .nav-links a:hover {
+            background-color: #007acc;
+            color: #fff;
+            text-decoration: none;
+        }
+
+/* カード型レイアウト用スタイル */
+#readings-list-container.card-layout {
+    display: grid; /* ★これが重要：グリッドレイアウトを有効にする */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* ★これが重要：画面幅に応じて列数を自動調整 */
+    gap: 25px; /* カード間の隙間 */
+    justify-content: center; /* アイテム群全体を中央寄せ（トラックがコンテナ幅に満たない場合）*/
+}
+
+.article-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    max-width: 350px; /* カード1枚の最大幅（お好みで調整） */
+    /* width: 100%; */ /* グリッドアイテムは通常自動で幅が調整されるので、必須ではないことが多い */
+}
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.article-card .article-item-excerpt {
+    flex-grow: 1; /* 抜粋部分がカードの高さを埋めるように */
+    -webkit-line-clamp: 4; /* カード用に表示行数を調整 */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="page-header">
+            <h1>問題文の裏庭を歩く</h1>
+            <p class="subtitle">── 静かな読解の小径 ──</p>
+        </header>
+
+        <main id="readings-list-container">
+            </main>
+
+        <nav class="nav-links">
+            <a href="index.html">タイピング練習に戻る</a>
+            <a href="archive.html">すべてのバックナンバー</a>
+        </nav>
+    </div>
+
+ <script>
+        // displayReadingsAsCards 関数 (カード型レイアウト用)
+        function displayReadingsAsCards(readings) { // ★関数名をこちらに変更（またはこちらを有効化）
+            const container = document.getElementById('readings-list-container');
+            if (!container) {
+                console.error("ID 'readings-list-container' のHTML要素が見つかりません。");
+                return;
+            }
+            container.innerHTML = ''; // コンテナをクリア
+            container.className = 'card-layout'; // ★CSSクラスを 'card-layout' に設定
+        
+            if (!readings || readings.length === 0) {
+                container.innerHTML = '<p>表示する記事がありません。</p>';
+                return;
+            }
+        
+            readings.forEach(reading => {
+                const card = document.createElement('article');
+                card.className = 'article-card'; // CSSクラス名を 'article-card' に
+        
+                let tagsHtml = '';
+                if (reading.tags && Array.isArray(reading.tags) && reading.tags.length > 0) {
+                    tagsHtml = reading.tags.map(tag => `<a href="#">#${tag}</a>`).join(' ');
+                }
+        
+                card.innerHTML = `
+                    <h2 class="article-item-title"><a href="${reading.link}">${reading.title}</a></h2>
+                    <div class="article-item-meta">
+                        <span class="date">${reading.date}</span>
+                        ${tagsHtml ? `<span class="tags">${tagsHtml}</span>` : ''}
+                    </div>
+                    <p class="article-item-excerpt">${reading.excerpt}</p>
+                    <a href="${reading.link}" class="read-more-link">続きを読む &rarr;</a>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // JSON読み込み処理 (ここは変更なし)
+        async function loadAndDisplayReadings() {
+            try {
+                const response = await fetch('readings_data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const readingsData = await response.json();
+                
+                const formattedReadingsData = readingsData.map(reading => {
+                    try {
+                        const dateObj = new Date(reading.date);
+                        const year = dateObj.getFullYear();
+                        const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+                        const day = dateObj.getDate().toString().padStart(2, '0');
+                        return {
+                            ...reading,
+                            date: `${year}年${month}月${day}日`
+                        };
+                    } catch (e) {
+                        console.warn(`日付のフォーマットに失敗しました: ${reading.date}`, e);
+                        return reading;
+                    }
+                });
+                
+                // ↓↓↓ 呼び出す関数をカード型用に変更 ↓↓↓
+                displayReadingsAsCards(formattedReadingsData); 
+                // ↑↑↑ displayReadingsAsList から displayReadingsAsCards に変更
+
+            } catch (error) {
+                console.error("読みほぐし記事データの読み込みに失敗しました:", error);
+                const container = document.getElementById('readings-list-container');
+                if (container) {
+                    container.innerHTML = "<p>記事一覧の読み込みに失敗しました。サーバーが起動しているか、ファイルパスが正しいか確認してください。</p>";
+                }
+            }
+        }
+
+        // ページ読み込み完了時に関数を実行
+        document.addEventListener('DOMContentLoaded', loadAndDisplayReadings);
+
+    </script>
+</body>
+</html>
