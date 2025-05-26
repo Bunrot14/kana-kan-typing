@@ -1,133 +1,171 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-84N6PLRMJY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-84N6PLRMJY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  gtag('config', 'G-84N6PLRMJY');
-</script>
+      gtag('config', 'G-84N6PLRMJY');
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>お問い合わせ｜かな漢タイピング</title>
-    <meta name="description" content="かな漢タイピングに関するご意見やご質問など、お気軽にお問い合わせください。" />
-  
-    <meta property="og:title" content="お問い合わせ｜かな漢タイピング" />
-    <meta property="og:description" content="かな漢タイピングへのご連絡はこちらからどうぞ。" />
+    <title>お問い合わせ・応援メッセージ｜かな漢タイピング</title>
+    <meta name="description" content="かな漢タイピングに関するご意見、ご感想、不具合のご報告、機能改善のご提案、応援メッセージなど、お気軽にお寄せください。" />
+    <meta name="robots" content="noindex, follow" /> <meta property="og:title" content="お問い合わせ・応援メッセージ｜かな漢タイピング" />
+    <meta property="og:description" content="かな漢タイピングへのご連絡、応援メッセージはこちらからどうぞ。" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://bunrot14.github.io/kana-kan-typing/contact.html" />
-  
+
     <meta name="twitter:card" content="summary" />
-  <style>
-    body {
-      font-family: 'Yu Gothic', sans-serif;
-      background: #fdfdfd;
-      color: #333;
-      padding: 2rem;
-      line-height: 1.8;
-      max-width: 600px;
-      margin: auto;
-    }
+    <style>
+        body {
+            font-family: 'Yu Gothic', sans-serif;
+            background: #fdfdfd;
+            color: #333;
+            padding: 2rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: auto;
+        }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8em; /* 少し調整 */
+            color: #2c3e50; /* 他のページと統一感を */
+        }
 
-    form {
-      display: flex;
-      flex-direction: column;
-    }
+        .contact-intro p { /* ★導入文用のスタイル */
+            margin: 0.8em 0;
+            font-size: 0.95em;
+        }
 
-    label {
-      margin-top: 1rem;
-      font-weight: bold;
-    }
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 1.5rem; /* ★フォームと導入文の間に少しマージン */
+        }
 
-    input, textarea {
-      padding: 0.6rem;
-      font-size: 1rem;
-      margin-top: 0.3rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-family: inherit;
-    }
+        label {
+            margin-top: 1rem;
+            font-weight: bold;
+            font-size: 0.9em; /* 少し調整 */
+        }
 
-    button {
-      margin-top: 1.5rem;
-      padding: 0.7rem;
-      font-size: 1rem;
-      background-color: #007acc;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            padding: 0.7rem; /* 少しパディング調整 */
+            font-size: 1rem;
+            margin-top: 0.4rem; /* 少し調整 */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: inherit;
+            width: 100%; /* 幅を親要素に合わせる */
+            box-sizing: border-box; /* paddingとborderをwidthに含める */
+        }
 
-    .back-link {
-      display: block;
-      margin-top: 2rem;
-      text-align: center;
-    }
+        textarea {
+            resize: vertical; /* 縦方向のみリサイズ可 */
+        }
+        
+        .radio-group div { /* ラジオボタンのグループ */
+            margin-bottom: 0.5rem; /* 各ラジオボタンセット間のマージン */
+        }
+        .radio-group label { /* ラジオボタンのラベル */
+            font-weight: normal;
+            margin-left: 0.3em;
+            margin-right: 1em;
+            font-size: 0.95em;
+        }
+        input[type="radio"]{
+            margin-right: 0.1em;
+        }
 
-    footer {
-      margin-top: 3rem;
-      font-size: 0.8rem;
-      text-align: center;
-      color: #666;
-    }
 
-div {
-  margin-top: 20px; /* ここで余白のサイズを調整します (例: 10ピクセル) */
-}
+        button[type="submit"] { /* 送信ボタンのセレクタをより具体的に */
+            margin-top: 2rem; /* 少しマージン調整 */
+            padding: 0.8rem; /* 少しパディング調整 */
+            font-size: 1.05rem; /* 少しフォントサイズ調整 */
+            background-color: #007acc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s; /* ホバー効果 */
+        }
+        button[type="submit"]:hover {
+            background-color: #005fa3; /* ホバー時の色 */
+        }
 
-  </style>
+        .back-link {
+            display: block;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .back-link a, .text-link { /* テキストリンク共通スタイル */
+            color: #007acc;
+            text-decoration: none;
+        }
+        .back-link a:hover, .text-link:hover {
+            text-decoration: underline;
+        }
 
-<link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="favicon.svg" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-<link rel="manifest" href="site.webmanifest" />
+        footer {
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            text-align: center;
+            color: #666;
+        }
+        /* 以前の div { margin-top: 20px; } は、影響範囲が広すぎるため削除し、個別のクラスで調整しました */
+    </style>
+
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
 
 </head>
 <body>
-  <h1>お問い合わせ・応援メッセージ</h1>
+  <div class="container">
+    <h1>お問い合わせ・応援メッセージ</h1>
 
-<ul>
-  <li>お問い合わせの内容によってはお答えできない場合もございます。あらかじめご了承ください。（通常、1週間以内の返信を心がけております。）</li>
-  <li>当サイトへの応援メッセージは、日々の運営の大きな励みとなります。いつも温かいお言葉をありがとうございます。</li>
-  <li>「メールアドレス」欄は空欄でも送信できます。</li>
-</ul>
+    <div class="contact-intro">
+        <p>「かな漢タイピング」に関するご意見、ご感想、サイトの不具合報告、機能改善のご提案、誤字脱字のご報告、または「問題文の裏庭」で詳細に解説してほしい問題文など、お気軽にお寄せください。皆様からのお声は、今後のサイト運営の貴重な参考にさせていただきます。</p>
+        <p>応援メッセージも、日々の創作とサイト運営の大きな励みとなります。いつも温かいお言葉を本当にありがとうございます。</p>
+        <p>お問い合わせの内容によっては、お返事に時間をいただいたり、すべてにお答えできない場合もございます。通常、1週間以内の返信を心がけておりますが、あらかじめご了承ください。</p>
+        <p>「メールアドレス」欄は必須ではございません。ご入力いただいた個人情報の取り扱いにつきましては、当サイトの<a href="privacy.html" class="text-link">プライバシーポリシー</a>に基づき適切に管理いたします。</p>
+    </div>
 
-  <form action="https://formspree.io/f/mkgrjeyn" method="POST">
-    <input type="text" name="_honey" style="display:none">
+    <form action="https://formspree.io/f/mkgrjeyn" method="POST">
+        <input type="text" name="_honey" style="display:none"> <label for="name">お名前</label>
+        <input type="text" id="name" name="name" required>
 
-    <label for="name">お名前</label>
-    <input type="text" id="name" name="name" required>
+        <label for="email">メールアドレス（任意）</label>
+        <input type="email" id="email" name="email">
 
-    <label for="email">メールアドレス</label>
-    <input type="email" id="email" name="email">
+        <div class="radio-group" style="margin-top: 1rem;"> <div>
+                <input type="radio" id="contact" name="message_type" value="contact" checked>
+                <label for="contact">お問い合わせ</label>
+            </div>
+            <div>
+                <input type="radio" id="support" name="message_type" value="support">
+                <label for="support">応援メッセージ</label>
+            </div>
+        </div>
 
-  <div>
-    <input type="radio" id="contact" name="message_type" value="contact" checked>
-    <label for="contact">お問い合わせ</label>
-    <input type="radio" id="support" name="message_type" value="support">
-    <label for="support">応援メッセージ</label>
+        <label for="message">メッセージ内容</label>
+        <textarea id="message" name="message" rows="7" required></textarea> <button type="submit">送信</button>
+    </form>
+
+    <div class="back-link"><a href="index.html">← トップページへ戻る</a></div>
+
+    <footer>
+        &copy; 2025 かな漢タイピング
+    </footer>
   </div>
-
-    <label for="message">お問い合わせ内容</label>
-    <textarea id="message" name="message" rows="6" required></textarea>
-
-    <button type="submit">送信</button>
-  </form>
-
-  <div class="back-link"><a href="index.html">← トップページへ戻る</a></div>
-
-  <footer>
-    &copy; 2025 かな漢タイピング
-  </footer>
 </body>
 </html>
