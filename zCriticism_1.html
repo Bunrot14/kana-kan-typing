@@ -137,6 +137,72 @@
         footer a {
             color: #007acc; text-decoration: none;
         }
+
+
+/* zCriticism_1.html などの <style> タグ内に追加 */
+
+/* index.htmlから持ってくるスタイル (既にあれば確認・マージ) */
+#display span { /* これは既存のindex.htmlにもあるはず */
+  white-space: pre;
+}
+.correct {
+  background-color: #ccc !important;
+  color: white !important;
+}
+.incorrect {
+  color: rgb(0, 160, 199) !important;
+}
+.untyped {
+  color: white !important; /* #display の背景が黒ならこれでOK */
+                          /* もし #display の背景色を変えるなら、この文字色も調整 */
+}
+/* ポップアップのスタイルも必要なら index.html からコピー */
+/* #popup ul li::before { content: "◆ "; color: #777; } */
+/* #popupList li { margin-bottom: 0.6em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } */
+
+
+/* 新しいタイピング練習エリア用のスタイル */
+.typing-practice-section h2 { /* 「この解説文でタイピング練習」という見出し */
+    font-size: 1.5em; /* article h2 より少し小さくなど調整 */
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5em;
+    margin-top: 0; /* typing-practice-section の padding-top で調整するので0に */
+    margin-bottom: 1em;
+}
+
+.typing-display-area { /* #display のこのページでのスタイル */
+    width: 100%; /* 親要素(.container)の幅に合わせる */
+    background-color: black;
+    color: white;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-height: 80px;  /* 表示エリアの最低高さ (小さめ) */
+    max-height: 300px; /* 表示エリアの最大高さ */
+    overflow-y: auto;
+    border-radius: 8px;
+    font-size: 0.95em; /* 本文より少しだけ小さくしても良いかも */
+    line-height: 1.7;  /* 本文と合わせるか調整 */
+}
+
+.typing-input-area { /* #typingArea のこのページでのスタイル */
+    width: 100%; /* 親要素(.container)の幅に合わせる */
+    min-height: 80px;  /* 初期高さを小さめに */
+    max-height: 200px; /* 最大高さも抑えめに */
+    overflow-y: auto;
+    padding: 0.8rem;
+    font-size: 0.95em; /* 表示エリアと合わせる */
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+    resize: vertical; /* 縦方向のみリサイズ可にするのもあり */
+}
+
     </style>
 
     <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
@@ -195,6 +261,19 @@
 
         </article>
 
+        <div class="typing-practice-section" style="margin-top: 3rem; border-top: 2px solid #3498db; padding-top: 2rem;">
+    <h2>この解説文でタイピング練習</h2>
+    <p style="font-size: 0.9em; color: #555; margin-bottom: 1.5em;">以下のエリアで、上の解説文（問題文引用部を除く本文）を使ってタイピング練習ができます。</p>
+    
+    <div id="display" class="typing-display-area">
+        </div>
+    <textarea id="typingArea" class="typing-input-area" placeholder="ここに全文を入力してください..." rows="5"></textarea> 
+    <div id="popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 2px solid #888; padding: 1.5em; min-width: 300px; max-width: 90vw; width: fit-content; box-shadow: 0 0 10px rgba(0,0,0,0.3); z-index: 10000; font-family: 'Yu Gothic', sans-serif; line-height: 1.5; word-break: break-word; white-space: normal;">
+        <ul id="popupList" style="padding-left: 1.5rem; list-style-type: none; margin: 1rem 0;"></ul>
+        <p style="margin-bottom: 0;">（Qキーで閉じる）</p>
+    </div>
+</div>
+
         <nav class="nav-links">
             <a href="index.html">タイピング練習に戻る</a>
             <a href="archive.html">すべてのバックナンバー</a> 
@@ -215,5 +294,171 @@
         <p style="margin: 0;">&copy; 2025 Bunrot's Typing Site. All Rights Reserved.</p>
         <p style="margin: 0;">運営者：Bunrot</p>
     </footer>
+
+<script>
+
+    // zCriticism_1.html などの <script> タグ内に追加
+
+document.addEventListener('DOMContentLoaded', function() {
+    // --- タイピング練習機能のための要素と変数 ---
+    const displayElement = document.getElementById('display');
+    const typingAreaElement = document.getElementById('typingArea');
+    const popupElement = document.getElementById('popup');
+    const popupListElement = document.getElementById('popupList');
+
+    let currentPracticeText = ""; // このページの解説文から取得した練習用テキスト
+    let practiceStartTime = null;
+
+    // --- 解説文本文の取得と整形 ---
+    function getArticleTextForTyping() {
+        const articleNode = document.querySelector('article');
+        let text = "";
+        if (articleNode) {
+            // article内の<p>と<h3>（問題文引用を除く）からテキストを取得する想定
+            // より正確に取得するには、本文の各セクションに特定のクラスを付与し、
+            // それを元に取得する方が良いかもしれません。
+            // ここでは単純に <article> 内の <p> を取得し、引用部分は除外する例
+            const paragraphs = articleNode.querySelectorAll('p'); // h2やh3も練習に含めるかはお好みで
+            paragraphs.forEach(p => {
+                // <blockquote>内の<p>（引用された問題文）は除外
+                if (!p.closest('blockquote')) { 
+                    if (text.length > 0) {
+                        text += "\n\n"; // 段落間に改行2つ
+                    }
+                    text += p.textContent.trim();
+                }
+            });
+        }
+        return text.trim(); // 文頭文末の余分な空白や改行を削除
+    }
+
+    // --- タイピング練習の初期化 ---
+    function initializeTypingPractice(textToType) {
+        if (!displayElement || !typingAreaElement) return;
+
+        currentPracticeText = textToType;
+        displayElement.innerHTML = ""; // 表示エリアをクリア
+        for (let i = 0; i < currentPracticeText.length; i++) {
+            const span = document.createElement("span");
+            span.className = "untyped"; // 初期クラス
+            span.textContent = currentPracticeText[i];
+            displayElement.appendChild(span);
+        }
+        typingAreaElement.value = "";
+        typingAreaElement.focus();
+        practiceStartTime = null;
+    }
+
+    // --- 入力時の正誤判定 (index.htmlのupdateDisplayをベースに調整) ---
+    function updatePracticeDisplay() {
+        if (!displayElement || !typingAreaElement || !currentPracticeText) return;
+
+        const typedText = typingAreaElement.value;
+        const spans = displayElement.querySelectorAll('span');
+        let errorMarkedThisTurn = false; // このターンで最初のミスか
+
+        for (let i = 0; i < currentPracticeText.length; i++) {
+            const charSpan = spans[i];
+            if (!charSpan) continue;
+
+            if (i < typedText.length) {
+                if (!errorMarkedThisTurn) { // まだこの入力でミスがマークされていなければ
+                    if (typedText[i] === currentPracticeText[i]) {
+                        charSpan.className = "correct";
+                    } else {
+                        charSpan.className = "incorrect";
+                        errorMarkedThisTurn = true; // ミスをマーク
+                    }
+                } else { // この入力で既にミスがあった場合、それ以降はuntyped
+                    charSpan.className = "untyped";
+                }
+            } else {
+                charSpan.className = "untyped";
+            }
+        }
+
+        // 全文正しく入力完了した場合
+        if (!errorMarkedThisTurn && typedText.length === currentPracticeText.length && typedText === currentPracticeText) {
+            showPracticeResult();
+        }
+    }
+    
+    // --- 結果表示 (index.htmlのshowResultをベースに調整) ---
+    function showPracticeResult() {
+        if (!practiceStartTime || !popupElement || !popupListElement) return;
+        const elapsed = ((Date.now() - practiceStartTime) / 1000);
+        const charCount = currentPracticeText.length;
+        const wpm = charCount > 0 && elapsed > 0 ? Math.round((charCount / elapsed) * 60) : 0;
+
+        // createItem関数 (index.htmlからコピーまたは共通化)
+        const createItem = (label, content) => {
+            const li = document.createElement("li");
+            li.style.whiteSpace = "nowrap"; // 必要に応じて調整
+            li.style.overflow = "hidden";
+            li.style.textOverflow = "ellipsis";
+            li.innerHTML = `<strong>${label}</strong> ${content}`;
+            return li;
+        };
+        // getLevelComment関数, getEvaluationMessage関数 (index.htmlからコピーまたは共通化)
+        // ここでは仮のものを直接書きます。実際にはindex.htmlのものを参照・共通化してください。
+        const getLevelComment = (w) => (w > 100 ? "素晴らしい速度です！" : "着実なペースです。");
+        const getEvaluationMessage = (w) => (w > 100 ? "解説文読破、お疲れ様でした！" : "じっくりと味わえましたね。");
+
+
+        popupListElement.innerHTML = "";
+        popupListElement.appendChild(createItem("所要時間：", `${elapsed.toFixed(1)}秒`));
+        popupListElement.appendChild(createItem("入力文字数：", `${charCount}文字`));
+        popupListElement.appendChild(createItem("WPM：", `${wpm}文字/分〠 ${getLevelComment(wpm)}`));
+        popupListElement.appendChild(createItem("評価：", getEvaluationMessage(wpm)));
+
+        popupElement.style.display = "block";
+        typingAreaElement.blur();
+    }
+
+    // --- イベントリスナーの設定 ---
+    if (typingAreaElement) {
+        typingAreaElement.addEventListener("input", () => {
+            if (!practiceStartTime && typingAreaElement.value.length > 0) {
+                practiceStartTime = Date.now();
+            }
+            if (typingAreaElement.value.length === 0) {
+                practiceStartTime = null;
+            }
+            updatePracticeDisplay();
+        });
+        
+        // ペースト禁止 (index.htmlからコピー)
+        typingAreaElement.addEventListener("paste", function (event) {
+            event.preventDefault();
+            alert("ペーストは無効です。");
+        });
+    }
+
+    if (popupElement) {
+        // Qキーでポップアップを閉じる (index.htmlからコピー)
+        document.addEventListener('keydown', function (e) {
+            if (popupElement.style.display === 'block' && (e.key === 'q' || e.key === 'Q')) {
+                popupElement.style.display = 'none';
+                typingAreaElement.focus(); // または練習をリセットなど
+                e.preventDefault();
+            }
+        });
+    }
+
+    // --- 初期化実行 ---
+    const articleText = getArticleTextForTyping();
+    if (articleText && articleText.length > 0) {
+        initializeTypingPractice(articleText);
+    } else {
+        if(displayElement) displayElement.innerHTML = "<p>練習対象のテキストが見つかりませんでした。</p>";
+    }
+
+    // 以前の目次や特集表示のためのJavaScript (clavier_collection.htmlにあったもの) は
+    // このページでは不要なので記述しません。もし共通JSファイルにまとめている場合は、
+    // このページで呼び出さないようにするか、エラーにならないように注意が必要です。
+});
+
+</script>
+    
 </body>
 </html>
