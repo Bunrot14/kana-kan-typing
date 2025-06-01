@@ -1,0 +1,197 @@
+  
+        body {
+            font-family: 'Yu Gothic', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.9;
+            margin: 0;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px 40px 40px 40px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px; 
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px; 
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 0;
+            font-size: 1em;
+            font-weight: 300;
+            margin-bottom: 5px; 
+        }
+        article {
+            margin-top: 30px; 
+        }
+        article h2 { /* 小見出し用のスタイル */
+            font-size: 1.3em;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.3em;
+            margin-top: 2.5em;
+            margin-bottom: 1.5em;
+        }
+          h3 { /* 問題文タイトル用 */
+            font-size: 1.2em; /* h2より少し小さく */
+            color: #2c3e50;
+            margin-top: 2.5em;
+            margin-bottom: 1em;
+            
+            font-weight: 600;
+        }
+        p {
+            margin-bottom: 1.5em; 
+            font-size: 0.95em; 
+            text-align: justify; 
+        }
+        blockquote { 
+            margin: 1.5em 0em; /* 左右マージンを調整 */
+            padding: 1em 1.5em; 
+            border-left: 4px solid #3498db; 
+            background-color: #f9f9f9; 
+            color: #555;
+            line-height: 1.7; 
+        }
+        blockquote p { 
+            margin-bottom: 0.5em;
+            text-align: left; 
+        }
+        strong { 
+            font-weight: 600;
+            color: #2980b9;
+        }
+        .nav-links {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+        .nav-links a {
+            color: #007acc;
+            text-decoration: none;
+            margin: 0 15px;
+           
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .nav-links a:hover {
+            background-color: #007acc;
+            color: #fff;
+            text-decoration: none;
+        }
+        #return-link {
+            color: #007acc;
+            text-decoration: none;
+            font-size: 0.7em; 
+            font-weight: bold;
+            padding: 5px 10px; 
+            border-radius: 5px;
+            transition: background-color 0.2s, color 0.2s;
+            display: inline-block; 
+            margin-top: 10px;
+        }
+        #return-link:hover {
+            background-color: #007acc;
+            color: #fff;
+        }
+        footer { 
+            position: static;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            padding: 1px;
+            background: #f5f5f5;
+            margin-top: 2rem;
+        }
+        footer p { 
+            margin-bottom: 0.5em;
+            text-align: center; 
+        }
+        footer a {
+            color: #007acc; text-decoration: none;
+        }
+
+
+/* zCriticism_1.html などの <style> タグ内に追加 */
+
+/* index.htmlから持ってくるスタイル (既にあれば確認・マージ) */
+#display span { /* これは既存のindex.htmlにもあるはず */
+  white-space: pre;
+}
+.correct {
+  background-color: #ccc !important;
+  color: white !important;
+}
+.incorrect {
+  color: rgb(0, 160, 199) !important;
+}
+.untyped {
+  color: white !important; /* #display の背景が黒ならこれでOK */
+                          /* もし #display の背景色を変えるなら、この文字色も調整 */
+}
+/* ポップアップのスタイルも必要なら index.html からコピー */
+/* #popup ul li::before { content: "◆ "; color: #777; } */
+/* #popupList li { margin-bottom: 0.6em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } */
+
+
+/* 新しいタイピング練習エリア用のスタイル */
+.typing-practice-section h2 { /* 「この解説文でタイピング練習」という見出し */
+    font-size: 1.5em; /* article h2 より少し小さくなど調整 */
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5em;
+    margin-top: 0; /* typing-practice-section の padding-top で調整するので0に */
+    margin-bottom: 1em;
+}
+
+.typing-display-area { /* #display のこのページでのスタイル */
+    width: 100%; /* 親要素(.container)の幅に合わせる */
+    background-color: black;
+    color: white;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-height: 80px;  /* 表示エリアの最低高さ (小さめ) */
+    max-height: 300px; /* 表示エリアの最大高さ */
+    overflow-y: auto;
+    border-radius: 8px;
+    font-size: 0.95em; /* 本文より少しだけ小さくしても良いかも */
+    line-height: 1.7;  /* 本文と合わせるか調整 */
+}
+
+.typing-input-area { /* #typingArea のこのページでのスタイル */
+    width: 100%; /* 親要素(.container)の幅に合わせる */
+    min-height: 80px;  /* 初期高さを小さめに */
+    max-height: 200px; /* 最大高さも抑えめに */
+    overflow-y: auto;
+    padding: 0.8rem;
+    font-size: 0.95em; /* 表示エリアと合わせる */
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+    resize: vertical; /* 縦方向のみリサイズ可にするのもあり */
+}
+
