@@ -1,8 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://bunrot14.github.io/kana-kan-typing/index.html</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
+   <url>
+      <loc>https://typingwithclavier.com/index.html</loc>
+      <changefreq>daily</changefreq>
+      <priority>1.0</priority>
+   </url>
+   <url>
+      <loc>https://typingwithclavier.com/archive.html</loc>
+      <changefreq>daily</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://typingwithclavier.com/clavier_collection.html</loc>
+      <changefreq>daily</changefreq>
+      <priority>0.7</priority>
+   </url>
+   <url>
+      <loc>https://typingwithclavier.com/meditation_typing.html</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+   </url>
+   <url>
+      <loc>https://typingwithclavier.com/terms.html</loc>
+      <changefreq>yearly</changefreq>
+      <priority>0.3</priority>
+   </url>
+   <url>
+      <loc>https://typingwithclavier.com/privacy.html</loc>
+      <changefreq>yearly</changefreq>
+      <priority>0.3</priority>
+   </url>
+   <url>
+      <loc>https://typingwithclavier.com/contact.html</loc>
+      <changefreq>yearly</changefreq>
+      <priority>0.3</priority>
+   </url>
+   <url>
+      <loc>https://typingwithclavier.com/Criticism_index.html</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://typingwithclavier.com/Misconversion.html</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://typingwithclavier.com/philosophy.html</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+   <url>
+      <loc>https://typingwithclavier.com/thanks.html</loc>
+      <changefreq>yearly</changefreq>
+      <priority>0.3</priority>
+   </url>
+   <url>
+  <loc>https://typingwithclavier.com/zCriticism_1.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://typingwithclavier.com/zCriticism_2.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://typingwithclavier.com/zCriticism_3.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://typingwithclavier.com/zCriticism_4.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+<url>
+  <loc>https://typingwithclavier.com/zCriticism_5.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+
 </urlset>
