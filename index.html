@@ -2,6 +2,18 @@
 <html lang="ja">
 <head>
   <link rel="canonical" href="https://typingwithclavier.com/index.html">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPMincho&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rounded+Mplus+1c&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+
+
+
+
+
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-84N6PLRMJY"></script>
 <script>
@@ -94,42 +106,44 @@ html, body {
       border-radius: 8px;
     }
 
-    #display {
-      background-color: black;
-      color: white;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      white-space: pre-wrap;
-      overflow-wrap: break-word;
-      word-break: break-word;
-      min-height: 100px; /* 文章量によって高さが変わるため最小高さを指定 */
-    }
+/* --- 朝の霧：やや青みを帯びた落ち着いたグレー系 --- */
+#display {
+  background-color: #EEF1F4; /* ごく淡いブルーグレー */
+  color: #2c2f33; /* 濃いグレーで可読性を保つ */
+  padding: 1rem;
+  margin-bottom: 1rem;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-height: 100px;
+  border: 1px solid #d1d8e0;
+  border-radius: 8px;
+   font-size: 0.945em;
+    
+}
 
-    #display span {
-      white-space: pre;
-    }
+.untyped {
+  color: #2c2f33 !important;
+}
 
-    .correct {
-      background-color: #ccc !important;
-      color: white !important;
-    }
+.correct {
+  background-color: #d2e3f3 !important; /* 淡い青 */
+  color: #134684 !important;
+}
 
-    .incorrect {
-      color: rgb(0, 160, 199) !important;
-    }
+.incorrect {
+  color: #cc3333 !important;
+  background-color: #f6d8d8 !important;
+}
+/* --- 朝の霧ここまで --- */
 
-    .untyped {
-      color: white !important;
-    }
 
     #typingArea {
       width: 65vw;
     height: auto;
     min-height: 150px; /* 最小高さ */
     max-height: 600px; /* 最大高さ */
-    overflow-y: auto; /* 内容が最大を超えたらスクロール */
-
-    
+    overflow-y: auto; /* 内容が最大を超えたらスクロール */    
       padding: 1rem;
       line-height: 1.5;
       resize: none;
@@ -137,6 +151,7 @@ html, body {
       box-sizing: border-box;
       border: 1px solid #ccc;
       font-family: inherit;
+       font-size: 0.945em;
     }
 
     #popup {
@@ -490,6 +505,22 @@ html, body {
       margin: 1px 0; /* 上下のマージンで余裕を持たせる */
       font-family: 'Arial', sans-serif; /* 優しい雰囲気のフォント */
     }
+
+    .intro-close-button {
+  margin-top: 0em;
+  font-size: 0.55em;
+  padding: 4px 8px;
+  background-color: #ffffff;
+  color: #444;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.intro-close-button:hover {
+  background-color: #bbb;
+}
+
   </style>
 
 <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
@@ -501,11 +532,13 @@ html, body {
 </head>
 <body>
   <header style="display: flex; flex-direction: column; align-items: center;">
-    <p class="site-intro">
-      このサイトは静かに集中してタイピングの瞑想性を引き出すことと、変換ありの実践的なタイピングスキルを向上させることを目的とした無償の学習サービスです。<br>
-      言葉のリズムと流れに身を任せ、指先で紡ぐ文章が心を穏やかにし、思考を深めていく。<br>
-      ここではただ速さを追い求めるのではなく、ひとつひとつの文字に心を込めてタイピングを楽しんでください。
-    </p>
+   <p class="site-intro" id="siteIntro">
+  このサイトは静かに集中してタイピングの瞑想性を引き出すことと、変換ありの実践的なタイピングスキルを向上させることを目的とした無償の学習サービスです。<br>
+  言葉のリズムと流れに身を任せ、指先で紡ぐ文章が心を穏やかにし、思考を深めていく。<br>
+  ここではただ速さを追い求めるのではなく、ひとつひとつの文字に心を込めてタイピングを楽しんでください。
+  <button id="closeIntroBtn" class="intro-close-button">閉じる</button>
+</p>
+
 
  <div class="problem-container">
     <div class="header-left-controls">
@@ -1279,6 +1312,18 @@ if (accordionHeaders.length > 0) {
 
     // (↓既存の他のDOMContentLoaded内の処理があれば、それはこの下に続けるか、このコードを既存のDOMContentLoaded内に追加)
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const closeIntroBtn = document.getElementById("closeIntroBtn");
+  const siteIntro = document.getElementById("siteIntro");
+
+  if (closeIntroBtn && siteIntro) {
+    closeIntroBtn.addEventListener("click", function () {
+      siteIntro.style.display = "none";
+    });
+  }
+});
+
 
   </script>
   
