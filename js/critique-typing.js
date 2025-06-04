@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     // --- タイピング練習機能のための要素と変数 ---
     const displayElement = document.getElementById('display');
@@ -9,27 +8,39 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentPracticeText = ""; // このページの解説文から取得した練習用テキスト
     let practiceStartTime = null;
 
-    // --- 解説文本文の取得と整形 ---
+    // --- 解説文本文の取得と整形 (引用部分も含むように修正) ---
     function getArticleTextForTyping() {
         const articleNode = document.querySelector('article');
-        let text = "";
+        let textParts = []; // 各テキストブロックを格納する配列
         if (articleNode) {
-            // article内の<p>と<h3>（問題文引用を除く）からテキストを取得する想定
-            // より正確に取得するには、本文の各セクションに特定のクラスを付与し、
-            // それを元に取得する方が良いかもしれません。
-            // ここでは単純に <article> 内の <p> を取得し、引用部分は除外する例
-            const paragraphs = articleNode.querySelectorAll('p'); // h2やh3も練習に含めるかはお好みで
-            paragraphs.forEach(p => {
-                // <blockquote>内の<p>（引用された問題文）は除外
-                if (!p.closest('blockquote')) { 
-                    if (text.length > 0) {
-                        text += "\n\n"; // 段落間に改行2つ
-                    }
-                    text += p.textContent.trim();
+            // articleNodeの直接の子要素を順番に処理
+            for (const child of articleNode.children) {
+                let currentPartText = "";
+                if (child.tagName === 'P') {
+                    // <p>タグのテキストを取得
+                    currentPartText = child.textContent.trim();
+                } else if (child.tagName === 'BLOCKQUOTE') {
+                    // <blockquote>タグの場合、その中の<p>タグのテキストを連結して取得
+                    const quoteParagraphs = child.querySelectorAll('p');
+                    let blockquoteContent = "";
+                    quoteParagraphs.forEach((p, index) => {
+                        if (index > 0) {
+                            blockquoteContent += "\n"; // 引用内の複数段落間は改行1つで区切る
+                        }
+                        blockquoteContent += p.textContent.trim();
+                    });
+                    currentPartText = blockquoteContent;
                 }
-            });
+                // H2, H3, UL などの見出しやリストは練習対象外とする
+                // (上記以外で練習に含めたい要素があれば、ここに条件分岐を追加)
+
+                if (currentPartText.length > 0) {
+                    textParts.push(currentPartText);
+                }
+            }
         }
-        return text.trim(); // 文頭文末の余分な空白や改行を削除
+        // 各テキストブロックを改行2つで結合し、最終的な練習テキストとする
+        return textParts.join("\n\n").trim(); 
     }
 
     // --- タイピング練習の初期化 ---
@@ -108,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
         popupListElement.innerHTML = "";
         popupListElement.appendChild(createItem("所要時間：", `${elapsed.toFixed(1)}秒`));
         popupListElement.appendChild(createItem("入力文字数：", `${charCount}文字`));
-        popupListElement.appendChild(createItem("WPM：", `${wpm}文字/分〠 ${getLevelComment(wpm)}`));
+        popupListElement.appendChild(createItem("WPM：", `${wpm}文字/分〠 ${getLevelComment(wpm)}`)); // 「〠」は元のコードのままです
         popupListElement.appendChild(createItem("評価：", getEvaluationMessage(wpm)));
 
         popupElement.style.display = "block";
@@ -139,7 +150,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('keydown', function (e) {
             if (popupElement.style.display === 'block' && (e.key === 'q' || e.key === 'Q')) {
                 popupElement.style.display = 'none';
-                typingAreaElement.focus(); // または練習をリセットなど
+                // 練習をリセットする場合は再度initializeTypingPracticeを呼ぶなど
+                // ここでは入力エリアにフォーカスを戻すだけ
+                initializeTypingPractice(currentPracticeText); // または単に typingAreaElement.focus();
                 e.preventDefault();
             }
         });
@@ -152,8 +165,4 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         if(displayElement) displayElement.innerHTML = "<p>練習対象のテキストが見つかりませんでした。</p>";
     }
-
-    // 以前の目次や特集表示のためのJavaScript (clavier_collection.htmlにあったもの) は
-    // このページでは不要なので記述しません。もし共通JSファイルにまとめている場合は、
-    // このページで呼び出さないようにするか、エラーにならないように注意が必要です。
 });
