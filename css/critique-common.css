@@ -133,21 +133,7 @@
 
 /* zCriticism_1.html などの <style> タグ内に追加 */
 
-/* index.htmlから持ってくるスタイル (既にあれば確認・マージ) */
-#display span { /* これは既存のindex.htmlにもあるはず */
-  white-space: pre;
-}
-.correct {
-  background-color: #ccc !important;
-  color: white !important;
-}
-.incorrect {
-  color: rgb(0, 160, 199) !important;
-}
-.untyped {
-  color: white !important; /* #display の背景が黒ならこれでOK */
-                          /* もし #display の背景色を変えるなら、この文字色も調整 */
-}
+
 /* ポップアップのスタイルも必要なら index.html からコピー */
 /* #popup ul li::before { content: "◆ "; color: #777; } */
 /* #popupList li { margin-bottom: 0.6em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } */
@@ -163,22 +149,39 @@
     margin-bottom: 1em;
 }
 
-.typing-display-area { /* #display のこのページでのスタイル */
-    width: 100%; /* 親要素(.container)の幅に合わせる */
-    background-color: black;
-    color: white;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    word-break: break-word;
-    min-height: 80px;  /* 表示エリアの最低高さ (小さめ) */
-    max-height: 300px; /* 表示エリアの最大高さ */
-    overflow-y: auto;
-    border-radius: 8px;
-    font-size: 0.95em; /* 本文より少しだけ小さくしても良いかも */
-    line-height: 1.7;  /* 本文と合わせるか調整 */
+.typing-display-area {
+  font-family: "Yu Mincho", "Yu Gothic", serif;
+  background-color: #eef1f4;
+  color: #2c2f33;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-height: 80px;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #d1d8e0;
+  border-radius: 8px;
+  font-size: 1em;
+  line-height: 1.8;
+  letter-spacing: 0.03em;
 }
+
+.untyped {
+  color: #2c2f33 !important;
+}
+
+.correct {
+  background-color: #d2e3f3 !important;
+  color: #134684 !important;
+}
+
+.incorrect {
+  color: #cc3333 !important;
+  background-color: #f6d8d8 !important;
+}
+
 
 .typing-input-area { /* #typingArea のこのページでのスタイル */
     width: 100%; /* 親要素(.container)の幅に合わせる */
