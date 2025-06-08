@@ -1,5 +1,4 @@
-  
-        body {
+body {
             font-family: 'Yu Gothic', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
             background-color: #f5f5f5;
             color: #333;
@@ -198,3 +197,65 @@
     resize: vertical; /* 縦方向のみリサイズ可にするのもあり */
 }
 
+/* ========== ここから下を追記 ========== */
+
+/* --- レスポンシブ対応 (スマートフォンなど) --- */
+@media (max-width: 768px) {
+
+    body {
+        /* 画面全体の左右の余白を減らす */
+        padding: 10px;
+        -webkit-text-size-adjust: 100%; /* iOSでのフォントサイズ自動調整を無効化 */
+    }
+
+    .container {
+        /* 横幅を画面に合わせ、左右のパディングを調整 */
+        width: auto;
+        margin: 10px auto;
+        padding: 20px 15px 25px 15px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .subtitle {
+        font-size: 0.9em;
+    }
+
+    article h2 {
+        font-size: 1.2em;
+    }
+
+    h3 {
+        font-size: 1.1em;
+    }
+    
+    p {
+        /* 本文の文字を少し調整し、行間を詰める */
+        font-size: 0.9rem;
+        line-height: 1.8;
+    }
+
+    blockquote {
+        margin: 1.5em 0;
+        padding: 0.8em 1.2em;
+    }
+    
+    .nav-links a {
+        /* ナビゲーションリンクを縦に並べる */
+        display: block;
+        margin: 12px auto;
+        padding: 10px 15px;
+    }
+
+    /* タイピング練習エリアの見出しサイズを調整 */
+    .typing-practice-section h2 {
+        font-size: 1.3em;
+    }
+
+    /* フッターの改行を調整 */
+    footer .br-sp {
+        display: block; /* SPでは改行 */
+    }
+}

@@ -267,11 +267,180 @@
     scroll-margin-top: 40px; /* top: 20px + α のマージンを考慮 */
 }
 
-/* ... 既存の .nav-links, footer などのスタイルはそのまま ... */
+/* ======== レスポンシブ対応CSS ======== */
+@media (max-width: 900px) {
+  body {
+    padding: 1rem !important;
+  }
+
+  #display, #typingArea {
+    width: 98vw !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    font-size: 1em !important;
+  }
+
+  .problem-container {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .title-and-usage-container {
+    left: 0 !important;
+    justify-content: flex-start !important;
+    margin-top: 1rem;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .title-and-usage-container h1 {
+    font-size: 1.3em !important;
+    margin-bottom: 0.6em;
+  }
+  .header-left-controls, .header-right-controls {
+    margin: 0 !important;
+    align-items: flex-start !important;
+  }
+}
+
+@media (max-width: 600px) {
+  html, body {
+    font-size: 15px !important;
+    padding: 0.5rem !important;
+  }
+
+  #display, #typingArea {
+    width: 99vw !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    padding: 0.7rem !important;
+    font-size: 1em !important;
+  }
+
+  .donation-container {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  .donation-box {
+    max-width: 100vw !important;
+    min-width: 0 !important;
+  }
+
+  .problem-buttons,
+  .archive-titles {
+    flex-wrap: wrap !important;
+    gap: 7px !important;
+    justify-content: flex-start !important;
+  }
+
+  .archive-titles button,
+  .problem-buttons button {
+    font-size: 1em !important;
+    padding: 6px 12px !important;
+    min-width: 88px;
+  }
+}
+
+/* モーダルやポップアップの最大幅を調整 */
+@media (max-width: 600px) {
+  .usage-guide-content,
+  #popup {
+    max-width: 95vw !important;
+    min-width: 0 !important;
+    padding: 0.8em !important;
+    font-size: 1em !important;
+  }
+}
+
+/* アーカイブなどの余白も調整 */
+@media (max-width: 600px) {
+  #archive {
+    margin-top: 1.2rem !important;
+    padding: 0 !important;
+  }
+  #archive-list {
+    margin-top: 0.8rem !important;
+  }
+}
+
+/* サイトイントロやフッターも余白調整 */
+@media (max-width: 600px) {
+  .site-intro {
+    font-size: 0.95em !important;
+    padding: 0.4em !important;
+    line-break: strict;
+  }
+  footer {
+    font-size: 0.95em !important;
+    padding: 0.2em !important;
+  }
+}
+/* --- スマホ目次ハンバーガーUI --- */
+#toc-toggle-btn {
+  display: none;
+  position: fixed;
+  top: 14px;
+  left: 16px;
+  z-index: 2001;
+  background: #007acc;
+  color: #fff;
+  font-size: 1.12em;
+  border: none;
+  border-radius: 7px;
+  padding: 9px 17px 9px 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  letter-spacing: 0.1em;
+}
+@media (max-width: 900px) {
+  .page-layout {
+    flex-direction: column;
+    padding: 0 !important;
+  }
+  .table-of-contents {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 2000;
+    width: 92vw !important;
+    max-width: 350px;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.10);
+    transform: translateX(-120%);
+    transition: transform 0.24s cubic-bezier(.42,.7,.3,1.02);
+    background: #f9f9f9;
+    border-radius: 0 13px 13px 0;
+  }
+  .table-of-contents.open {
+    transform: translateX(0);
+  }
+  #toc-toggle-btn {
+    display: block;
+  }
+}
+/* 開いている間は本体をスクロール禁止に */
+body.toc-open {
+  overflow: hidden !important;
+}
+@media (max-width: 900px) {
+  .container.page-with-toc {
+    margin-left: 0 !important;
+    padding-top: 48px !important;
+    padding-left: 0 !important;
+    max-width: 100vw !important;
+    width: 100vw !important;
+    box-sizing: border-box;
+  }
+}
 
     </style>
 </head>
 <body>
+
+  <button id="toc-toggle-btn" aria-label="目次を開く">☰ 目次</button>
+
    <div class="page-layout"> <nav id="toc-nav" class="table-of-contents">
             <h2>目次</h2>
             <ul id="toc-list">
@@ -546,6 +715,55 @@ document.addEventListener('DOMContentLoaded', function() {
     // ページの読み込みが完了したら、メインの処理を開始
     loadAndProcessStories();
 });
+// スマホ用目次ハンバーガー
+(function() {
+  const tocBtn = document.getElementById('toc-toggle-btn');
+  const tocNav = document.getElementById('toc-nav');
+  const body = document.body;
+
+  function isMobileView() {
+    return window.matchMedia('(max-width: 900px)').matches;
+  }
+  function openToc() {
+    tocNav.classList.add('open');
+    body.classList.add('toc-open');
+  }
+  function closeToc() {
+    tocNav.classList.remove('open');
+    body.classList.remove('toc-open');
+  }
+  if (tocBtn && tocNav) {
+    tocBtn.addEventListener('click', function() {
+      if (tocNav.classList.contains('open')) {
+        closeToc();
+      } else {
+        openToc();
+      }
+    });
+  }
+  // 目次のリンクや余白タップで自動閉じ
+  if (tocNav) {
+    tocNav.addEventListener('click', function(e) {
+      if (
+        isMobileView() &&
+        (e.target.tagName === 'A' || e.target === tocNav)
+      ) {
+        setTimeout(closeToc, 200); // スクロール後に閉じる
+      }
+    });
+  }
+  // リサイズでPC幅になったら強制close
+  window.addEventListener('resize', function() {
+    if (!isMobileView()) closeToc();
+  });
+  // escキーで閉じる
+  window.addEventListener('keydown', function(e) {
+    if (isMobileView() && tocNav.classList.contains('open') && e.key === 'Escape') {
+      closeToc();
+    }
+  });
+})();
+
   </script>
 
 

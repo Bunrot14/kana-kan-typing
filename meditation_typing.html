@@ -109,6 +109,115 @@
     background-color: #007acc;
     color: #fff;
 }
+/* ======== レスポンシブ対応CSS ======== */
+@media (max-width: 900px) {
+  body {
+    padding: 1rem !important;
+  }
+
+  #display, #typingArea {
+    width: 98vw !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    font-size: 1em !important;
+  }
+
+  .problem-container {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .title-and-usage-container {
+    left: 0 !important;
+    justify-content: flex-start !important;
+    margin-top: 1rem;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .title-and-usage-container h1 {
+    font-size: 1.3em !important;
+    margin-bottom: 0.6em;
+  }
+  .header-left-controls, .header-right-controls {
+    margin: 0 !important;
+    align-items: flex-start !important;
+  }
+}
+
+@media (max-width: 600px) {
+  html, body {
+    font-size: 15px !important;
+    padding: 0.5rem !important;
+  }
+
+  #display, #typingArea {
+    width: 99vw !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    padding: 0.7rem !important;
+    font-size: 1em !important;
+  }
+
+  .donation-container {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  .donation-box {
+    max-width: 100vw !important;
+    min-width: 0 !important;
+  }
+
+  .problem-buttons,
+  .archive-titles {
+    flex-wrap: wrap !important;
+    gap: 7px !important;
+    justify-content: flex-start !important;
+  }
+
+  .archive-titles button,
+  .problem-buttons button {
+    font-size: 1em !important;
+    padding: 6px 12px !important;
+    min-width: 88px;
+  }
+}
+
+/* モーダルやポップアップの最大幅を調整 */
+@media (max-width: 600px) {
+  .usage-guide-content,
+  #popup {
+    max-width: 95vw !important;
+    min-width: 0 !important;
+    padding: 0.8em !important;
+    font-size: 1em !important;
+  }
+}
+
+/* アーカイブなどの余白も調整 */
+@media (max-width: 600px) {
+  #archive {
+    margin-top: 1.2rem !important;
+    padding: 0 !important;
+  }
+  #archive-list {
+    margin-top: 0.8rem !important;
+  }
+}
+
+/* サイトイントロやフッターも余白調整 */
+@media (max-width: 600px) {
+  .site-intro {
+    font-size: 0.95em !important;
+    padding: 0.4em !important;
+    line-break: strict;
+  }
+  footer {
+    font-size: 0.95em !important;
+    padding: 0.2em !important;
+  }
+}
+
     </style>
 
 <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
