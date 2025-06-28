@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>お気に入り一覧｜かな漢タイピング</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Serif JP', 'Yu Gothic', serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .main-content {
+      flex: 3;
+      max-width: 65vw;
+      position: relative;
+    }
+
+    .problem-display {
+      background: #eef1f4;
+      padding: 1.2rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 1rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      position: relative;
+    }
+
+    .problem-meta {
+      position: absolute;
+      top: 0.8em;
+      right: 1em;
+      font-size: 0.85em;
+      color: #666;
+      text-align: right;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      font-size: 1em;
+      padding: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+      resize: vertical;
+      font-family: inherit;
+      margin-bottom: 1rem;
+    }
+
+    .link-buttons {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .link-buttons a {
+      color: #007acc;
+      text-decoration: none;
+      font-size: 0.9em;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .link-buttons a:hover {
+      color: #005b99;
+      text-decoration: underline;
+      transform: scale(1.05);
+    }
+
+    .sidebar {
+      flex: 1.2;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 1rem;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+      font-size: 1em;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .favorite-title {
+      font-size: 0.95em;
+      margin-bottom: 0.7rem;
+      padding: 0.4em 0.6em;
+      cursor: pointer;
+      border-radius: 4px;
+      color: #0067c0;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .favorite-title:hover {
+      background-color: #f0f8ff;
+      color: #003366;
+    }
+
+    .favorite-title.active {
+      background-color: #dceeff;
+      font-weight: bold;
+      color: #002f5d;
+    }
+
+    .empty-message {
+      margin-top: 2rem;
+      color: #777;
+      font-size: 0.9em;
+    }
+
+    .favorite-remove-button {
+      background-color: #f5f5f5;
+      color: #555;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 0.5em 1em;
+      font-size: 0.9em;
+      font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', sans-serif;
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      margin-bottom: 1.5rem;
+    }
+
+    .favorite-remove-button:hover {
+      background-color: #eee;
+      color: #333;
+    }
+
+    .favorite-remove-button:active {
+      background-color: #e5e5e5;
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-content">
+    <div id="displayArea" class="problem-display">
+      <p class="empty-message">右のリストからお気に入り問題を選択してください。</p>
+    </div>
+
+    <textarea id="typingArea" placeholder="ここに全文を入力してください…"></textarea>
+
+    <button id="removeFavoriteButton" class="favorite-remove-button">
+      ✕ この問題をお気に入りから削除
+    </button>
+
+    <div class="link-buttons">
+      <a href="clavier_collection.html">クラヴィエの寓話集</a>
+      <a href="archive.html">すべてのバックナンバー</a>
+      <a href="Criticism_index.html">問題文の裏庭（解説アーカイブ）</a>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <h3>タグで絞り込む</h3>
+    <div id="tagList"></div>
+  </aside>
+
+<script>
+  const favorites = JSON.parse(localStorage.getItem('favoriteProblems') || '[]');
+  const display = document.getElementById('displayArea');
+  const typingArea = document.getElementById('typingArea');
+  const tagList = document.getElementById('tagList');
+  const removeBtn = document.getElementById('removeFavoriteButton');
+
+  let currentList = [...favorites];
+  let currentFavorite = null;
+
+  const tagMap = {};
+  favorites.forEach(item => {
+    (item.tags || []).forEach(tag => {
+      if (!tagMap[tag]) tagMap[tag] = [];
+      tagMap[tag].push(item);
+    });
+  });
+
+  function renderSingleProblem(item) {
+    currentFavorite = item;
+    display.innerHTML = '';
+    typingArea.value = '';
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'problem-display';
+    wrapper.innerHTML = `
+      <div class="problem-meta">
+        ${item.date || '日付不明'}<br>
+        タグ: ${(item.tags && item.tags.length > 0) ? item.tags.join(', ') : '（なし）'}
+      </div>
+      <p style="margin: 2.8em 0 1em 0; line-height: 1.8;">${item.text}</p>
+    `;
+    display.appendChild(wrapper);
+  }
+
+  function renderTitleList(list) {
+    tagList.innerHTML = '';
+
+    const allBtn = document.createElement('div');
+    allBtn.className = 'favorite-title';
+    allBtn.textContent = 'すべて表示';
+    allBtn.onclick = () => {
+      currentList = [...favorites];
+      renderTitleList(currentList);
+      renderSingleProblem(currentList[0]);
+      highlightCurrent(currentList[0]);
+    };
+    tagList.appendChild(allBtn);
+
+    for (const tag in tagMap) {
+      const tagBtn = document.createElement('div');
+      tagBtn.className = 'favorite-title';
+      tagBtn.textContent = ` ${tag}（${tagMap[tag].length}）`;
+      tagBtn.onclick = () => {
+        currentList = [...tagMap[tag]];
+        renderTitleList(currentList);
+        renderSingleProblem(currentList[0]);
+        highlightCurrent(currentList[0]);
+      };
+      tagList.appendChild(tagBtn);
+    }
+
+    tagList.appendChild(document.createElement('hr'));
+
+    currentList.forEach(item => {
+      const titleBtn = document.createElement('div');
+      titleBtn.className = 'favorite-title';
+      titleBtn.textContent = `${item.title || '無題'}（${item.date || '日付不明'}）`;
+      titleBtn.onclick = () => {
+        renderSingleProblem(item);
+        highlightCurrent(item);
+      };
+      tagList.appendChild(titleBtn);
+    });
+  }
+
+  function highlightCurrent(selectedItem) {
+    const titles = document.querySelectorAll('.favorite-title');
+    titles.forEach(el => el.classList.remove('active'));
+    titles.forEach(el => {
+      if (el.textContent.includes(selectedItem.title)) {
+        el.classList.add('active');
+      }
+    });
+  }
+
+  removeBtn.addEventListener('click', () => {
+    if (!currentFavorite) return;
+
+    const favs = JSON.parse(localStorage.getItem('favoriteProblems') || '[]');
+    const updated = favs.filter(f =>
+      !(f.setIndex === currentFavorite.setIndex && f.essayIndexInSet === currentFavorite.essayIndexInSet)
+    );
+    localStorage.setItem('favoriteProblems', JSON.stringify(updated));
+    alert('お気に入りから削除しました');
+    location.reload();
+  });
+
+  renderTitleList(currentList);
+  if (currentList.length > 0) {
+    renderSingleProblem(currentList[0]);
+    highlightCurrent(currentList[0]);
+  } else {
+    display.innerHTML = '<p class="empty-message">お気に入りが登録されていません。</p>';
+  }
+</script>
+</body>
+</html>

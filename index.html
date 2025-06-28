@@ -634,6 +634,39 @@ html, body {
   }
 }
 
+<!--お気に入り関連CSS-->
+.favorite-button-fixed {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  pointer-events: none; /* 初期は非アクティブで浮かせるだけ */
+}
+
+.favorite-button-fixed button {
+  pointer-events: auto; /* ボタンだけクリック可能 */
+  font-size: 0.85em;
+  padding: 6px 10px;
+  border: 1px solid #aaa;
+  background-color: #fffdf9;
+  color: #555;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.favorite-button-fixed button:hover {
+  background-color: #f0e6cc;
+  color: #000;
+}
+.favorite-button-fixed button.active {
+  background-color: #ffe08a;
+  color: #000;
+  border-color: #c9a634;
+}
+
+
   </style>
 
 <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
@@ -659,7 +692,7 @@ html, body {
         <div class="problem-buttons" id="problem-buttons"></div>
     </div>
 
-    <div class="title-and-usage-container">  <h1>かな漢タイピング</h1>
+    <div class="title-and-usage-container">
         <div class="header-right-controls"> <button id="showUsageGuideButton" class="usage-action-button">使い方とクラヴィエについて</button>
         </div>
     </div>
@@ -703,12 +736,14 @@ html, body {
                     <p>問題文をすべて正しく入力すると、所要時間、入力文字数、WPM（1分間あたりの入力文字数）、ささやかな評価メッセージが表示されます。結果に一喜一憂するよりも、入力中の集中や言葉との出会いをお楽しみください。「Q」キーで結果を閉じ、次の練習に進めます。</p>
                 </div>
             </li>
-             <li>
+             <!--
+            <li>
                 <button class="accordion-header">寄付のお願い（ページの下部から）</button>
                 <div class="accordion-panel">
                     <p>毎日ことばを紡ぎ、静かに更新を続けています。<br>この小さなサイトを気に入ってくださった方、どこか共鳴するものを感じてくださった方へ——<br>ページ下部に、ささやかなご支援の窓口を設けています。ご寄付は、サイトの運営費や今後のコンテンツづくりに大切に使わせていただきます。<br>無理のないかたちで、そっと支えていただけたら、たいへん心強く、ありがたく思います。</p>
                 </div>
             </li>
+          -->
         </ul>
         <button id="closeUsageGuideButton" class="usage-action-button close-button">閉じる</button>
     </div>
@@ -717,6 +752,11 @@ html, body {
   <div id="display"></div>
 
   <textarea id="typingArea" placeholder="ここに全文を入力してください..."></textarea>
+  <!--お気に入り追加ボタン-->
+  <div class="favorite-button-fixed" id="favoriteButtonContainer">
+  <button id="favoriteToggleButton">☆ お気に入りに追加</button>
+</div>
+
 
 <section id="archive" style="margin-top: 2rem;">
  
@@ -726,6 +766,8 @@ html, body {
     <a href="archive.html" class="archive-link">すべてのバックナンバー</a>
     <span style="margin: 0 0.5em; color: #555;">｜</span>
     <a href="Criticism_index.html" class="criticism-link">問題文の裏庭（解説アーカイブ）</a>
+     <span style="margin: 0 0.5em; color: #555;">｜</span>
+      <a href="favorites.html" class="criticism-link">お気に入りページ</a>
   </div>
    
   <div id="archive-list"></div>
@@ -784,53 +826,55 @@ html, body {
   let currentProblemSetNumProblems = 0; // 現在選択されている問題セットの問題数
   let startTime = null;
 
-  async function loadTypingData() {
+let typingData = []; // ★ グローバル変数として宣言（関数外）
+
+async function loadTypingData() {
   try {
     const response = await fetch('typing_data.json'); // JSONファイルを非同期で取得
     if (!response.ok) {
-      // fetchが成功しても、HTTPステータスがエラーを示す場合 (404 Not Found, 500 Internal Server Errorなど)
       throw new Error(`JSONファイルの読み込みに失敗しました。ステータス: ${response.status}`);
     }
-    const jsonData = await response.json(); // レスポンスをJSONとしてパース
 
-    // jsonDataが配列であることを確認 (typing_data.jsonのルートが配列なので)
+    const jsonData = await response.json(); // レスポンスをJSONとしてパース
+    typingData = jsonData; // ★ 各essayのtags取得のために保持
+
+    // jsonDataが配列であることを確認
     if (!Array.isArray(jsonData)) {
-        throw new Error("JSONデータの形式が正しくありません。ルートは配列であるべきです。");
+      throw new Error("JSONデータの形式が正しくありません。ルートは配列であるべきです。");
     }
 
     let currentIndex = 0;
-    // JSONデータから allEssays と archiveStructure を構築
+
     jsonData.forEach(dailyEntry => {
       const titles = [];
       const dailyEssaysTexts = [];
 
       if (!dailyEntry.essays || !Array.isArray(dailyEntry.essays)) {
         console.warn(`日付 ${dailyEntry.date} の 'essays' 配列が見つからないか、形式が正しくありません。スキップします。`);
-        return; // このdailyEntryをスキップして次に進む
+        return;
       }
 
       dailyEntry.essays.forEach(essay => {
-        titles.push(essay.title || "タイトルなし"); // titleがない場合のフォールバック
-        dailyEssaysTexts.push(essay.text || ""); // textがない場合のフォールバック
+        titles.push(essay.title || "タイトルなし");
+        dailyEssaysTexts.push(essay.text || "");
       });
 
       archiveStructure.push({
         date: dailyEntry.date,
         titles: titles,
         essayStartIndex: currentIndex,
-        numProblems: dailyEssaysTexts.length 
+        numProblems: dailyEssaysTexts.length,
+        tags: dailyEntry.tags || [] // セット全体のtags（現在は未使用）
       });
 
-      allEssays.push(...dailyEssaysTexts); // 個々の問題文テキストをallEssaysに追加
+      allEssays.push(...dailyEssaysTexts);
       currentIndex += dailyEssaysTexts.length;
     });
 
-    // データ読み込みと処理が成功したらサイトの初期化処理を呼び出す
-    initializeSite();
+    initializeSite(); // 初期化処理を呼び出す
 
   } catch (error) {
     console.error("問題データの処理中にエラーが発生しました:", error);
-    // ユーザーにエラーを通知するためのシンプルな表示
     document.body.innerHTML = `<p style="text-align:center; padding: 20px; font-size: 1.2em;">サイトのデータの読み込みに失敗しました。<br>お手数ですが、ページを再読み込みするか、しばらくしてから再度お試しください。<br><small>エラー詳細: ${error.message}</small></p>`;
   }
 }
@@ -845,7 +889,7 @@ function initializeSite() {
     if (selectedProblemInfoString) {
       try {
         const selectedProblemInfo = JSON.parse(selectedProblemInfoString);
-        localStorage.removeItem('selectedTypingProblem'); // 読み取ったらすぐに削除（成功・失敗に関わらず）
+        
 
         console.log("localStorageから読み取った情報:", selectedProblemInfo);
 
@@ -992,6 +1036,7 @@ function renderProblemButtons() {
     typingArea.focus();
     startTime = null;
     renderProblemButtons(); // ボタンのactive状態を更新するために再描画
+    refreshFavoriteButton(); // ★追加
   }
 
   function updateDisplay() {
@@ -1239,6 +1284,24 @@ function renderArchive(archivesToDisplay) { // ← 新しい定義 (引数を追
 }
 loadTypingData(); // ← これを新しく追加
 
+// ★ タイピングエリア下にぴったり右寄せするため、位置調整スクリプト
+function positionFavoriteButton() {
+  const typingArea = document.getElementById('typingArea');
+  const favContainer = document.getElementById('favoriteButtonContainer');
+
+  if (!typingArea || !favContainer) return;
+
+  const rect = typingArea.getBoundingClientRect();
+  favContainer.style.top = `${window.scrollY + rect.bottom - 32}px`; // 32px = ボタン高さ想定
+  favContainer.style.left = `${window.scrollX + rect.right + 8}px`; // 少し右にオフセット
+}
+
+// ★ ページ読み込みとリサイズ時に位置調整
+window.addEventListener('load', positionFavoriteButton);
+window.addEventListener('resize', positionFavoriteButton);
+window.addEventListener('scroll', positionFavoriteButton);
+
+
 // index.html の <script> タグ内に追加 (既存のコードの下など)
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -1413,6 +1476,83 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+//お気に入り登録ロジック
+const favoriteBtn = document.getElementById('favoriteToggleButton');
+
+function getCurrentProblemInfo() {
+  for (let i = 0; i < archiveStructure.length; i++) {
+    const entry = archiveStructure[i];
+    const start = entry.essayStartIndex;
+    const end = start + entry.numProblems;
+    if (currentEssayIndex >= start && currentEssayIndex < end) {
+      const localIndex = currentEssayIndex - start;
+      const essay = typingData[i].essays[localIndex]; // ← essayごとのtags参照
+      return {
+        setIndex: i,
+        essayIndexInSet: localIndex,
+        title: entry.titles[localIndex],
+        date: entry.date,
+        text: allEssays[currentEssayIndex],
+        tags: essay.tags || [] // ← ✅ 個別essayのtags
+      };
+    }
+  }
+  return null;
+}
+
+
+
+function isAlreadyFavorite(problem) {
+  const favs = JSON.parse(localStorage.getItem('favoriteProblems') || '[]');
+  return favs.some(f =>
+    f.setIndex === problem.setIndex &&
+    f.essayIndexInSet === problem.essayIndexInSet
+  );
+}
+
+function toggleFavorite() {
+  const info = getCurrentProblemInfo();
+  if (!info) return;
+
+  let favs = JSON.parse(localStorage.getItem('favoriteProblems') || '[]');
+  const index = favs.findIndex(f =>
+    f.setIndex === info.setIndex &&
+    f.essayIndexInSet === info.essayIndexInSet
+  );
+
+  if (index >= 0) {
+    favs.splice(index, 1); // 削除
+    updateFavoriteButton(false);
+  } else {
+    // ✅ 個別の essay から tags を取得
+    const tags = typingData[info.setIndex].essays[info.essayIndexInSet].tags || [];
+
+    favs.push({
+      ...info,
+      tags: tags
+    });
+
+    updateFavoriteButton(true);
+  }
+
+  localStorage.setItem('favoriteProblems', JSON.stringify(favs));
+}
+
+function updateFavoriteButton(isActive) {
+  if (!favoriteBtn) return;
+  favoriteBtn.classList.toggle('active', isActive);
+  favoriteBtn.textContent = isActive ? '★ お気に入りに登録済み' : '☆ お気に入りに追加';
+}
+
+function refreshFavoriteButton() {
+  const info = getCurrentProblemInfo();
+  updateFavoriteButton(info && isAlreadyFavorite(info));
+}
+
+if (favoriteBtn) {
+  favoriteBtn.addEventListener('click', toggleFavorite);
+}
 
 
   </script>
