@@ -141,6 +141,51 @@
       background-color: #e5e5e5;
       transform: scale(0.98);
     }
+
+    .share-button-container {
+  position: relative;
+  display: inline-block;
+}
+
+.share-button {
+  background-color: #ffffff;
+  color: #009b00de;
+  border: 1px solid #009b00de;
+  border-radius: 24px;
+  padding: 0.4em 1em;
+  font-size: 0.9em;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+}
+
+.share-button:hover {
+  background-color: #e7f4fd;
+  color: #005b9e;
+}
+
+.share-button-container::after {
+  content: "";
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 1000px;
+  background-image: url('key-wind.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.share-button-container:hover::after {
+  opacity: 1;
+}
+
+
   </style>
 </head>
 <body>
@@ -193,17 +238,11 @@
 
     const wrapper = document.createElement('div');
     wrapper.className = 'problem-display';
-   wrapper.innerHTML = `
+  wrapper.innerHTML = `
   <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-    <button onclick="shareOnX(currentFavorite)" style="
-      background: none;
-      border: none;
-      color: #1da1f2;
-      font-size: 0.9em;
-      cursor: pointer;
-      padding: 0.2em 0.4em;
-      font-family: inherit;
-    ">この問題文を贈る（Xで共有）</button>
+    <div class="share-button-container">
+      <button class="share-button" onclick="shareOnX(currentFavorite)">この問題文を贈る（Xで共有）</button>
+    </div>
 
     <div style="font-size: 0.85em; color: #666; text-align: right;">
       ${item.date || '日付不明'}<br>
@@ -212,6 +251,7 @@
   </div>
   <p style="margin: 1.8em 0 1em 0; line-height: 1.8;">${item.text}</p>
 `;
+
 
     display.appendChild(wrapper);
   }
