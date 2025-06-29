@@ -870,8 +870,10 @@ async function loadTypingData() {
       allEssays.push(...dailyEssaysTexts);
       currentIndex += dailyEssaysTexts.length;
     });
+    
+    initializeSite();
+showSharedProblemIfNeeded(); // ←この行を追加！
 
-    initializeSite(); // 初期化処理を呼び出す
 
   } catch (error) {
     console.error("問題データの処理中にエラーが発生しました:", error);
@@ -1554,6 +1556,20 @@ if (favoriteBtn) {
   favoriteBtn.addEventListener('click', toggleFavorite);
 }
 
+function showSharedProblemIfNeeded() {
+  const params = new URLSearchParams(window.location.search);
+  const date = params.get('date');
+  const index = parseInt(params.get('index'), 10);
+  if (!date || isNaN(index)) return;
+
+  const setIndex = archiveStructure.findIndex(entry => entry.date === date);
+  if (setIndex === -1) return;
+
+  const entry = archiveStructure[setIndex];
+  if (index < 0 || index >= entry.numProblems) return;
+
+  loadProblemByIndices(setIndex, index);
+}
 
   </script>
   

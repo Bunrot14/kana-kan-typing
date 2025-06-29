@@ -193,13 +193,26 @@
 
     const wrapper = document.createElement('div');
     wrapper.className = 'problem-display';
-    wrapper.innerHTML = `
-      <div class="problem-meta">
-        ${item.date || '日付不明'}<br>
-        タグ: ${(item.tags && item.tags.length > 0) ? item.tags.join(', ') : '（なし）'}
-      </div>
-      <p style="margin: 2.8em 0 1em 0; line-height: 1.8;">${item.text}</p>
-    `;
+   wrapper.innerHTML = `
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+    <button onclick="shareOnX(currentFavorite)" style="
+      background: none;
+      border: none;
+      color: #1da1f2;
+      font-size: 0.9em;
+      cursor: pointer;
+      padding: 0.2em 0.4em;
+      font-family: inherit;
+    ">この問題文を贈る（Xで共有）</button>
+
+    <div style="font-size: 0.85em; color: #666; text-align: right;">
+      ${item.date || '日付不明'}<br>
+      タグ: ${(item.tags && item.tags.length > 0) ? item.tags.join(', ') : '（なし）'}
+    </div>
+  </div>
+  <p style="margin: 1.8em 0 1em 0; line-height: 1.8;">${item.text}</p>
+`;
+
     display.appendChild(wrapper);
   }
 
@@ -273,6 +286,19 @@
   } else {
     display.innerHTML = '<p class="empty-message">お気に入りが登録されていません。</p>';
   }
+
+function shareOnX(item) {
+  const tweetText =
+    `📘 ${item.title}\n` +
+    `📅 ${item.date}\n\n` +
+    `#鍵をかけた言葉 #かな漢タイピング\n\n` +
+    `https://www.typingwithclavier.com/index.html?date=${item.date}&index=${item.essayIndexInSet}`;
+
+  const url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText);
+  window.open(url, '_blank');
+}
+
+
 </script>
 </body>
 </html>
