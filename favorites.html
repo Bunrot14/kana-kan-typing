@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -186,7 +187,20 @@
 }
 
 
-  </style>
+  
+.correct {
+  background-color: #d2e3f3 !important;
+  color: #134684 !important;
+}
+.incorrect {
+  color: #cc3333 !important;
+  background-color: #f6d8d8 !important;
+}
+.untyped {
+  color: #2c2f33 !important;
+}
+
+</style>
 </head>
 <body>
 
@@ -338,6 +352,39 @@ function shareOnX(item) {
   window.open(url, '_blank');
 }
 
+
+
+typingArea.addEventListener("input", () => {
+  if (!currentFavorite || !currentFavorite.text) return;
+  const currentEssayText = currentFavorite.text;
+  const input = typingArea.value;
+  display.innerHTML = "";
+  let errorMarked = false;
+
+  for (let i = 0; i < currentEssayText.length; i++) {
+    const span = document.createElement("span");
+    const expected = currentEssayText[i];
+    const typed = input[i];
+
+    if (i < input.length) {
+      if (!errorMarked) {
+        if (typed === expected) {
+          span.className = "correct";
+        } else {
+          span.className = "incorrect";
+          errorMarked = true;
+        }
+      } else {
+        span.className = "untyped";
+      }
+    } else {
+      span.className = "untyped";
+    }
+
+    span.textContent = expected;
+    display.appendChild(span);
+  }
+});
 
 </script>
 </body>
