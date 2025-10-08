@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>言葉の設計図 | かな漢タイピング</title>
+
+  <link rel="canonical" href="https://www.typingwithclavier.com/problems/20251009_06.html">
+  <!-- Google Fonts（indexと同構成） -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPMincho&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rounded+Mplus+1c&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8332431277909692"
+     crossorigin="anonymous"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- OGP -->
+  <meta property="og:title" content="言葉の設計図 | かな漢タイピング" />
+  <meta property="og:description" content="言葉の設計図 家を建てるとき、建築家はまず詳細な「設計図」を描きます。柱の位置、壁の厚さ、窓の大きさ。すべてが計算され尽くした設計図があってこそ、頑丈で美しい家が建つのです。 文章を書くことも、全く同じです。私たちの頭の中にある伝えたい想いは、まだ漠然とした土地のようなもの。そこにどのような言葉の家を建てるか。そのため…" />
+  <meta property="og:image" content="https://www.typingwithclavier.com/assets/OGP_Clavier.png" />
+  <meta property="og:url" content="https://www.typingwithclavier.com/problems/20251009_06.html" />
+  <meta property="og:type" content="article" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="かな漢タイピング" />
+  <meta name="twitter:description" content="文学的な日本語長文で心を整えるタイピング体験を。" />
+  <meta name="twitter:image" content="https://www.typingwithclavier.com/assets/OGP_Clavier.png" />
+
+  <style>
+    :root{
+      --brand:#0b70c9;
+      --brand2:#5aa0e8;
+      --ink:#2c2f33;
+      --paper:#ffffff;
+      --ring:#93c5fd;
+      --shadow: 0 6px 18px rgba(0,0,0,.08);
+      --shadow-lg: 0 14px 26px rgba(0,0,0,.12);
+      --btn-grad: linear-gradient(135deg, var(--brand), var(--brand2));
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Yu Gothic', 'Noto Sans JP', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #f5f5f5;
+      padding: 2rem;
+      line-height: 1.8;
+      color: var(--ink);
+    }
+
+    h1 { text-align: center; margin-bottom: 1rem; }
+
+    /* index の display/textarea */
+    #display, #typingArea, .row, .pager, footer, .link-row, .row-top-back {
+      width: 65vw;
+      margin-left: 0;
+    }
+    #display, #typingArea { border-radius: 12px; }
+    #display {
+      background-color: #EEF1F4;
+      color: var(--ink);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      min-height: 100px;
+      border: 1px solid #d1d8e0;
+      font-size: 0.945em;
+    }
+    .untyped  { color: var(--ink) !important; }
+    .correct  { background-color: #d2e3f3 !important; color: #134684 !important; }
+    .incorrect{ color: #cc3333 !important; background-color: #f6d8d8 !important; }
+
+    #typingArea {
+      min-height: 150px;
+      max-height: 600px;
+      overflow-y: auto;
+      padding: 1rem;
+      line-height: 1.5;
+      resize: none;
+      border: 1px solid #cbd5e1;
+      font-family: inherit;
+      font-size: 0.945em;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    /* 行レイアウト */
+    .row { display:flex; gap: 10px; align-items:center; margin-top: 10px; }
+    .row-top-back { display:flex; justify-content:flex-start; align-items:center; margin: 8px 0 8px; }
+
+    /* ボタン（基底） */
+    .btn {
+      --bg: var(--paper);
+      display:inline-flex; align-items:center; gap:.55rem;
+      padding: .58rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid #cbd5e1;
+      background: var(--bg);
+      color: var(--brand);
+      text-decoration:none;
+      font-weight: 700;
+      letter-spacing:.01em;
+      box-shadow: var(--shadow);
+      transition: transform .12s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease, opacity .2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+    .btn:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; }
+    .btn svg { width: 1.05em; height: 1.05em; }
+
+    /* 強弱 */
+    .btn.pill { border: none; color: white; background: var(--btn-grad); }
+    .btn.ghost { color:#466; background: #fff; border: 1px dashed #cbd5e1; opacity:.9; }
+    .btn.ghost:hover { opacity:1; }
+    .btn.nav  { min-width: 9rem; justify-content:center; }
+
+    /* 5リンク／下部リンク */
+    .link-row { margin-top: 1rem; text-align: left; font-weight: bold; }
+    .sep { margin: 0 0.5em; color: #555; }
+    .archive-link { color: var(--brand); text-decoration: none; transition: all 0.2s ease; }
+    .archive-link:hover { text-decoration: underline; transform: translateY(-1px); }
+
+    /* 指定通りの .criticism-link デザイン */
+    .criticism-link {
+      color: #009b00de;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .criticism-link:hover {
+      color: #006b00;
+      background-color: rgba(0, 155, 0, 0.1);
+      border-radius: 4px;
+      padding: 2px 4px;
+      text-decoration: underline;
+    }
+
+    /* お気に入りボタン（右に浮いて付いてくる） */
+    .favorite-button-fixed {
+      position: absolute;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      pointer-events: none;
+    }
+    .favorite-button-fixed button {
+      pointer-events: auto;
+      font-size: 0.85em;
+      padding: 6px 10px;
+      border: 1px solid #aaa;
+      background-color: #fffdf9;
+      color: #555;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease, box-shadow .2s ease;
+      box-shadow: var(--shadow);
+    }
+    .favorite-button-fixed button:hover { background-color: #f0e6cc; color: #000; }
+    .favorite-button-fixed button.active { background-color: #ffe08a; color: #000; border-color: #c9a634; }
+
+    /* 前後ナビの行 */
+    .pager { display:flex; justify-content: space-between; align-items:center; margin-top: 14px; }
+
+    footer { margin-top: 1.2rem; font-size: 12px; text-align: left; }
+
+    /* レスポンシブ */
+    @media (max-width: 900px) {
+      body { padding: 1rem !important; }
+      #display, #typingArea, .row, .pager, footer, .link-row, .row-top-back { width: 98vw !important; max-width: 100vw !important; }
+      #display, #typingArea { font-size: 1em !important; }
+    }
+    @media (max-width: 600px) {
+      html, body { font-size: 15px !important; padding: 0.5rem !important; }
+      #display, #typingArea { width: 99vw !important; padding: 0.7rem !important; font-size: 1em !important; }
+      .row, .pager, .link-row, footer, .row-top-back { width: 99vw !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- タイトル -->
+  <h1>言葉の設計図</h1>
+
+  <!-- トップへ戻る（問題文欄のすぐ上・左寄せ）-->
+  <div class="row-top-back">
+    <a class="btn back soft" href="https://www.typingwithclavier.com/index.html" aria-label="トップページへ戻る">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.6 4.6a1 1 0 0 1 1.4 0l7.4 7.4a1 1 0 0 1-1.4 1.4L12 7.4 6 13.4a1 1 0 1 1-1.4-1.4l6-6z"/><path fill="currentColor" d="M11 20a1 1 0 1 1 2 0v-9a1 1 0 1 1-2 0v9z"/></svg>
+      <span>トップページへ戻る</span>
+    </a>
+  </div>
+
+  <!-- 本文ソース（SEOのため静的埋め込み） -->
+  <pre id="sourceText" class="visually-hidden" style="display:none">言葉の設計図
+家を建てるとき、建築家はまず詳細な「設計図」を描きます。柱の位置、壁の厚さ、窓の大きさ。すべてが計算され尽くした設計図があってこそ、頑丈で美しい家が建つのです。
+文章を書くことも、全く同じです。私たちの頭の中にある伝えたい想いは、まだ漠然とした土地のようなもの。そこにどのような言葉の家を建てるか。そのための「設計図」が必要になります。
+このタイピングサイトは、いわば優れた建築家たちが描いた名作住宅の「設計図」を学ぶための学校です。ここに現れる文章の構造や論理の流れ、そして言葉の選び方。それらを指先で丁寧になぞっていくことで、あなたは優れた設計の秘訣を、体で学ぶことができるでしょう。
+日々の学習を通して、あなたもまた自分自身の想いを形にするための、美しく機能的な設計図を自在に描けるようになるはずです。さあ、今日も言葉の建築の奥深い世界を探求しにいきましょうか。</pre>
+
+  <!-- 表示＆入力 -->
+  <div id="display"></div>
+  <textarea id="typingArea" placeholder="ここに全文を入力してください..."></textarea>
+
+  <!-- お気に入り（右寄せ配置） -->
+  <div class="favorite-button-fixed" id="favoriteButtonContainer">
+    <button id="favoriteToggleButton">☆ お気に入りに追加</button>
+  </div>
+
+  <!-- 5リンク -->
+  <div class="link-row">
+    <a href="https://www.typingwithclavier.com/clavier_collection.html" class="archive-link">クラヴィエの寓話集</a><span class="sep">｜</span>
+    <a href="https://www.typingwithclavier.com/archive.html" class="archive-link">すべてのバックナンバー</a><span class="sep">｜</span>
+    <a href="https://www.typingwithclavier.com/Criticism_index.html" class="criticism-link">問題文の裏庭（解説アーカイブ）</a><span class="sep">｜</span>
+    <a href="https://www.typingwithclavier.com/favorites.html" class="criticism-link">お気に入りページ</a><span class="sep">｜</span>
+    <a href="https://note.com/kanakantyping" class="criticism-link">note</a>
+  </div>
+
+  <div class="pager">
+  
+    <a class="btn pill nav" href="https://www.typingwithclavier.com/problems/20251009_05.html" aria-label="前の問題">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M15.5 5.5a1 1 0 0 1 0 1.4L11.4 11l4.1 4.1a1 1 0 1 1-1.4 1.4l-4.8-4.8a1 1 0 0 1 0-1.4l4.8-4.8a1 1 0 0 1 1.4 0z"/></svg>
+      <span>前の問題</span>
+    </a>
+  
+
+  <a class="btn ghost share" href="https://x.com/intent/post?text=%E8%A8%80%E8%91%89%E3%81%AE%E8%A8%AD%E8%A8%88%E5%9B%B3%EF%BD%9C%E3%81%8B%E3%81%AA%E6%BC%A2%E3%82%BF%E3%82%A4%E3%83%94%E3%83%B3%E3%82%B0+%23%E3%81%8B%E3%81%AA%E6%BC%A2%E3%82%BF%E3%82%A4%E3%83%94%E3%83%B3%E3%82%B0&url=https%3A%2F%2Fwww.typingwithclavier.com%2Fproblems%2F20251009_06.html" target="_blank" rel="noopener" aria-label="Xでシェア">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.7 3h3.3l-4.6 5.3 5.4 7.7h-4.2l-3.3-4.4-3.8 4.4H4.2l5-5.7L4 3h4.3l3 4L14.7 3z"/></svg>
+    <span>Xでシェア</span>
+  </a>
+
+  
+</div>
+
+  <!-- 下部リンク -->
+  <footer>
+    <p style="margin: 0;">
+      <a href="https://www.typingwithclavier.com/meditation_typing.html" class="archive-link">瞑想的タイピングのすすめ</a> |
+      <a href="https://www.typingwithclavier.com/philosophy.html" class="archive-link">問題文に込めた想い</a> |
+      <a href="https://www.typingwithclavier.com/Misconversion.html" class="archive-link">誤変換のポエジー</a>
+    </p>
+  </footer>
+
+  <!-- 結果 -->
+  <div id="popup">
+    <ul id="popupList"></ul>
+    
+  </div>
+
+<script>
+(function(){
+  const display = document.getElementById("display");
+  const typingArea = document.getElementById("typingArea");
+  const popup = document.getElementById("popup");
+  const popupList = document.getElementById("popupList");
+  const sourceTextEl = document.getElementById("sourceText");
+  const favoriteBtn = document.getElementById("favoriteToggleButton");
+
+  const pageMeta = {
+    url: "https://www.typingwithclavier.com/problems/20251009_06.html",
+    title: "言葉の設計図",
+    date: "2025-10-09",
+    tags: ["紹介"],
+  };
+
+  const currentEssayText = (sourceTextEl ? sourceTextEl.textContent : "").replace(/\\r\\n|\\r/g, "\\n");
+  let startTime = null;
+
+  function updateDisplay() {
+    const input = typingArea.value || "";
+    display.innerHTML = "";
+    let errorMarked = false;
+
+    for (let i = 0; i < currentEssayText.length; i++) {
+      const span = document.createElement("span");
+      const expected = currentEssayText[i];
+      const typed = input[i];
+
+      if (i < input.length) {
+        if (!errorMarked) {
+          span.className = (typed === expected) ? "correct" : "incorrect";
+          if (typed !== expected) errorMarked = true;
+        } else {
+          span.className = "untyped";
+        }
+      } else {
+        span.className = "untyped";
+      }
+      span.textContent = expected;
+      display.appendChild(span);
+    }
+
+    if (!errorMarked && input === currentEssayText && currentEssayText.length > 0) {
+      showResult();
+    }
+  }
+
+  function getEvalMsg(wpm){
+    if (wpm >= 350) return "You are Clavier.";
+    if (wpm >= 250) return "あなたは鍵をもつ風。";
+    if (wpm >= 200) return "あなたの言葉は稲妻。世界を貫いている。";
+    if (wpm >= 120) return "思考と指先が調和して、美しい旋律を奏でている。";
+    if (wpm >= 60)  return "確かな歩みが、言葉をひとつずつ紡いでいく。";
+    if (wpm >= 30)  return "急がず焦らず、言葉と心を結びつける旅の途中。";
+    return "複雑に考えず、自分自身でいること。";
+  }
+  function getLevelComment(wpm){
+    if (wpm >= 350) return "神速の領域。指先で詩を書いているようです。";
+    if (wpm >= 250) return "プロフェッショナルの風格。キーボードもあなたに従っている。";
+    if (wpm >= 200) return "洗練された速度。タイピングが日常の一部となっている証です。";
+    if (wpm >= 120) return "実務でも十分通用します。滑らかな言葉の流れが感じられます。";
+    if (wpm >= 60)  return "落ち着いたテンポ。着実な力を育んでいます。";
+    if (wpm >= 30)  return "丁寧さが光っています。正確さは力です。";
+    return "始まりの一歩。焦らず、楽しみながら育てていきましょう。";
+  }
+
+  function showResult(){
+    if (!startTime) return;
+    const elapsed = ((Date.now() - startTime) / 1000);
+    const charCount = typingArea.value.length;
+    const wpm = (charCount > 0 && elapsed > 0) ? Math.round((charCount / elapsed) * 60) : 0;
+
+    popupList.innerHTML = "";
+    const mk = (label, content)=>{
+      const li = document.createElement("li");
+      li.style.whiteSpace = "nowrap"; li.style.overflow = "hidden"; li.style.textOverflow="ellipsis";
+      li.innerHTML = "<strong>"+label+"</strong> "+content;
+      return li;
+    };
+    popupList.appendChild(mk("所要時間：", elapsed.toFixed(1)+"秒"));
+    popupList.appendChild(mk("入力文字数：", charCount+"文字"));
+    popupList.appendChild(mk("WPM：", wpm+"文字/分　"+getLevelComment(wpm)));
+    popupList.appendChild(mk("評価：", getEvalMsg(wpm)));
+
+    popup.style.display = "block";
+    typingArea.blur();
+  }
+
+  // 入力イベント／ペースト無効／Qキーで閉じる
+  typingArea.addEventListener("input", ()=>{
+    if (!startTime && typingArea.value.length > 0) startTime = Date.now();
+    if (typingArea.value.length === 0) startTime = null;
+    updateDisplay();
+  });
+  typingArea.addEventListener("paste", (e)=>{ e.preventDefault(); alert("ペーストは無効です。"); });
+  document.addEventListener("keydown", (e)=>{
+    if ((e.key === "q" || e.key === "Q") && popup.style.display === "block") {
+      popup.style.display = "none";
+      typingArea.focus();
+      e.preventDefault();
+    }
+  });
+
+  // ===== お気に入り（favoriteProblems） =====
+  function loadFavorites(){ try { return JSON.parse(localStorage.getItem('favoriteProblems') || '[]'); } catch(_) { return []; } }
+  function saveFavorites(list){ localStorage.setItem('favoriteProblems', JSON.stringify(list)); }
+  function isFavorited(url){ return loadFavorites().some(f => f.url === url); }
+  function toggleFavorite(){
+    const favs = loadFavorites();
+    const i = favs.findIndex(f=>f.url===pageMeta.url);
+    if (i>=0){ favs.splice(i,1); saveFavorites(favs); updateFavBtn(false); return; }
+    favs.push({url:pageMeta.url, title:pageMeta.title, date:pageMeta.date, text:currentEssayText, tags:pageMeta.tags||[], setIndex:null, essayIndexInSet:null});
+    saveFavorites(favs); updateFavBtn(true);
+  }
+  function updateFavBtn(active){
+    favoriteBtn.classList.toggle('active', !!active);
+    favoriteBtn.textContent = active ? "★ お気に入りに登録済み" : "☆ お気に入りに追加";
+  }
+  function initFavorite(){
+    if (!favoriteBtn) return;
+    updateFavBtn(isFavorited(pageMeta.url));
+    favoriteBtn.addEventListener('click', toggleFavorite);
+  }
+
+  // お気に入りボタンの位置調整
+  function positionFavoriteButton() {
+    const typingRect = typingArea.getBoundingClientRect();
+    const fav = document.getElementById('favoriteButtonContainer');
+    if (!fav) return;
+    fav.style.top  = (window.scrollY + typingRect.bottom - 32) + "px";
+    fav.style.left = (window.scrollX + typingRect.right + 8) + "px";
+  }
+  window.addEventListener('load', positionFavoriteButton);
+  window.addEventListener('resize', positionFavoriteButton);
+  window.addEventListener('scroll', positionFavoriteButton);
+
+  // 初期化
+  updateDisplay();
+  initFavorite();
+})();
+</script>
+</body>
+</html>
