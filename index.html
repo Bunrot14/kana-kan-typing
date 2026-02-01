@@ -10,11 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
 
-
-
-
-
-
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-84N6PLRMJY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -24,15 +19,13 @@
   gtag('config', 'G-84N6PLRMJY');
 </script>
   <meta charset="UTF-8" />
-<!--adsenseのもの-->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8332431277909692"
      crossorigin="anonymous"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <meta name="google-site-verification" content="ZqIqYlZDifbNwvYH5bcib3CigI-syrHrCMTkBAhal7c" />
-<!--paypal.コード-->
- <script 
+<script 
   src="https://www.paypal.com/sdk/js?client-id=BAAix0TQkbmjXHMdtLABs3WdFS2aVTUl8VGNO3aPgOJcDRsIr2sIMsMjfB3xX0-KxIIHsxrwuqIXVfZ-YI&components=hosted-buttons&disable-funding=venmo&currency=JPY">
 </script>
 
@@ -42,14 +35,12 @@
   <meta name="keywords" content="タイピング, 長文, かな漢字変換, 瞑想, 文学, 毎日更新, 静かに集中 , 哲学, 詩, 読書, かな漢タイピング,変換,タイピングサイト" />
   <meta name="author" content="Bunrot" />
 
-<!-- OGPタグ -->
 <meta property="og:title" content="かな漢タイピング｜静かに集中する変換あり長文タイピング練習" />
 <meta property="og:description" content="文学的な日本語長文で心を整えるタイピング体験を。" />
 <meta property="og:image" content="https://www.typingwithclavier.com/assets/OGP_Clavier.png" />
 <meta property="og:url" content="https://www.typingwithclavier.com/" />
 <meta property="og:type" content="website" />
 
-<!-- Twitterカードタグ -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="かな漢タイピング" />
 <meta name="twitter:description" content="文学的な日本語長文で心を整えるタイピング体験を。" />
@@ -84,7 +75,7 @@ html, body {
       justify-content: center;
       gap: 10px;
       margin-bottom: 1rem;
-      flex-wrap: wrap; /* ボタンが多すぎるときに折り返すように */
+      flex-wrap: wrap; 
     }
 
     .problem-buttons button {
@@ -99,22 +90,70 @@ html, body {
       background: #aaa;
     }
     
-    .problem-buttons button.active { /* 現在選択中の問題セットのボタンを強調 */
+    .problem-buttons button.active { 
       background: #888;
       color: white;
     }
 
+    /* メインコンテンツを横に並べるためのレイアウト */
+    .typing-main-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      width: 95%;
+      margin: 0 auto;
+    }
+
+    .typing-column {
+      flex: 0 1 65vw;
+    }
+
+    .donation-sidebar {
+      flex: 0 1 300px;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #d1d8e0;
+      font-size: 0.85em;
+      color: #555;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 20px;
+    }
+
+    .donation-sidebar p {
+      margin-bottom: 1.2rem;
+      line-height: 1.6;
+    }
+
+    .scroll-to-donation-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    .scroll-to-donation-btn:hover {
+      background-color: #2980b9;
+    }
+
     #display,
     #typingArea {
-      width: 65vw;
+      width: 100%; /* 親要素(typing-column)に対して100% */
       font-size: 14.5px;
       border-radius: 8px;
     }
 
-/* --- 朝の霧：やや青みを帯びた落ち着いたグレー系 --- */
 #display {
-  background-color: #EEF1F4; /* ごく淡いブルーグレー */
-  color: #2c2f33; /* 濃いグレーで可読性を保つ */
+  background-color: #EEF1F4; 
+  color: #2c2f33; 
   padding: 1rem;
   margin-bottom: 1rem;
   white-space: pre-wrap;
@@ -124,7 +163,6 @@ html, body {
   border: 1px solid #d1d8e0;
   border-radius: 8px;
    font-size: 0.945em;
-    
 }
 
 .untyped {
@@ -132,7 +170,7 @@ html, body {
 }
 
 .correct {
-  background-color: #d2e3f3 !important; /* 淡い青 */
+  background-color: #d2e3f3 !important; 
   color: #134684 !important;
 }
 
@@ -140,15 +178,12 @@ html, body {
   color: #cc3333 !important;
   background-color: #f6d8d8 !important;
 }
-/* --- 朝の霧ここまで --- */
-
 
     #typingArea {
-      width: 65vw;
     height: auto;
-    min-height: 150px; /* 最小高さ */
-    max-height: 600px; /* 最大高さ */
-    overflow-y: auto; /* 内容が最大を超えたらスクロール */    
+    min-height: 150px; 
+    max-height: 600px; 
+    overflow-y: auto; 
       padding: 1rem;
       line-height: 1.5;
       resize: none;
@@ -168,15 +203,15 @@ html, body {
   background: white;
   border: 2px solid #888;
   padding: 1.5em;
-  min-width: 300px;       /* 最小幅：小さい表示にも対応 */
-  max-width: 90vw;        /* 最大幅：画面の90%まで広がる */
-  width: fit-content;     /* 内容に応じて幅を調整 */
+  min-width: 300px;       
+  max-width: 90vw;        
+  width: fit-content;     
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   z-index: 9999;
   font-family: "Yu Gothic", sans-serif;
   line-height: 1.5;
   word-break: break-word;
-  white-space: normal;    /* 長文がちゃんと改行されるように */
+  white-space: normal;    
 }
 
 #popup ul {
@@ -239,47 +274,43 @@ html, body {
   text-decoration: none;
 }
 
-/* index.html の <style> タグ内に追加 */
-
-/* 「使い方」ボタンと「閉じる」ボタンの共通スタイル */
 .usage-action-button {
-    padding: 0.6em 1.2em; /* 少し余白を増やして存在感を出す */
-    background: #ffffff;   /* 背景 */
-    color: #2980b9;       /* 文字色 */
-    border: 1px solid #2980b9; /* 枠線 */
+    padding: 0.6em 1.2em; 
+    background: #ffffff;   
+    color: #2980b9;       
+    border: 1px solid #2980b9; 
     border-radius: 5px;
     cursor: pointer;
-    font-size: 0.85em;      /* 少しだけフォントサイズを上げる */
-    font-weight: 600;       /* 文字を少し太くして視認性アップ */
+    font-size: 0.85em;      
+    font-weight: 600;       
     transition: background-color 0.2s ease-out, color 0.2s ease-out, transform 0.1s ease-out, box-shadow 0.2s ease-out;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* ごく控えめな影で立体感を */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
 }
 
 .usage-action-button:hover {
-    background: #005a99;   /* ホバーで背景色と文字色を反転 */
+    background: #005a99;   
     color: #fff;
-    border-color: #004c80; /* ホバー時の枠線を少し濃く */
-    transform: translateY(-1px); /* わずかに浮き上がる効果 */
+    border-color: #004c80; 
+    transform: translateY(-1px); 
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* 説明文表示エリアのスタイル */
 .usage-guide-wrapper {
-    position: fixed; /* 画面固定表示 (モーダル風) */
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景 */
-    display: flex; /* display: none; はJSで制御 */
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex; 
     align-items: center;
     justify-content: center;
-    z-index: 10000; /* 他の要素より手前に */
-    opacity: 0; /* 初期状態は透明 */
-    visibility: hidden; /* 初期状態は非表示 */
+    z-index: 10000; 
+    opacity: 0; 
+    visibility: hidden; 
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-.usage-guide-wrapper.visible { /* 表示時のスタイル */
+.usage-guide-wrapper.visible { 
     opacity: 1;
     visibility: visible;
 }
@@ -290,10 +321,10 @@ html, body {
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 680px; /* 最大幅 */
-    max-height: 80vh; /* 最大高さ */
-    overflow-y: auto; /* 内容が多い場合はスクロール */
-    position: relative; /* 閉じるボタンの位置基準用 */
+    max-width: 680px; 
+    max-height: 80vh; 
+    overflow-y: auto; 
+    position: relative; 
 }
 .usage-guide-content h2 {
     text-align: center;
@@ -303,7 +334,6 @@ html, body {
     font-size: 1.6em;
 }
 
-/* アコーディオンリストのスタイル */
 .accordion-list {
     list-style: none;
     padding: 0;
@@ -325,38 +355,37 @@ html, body {
     font-weight: bold;
     border-radius: 5px;
     transition: background-color 0.2s;
-    display: block; /* 幅100%にするため */
-    margin-bottom: 5px; /* パネルとの間に少し隙間 */
+    display: block; 
+    margin-bottom: 5px; 
 }
 .accordion-header:hover, .accordion-header.active {
     background-color: #d8d8d8;
 }
-.accordion-header.active::after { /* 開いている印 (任意) */
+.accordion-header.active::after { 
     content: " －"; 
 }
-.accordion-header::after { /* 閉じている印 (任意) */
+.accordion-header::after { 
     content: " ＋";
     float: right;
 }
 
 .accordion-panel {
-    padding: 0 18px; /* 上下のpaddingはmax-heightのアニメーション時に調整 */
+    padding: 0 18px; 
     background-color: white;
-    /* display: none; を削除、またはコメントアウト */
-    max-height: 0; /* ★初期状態では高さを0にして内容を隠す */
-    overflow: hidden; /* ★はみ出した内容を隠す */
-     padding-top: 0;    /* ← 初期状態では上下のpaddingも0に */
-    padding-bottom: 0; /* ← 初期状態では上下のpaddingも0に */
+    max-height: 0; 
+    overflow: hidden; 
+     padding-top: 0;    
+    padding-bottom: 0; 
     border: 1px solid #f0f0f0;
     border-top: none;
     border-radius: 0 0 5px 5px;
     line-height: 1.7;
-    transition: max-height 0.3s ease-out, padding-top 0.3s ease-out, padding-bottom 0.3s ease-out; /* ★スムーズな開閉アニメーション */
+    transition: max-height 0.3s ease-out, padding-top 0.3s ease-out, padding-bottom 0.3s ease-out; 
 }
 
-.accordion-panel.open { /* パネルが開いた状態のスタイル */
-    max-height: 500px; /* ★内容が表示されるのに十分な高さを設定 (必要なら調整) */
-    padding-top: 15px;    /* 開いた時の上下のpadding */
+.accordion-panel.open { 
+    max-height: 500px; 
+    padding-top: 15px;    
     padding-bottom: 15px;
 }
 .accordion-panel p {
@@ -366,7 +395,7 @@ html, body {
 .accordion-panel p:first-child {
     margin-top: 0;
 }
-.accordion-panel .text-link { /* 説明文中のリンクスタイル */
+.accordion-panel .text-link { 
     color: #007acc;
     text-decoration: none;
 }
@@ -376,85 +405,72 @@ html, body {
 
 .usage-guide-content .close-button {
     display: block;
-    margin: 25px auto 0 auto; /* 中央寄せ */
-    background-color: #555; /* 少し濃いめの背景 */
+    margin: 25px auto 0 auto; 
+    background-color: #555; 
     color: white;
 }
 .usage-guide-content .close-button:hover {
     background-color: #333;
 }
 
-/* index.html の <style> タグ内に追加または既存のものを修正 */
-
 .problem-container {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 5px 0px; /* 左右のパディングで中央の表示領域を制御 */
+    padding: 5px 0px; 
     box-sizing: border-box;
 }
 
 .header-left-controls {
-     /* flex: 3.3; を削除または以下のように変更 */
-    flex-grow: 0;     /* 伸びない */
-    flex-shrink: 0;   /* 基本的に縮まない (コンテンツ幅による) */
-    flex-basis: auto; /* コンテンツに応じた幅 */
-    /* display: flex; flex-direction: column; align-items: flex-start; はそのまま */
+    flex-grow: 0;     
+    flex-shrink: 0;   
+    flex-basis: auto; 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
      margin-right: 15px;
 }
 
-.title-and-usage-container { /* ★新しいラッパー要素のスタイル */
+.title-and-usage-container { 
     display: flex;
-    align-items: center; /* タイトルとボタンを垂直中央揃え */
-    /* justify-content: center;  もしこのコンテナ内でさらに中央寄せしたい場合 */
-    position: relative; /* 位置調整の基準を現在の位置にする */
-    left: 75px;       /* 現在の位置から左に10pxオフセット（つまり右に10px移動）*/
-                      /* この値を増やすとより右に、減らすと左に移動します。 */
-                      /* 負の値を指定すると左にずれます (例: left: -5px;) */
+    align-items: center; 
+    position: relative; 
+    left: 75px;       
 }
 
 .title-and-usage-container h1 {
-    /* margin: 0; */ /* デフォルトのマージンをリセット */
-    margin-right: 15px; /* ★使い方ボタンとの間のスペース */
-    font-size: 1.8em; /* 以下、既存のh1スタイル */
+    margin-right: 15px; 
+    font-size: 1.8em; 
     font-weight: 600;
     color: #2c3e50;
 }
 
-.problem-container h1 { /* h1のスタイルをここに集約 */
-    /*flex-grow: 1;        ★重要: 残りのスペースを全て取るようにする */
-    text-align: center; /* テキストを中央揃え */
-    margin: 0;     /* 左右の要素との間に最低限の余白 */
+.problem-container h1 { 
+    text-align: center; 
+    margin: 0;     
     padding: 0;
     font-size: 2.0em;
     font-weight: 600;
     color: #000000;
     min-width: 0;
-    /* flex-shrink: 0; は flex-grow: 1 があれば通常不要 */
 }
 
 .header-right-controls {
-    flex-grow: 0;     /* 伸びない */
-    flex-shrink: 0;   /* 基本的に縮まない */
-    flex-basis: auto; /* コンテンツに応じた幅 */
-    /* display: flex; justify-content: flex-end; align-items: center; はそのまま */
+    flex-grow: 0;     
+    flex-shrink: 0;   
+    flex-basis: auto; 
     display: flex;
     justify-content: flex-end;
     align-items: center;
      margin-left: 15px;
 }
 
-/* 既存の .problem-header, #problem-buttons, .usage-action-button のスタイルはそのまま活用 */
-
  .donation-container {
     display: flex;
     justify-content: center;
     align-items: flex-start;
     gap: 40px;
-    flex-wrap: wrap; /* 画面が狭いときは折り返す */
+    flex-wrap: wrap; 
     margin: 2em 0;
   }
 
@@ -469,7 +485,6 @@ html, body {
     font-size: 1rem;
   }
 
-  /*フッターの上の三つのリンクのスタイルが以下*/
 .archive-link {
   color: #007acc;
   text-decoration: none;
@@ -482,7 +497,6 @@ html, body {
   transform: scale(1.05);
 }
 
-/* 「問題文の裏庭」の特別なスタイル */
 .criticism-link {
   color: #009b00de;
   text-decoration: none;
@@ -497,18 +511,12 @@ html, body {
   text-decoration: underline;
 }
 
-
-</style>
-
-  </style>
-  <style>
-    /* ヘッダーに表示するメッセージのスタイル */
     .site-intro {
-      font-size: 0.7em; /* 小さめの文字サイズ */
-      color: #888; /* 優しいグレー */
-      text-align: center; /* 中央揃え */
-      margin: 1px 0; /* 上下のマージンで余裕を持たせる */
-      font-family: 'Arial', sans-serif; /* 優しい雰囲気のフォント */
+      font-size: 0.7em; 
+      color: #888; 
+      text-align: center; 
+      margin: 1px 0; 
+      font-family: 'Arial', sans-serif; 
     }
 
     .intro-close-button {
@@ -525,16 +533,32 @@ html, body {
 .intro-close-button:hover {
   background-color: #bbb;
 }
+
 /* ======== レスポンシブ対応CSS ======== */
 @media (max-width: 900px) {
   body {
     padding: 1rem !important;
   }
 
-  #display, #typingArea {
+  .typing-main-wrapper {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .typing-column {
     width: 98vw !important;
-    min-width: 0 !important;
-    max-width: 100vw !important;
+    flex: none !important;
+  }
+
+  .donation-sidebar {
+    width: 98vw !important;
+    flex: none !important;
+    position: static !important;
+    margin-top: 1rem;
+  }
+
+  #display, #typingArea {
+    width: 100% !important;
     font-size: 1em !important;
   }
 
@@ -567,14 +591,6 @@ html, body {
     padding: 0.5rem !important;
   }
 
-  #display, #typingArea {
-    width: 99vw !important;
-    min-width: 0 !important;
-    max-width: 100vw !important;
-    padding: 0.7rem !important;
-    font-size: 1em !important;
-  }
-
   .donation-container {
     flex-direction: column !important;
     gap: 16px !important;
@@ -599,52 +615,16 @@ html, body {
   }
 }
 
-/* モーダルやポップアップの最大幅を調整 */
-@media (max-width: 600px) {
-  .usage-guide-content,
-  #popup {
-    max-width: 95vw !important;
-    min-width: 0 !important;
-    padding: 0.8em !important;
-    font-size: 1em !important;
-  }
-}
-
-/* アーカイブなどの余白も調整 */
-@media (max-width: 600px) {
-  #archive {
-    margin-top: 1.2rem !important;
-    padding: 0 !important;
-  }
-  #archive-list {
-    margin-top: 0.8rem !important;
-  }
-}
-
-/* サイトイントロやフッターも余白調整 */
-@media (max-width: 600px) {
-  .site-intro {
-    font-size: 0.95em !important;
-    padding: 0.4em !important;
-    line-break: strict;
-  }
-  footer {
-    font-size: 0.95em !important;
-    padding: 0.2em !important;
-  }
-}
-
-<!--お気に入り関連CSS-->
 .favorite-button-fixed {
   position: absolute;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  pointer-events: none; /* 初期は非アクティブで浮かせるだけ */
+  pointer-events: none; 
 }
 
 .favorite-button-fixed button {
-  pointer-events: auto; /* ボタンだけクリック可能 */
+  pointer-events: auto; 
   font-size: 0.85em;
   padding: 6px 10px;
   border: 1px solid #aaa;
@@ -742,26 +722,31 @@ html, body {
                     <p>問題文をすべて正しく入力すると、所要時間、入力文字数、WPM（1分間あたりの入力文字数）、ささやかな評価メッセージが表示されます。結果に一喜一憂するよりも、入力中の集中や言葉との出会いをお楽しみください。「Q」キーで結果を閉じ、次の練習に進めます。</p>
                 </div>
             </li>
-             <!--
-            <li>
-                <button class="accordion-header">寄付のお願い（ページの下部から）</button>
-                <div class="accordion-panel">
-                    <p>毎日ことばを紡ぎ、静かに更新を続けています。<br>この小さなサイトを気に入ってくださった方、どこか共鳴するものを感じてくださった方へ——<br>ページ下部に、ささやかなご支援の窓口を設けています。ご寄付は、サイトの運営費や今後のコンテンツづくりに大切に使わせていただきます。<br>無理のないかたちで、そっと支えていただけたら、たいへん心強く、ありがたく思います。</p>
-                </div>
-            </li>
-          -->
         </ul>
         <button id="closeUsageGuideButton" class="usage-action-button close-button">閉じる</button>
     </div>
 </div>
 
-  <div id="display"></div>
+  <div class="typing-main-wrapper">
+    <div class="typing-column">
+      <div id="display"></div>
+      <textarea id="typingArea" placeholder="ここに全文を入力してください..."></textarea>
+      
+      <div class="favorite-button-fixed" id="favoriteButtonContainer">
+        <button id="favoriteToggleButton">☆ お気に入りに追加</button>
+      </div>
+    </div>
 
-  <textarea id="typingArea" placeholder="ここに全文を入力してください..."></textarea>
-  <!--お気に入り追加ボタン-->
-  <div class="favorite-button-fixed" id="favoriteButtonContainer">
-  <button id="favoriteToggleButton">☆ お気に入りに追加</button>
-</div>
+  <aside class="donation-sidebar">
+  <h4 class="donation-title">運営の継続に関する切実なお願い</h4>
+  <p class="donation-text">
+    没入感を守るため広告を排し、個人の資材で運営を続けてまいりましたが、現在わたしの力だけでは継続が困難な状況にあります。</p>
+  <p>このタイピング体験と物語が、あなたにとって価値あるものであったなら、寄付という形でこの場所の明日を支えていただけないでしょうか。
+  </p>
+  <p>少額のご支援でも一つの練習用テキストを作る大きな励みになります。</p>
+  <button class="scroll-to-donation-btn" id="scrollToDonation">この場所を支える（寄付へ）</button>
+</aside>
+  </div>
 
 
 <section id="archive" style="margin-top: 2rem;">
@@ -787,7 +772,7 @@ html, body {
     <p>（Qキーで閉じる）</p>
   </div>
 
-  <footer style="position: static; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 1px; background: #f5f5f5; margin-top: 2rem;">
+  <footer id="siteFooter" style="position: static; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 1px; background: #f5f5f5; margin-top: 2rem;">
     <p style="margin: 0;">
             <a href="meditation_typing.html" style="color: #007acc;">瞑想的タイピングのすすめ</a> |
             <a href="philosophy.html" style="color: #007acc;">問題文に込めた想い</a> |
@@ -805,12 +790,11 @@ html, body {
 <hr style="border: none; border-top: 2px solid #3498db;margin-top: 2em; margin-bottom: 0em;">
 
 
-<h3 style="text-align: left; font-size: 1.8em; padding-left: 2.5em;">
+<h3 style="text-align: left; font-size: 1.8em; padding-left: 2.5em;" id="donationSectionTitle">
   ご支援のかたちをお選びいただけます
   <span style="font-size: 0.6em;">（この小さなサイトを気に入ってくださったら、そっとご支援いただけると幸いです。）</span>
 </h3>
 <div class="donation-container">
-  <!-- OFUSE -->
   <div class="donation-box">
     <h4>🟢 OFUSE：言葉と気持ちを届ける</h4>
     <p>クレジットカードもご利用いただけます。<br>下のボタンを押し「ファンレターを送る」を選択します。<br>（ 「ゲストとして送信する」と、アカウントがなくても送信できます）</p>
@@ -822,7 +806,6 @@ html, body {
        data-ofuse-text="OFUSEでのご寄付">OFUSEでのご寄付</a>
     <script async src="https://ofuse.me/assets/platform/widget.js" charset="utf-8"></script>
   </div>
-  <!-- PayPal -->
   <div class="donation-box">
     <h4>🟢 PayPal：自由な額で静かに支援する</h4>
     <div id="paypal-container-5ZSTK6FHNDKH4"></div>
@@ -850,27 +833,26 @@ html, body {
     const problemHeaderDate = document.getElementById("problem-header-date");
     const problemButtonsContainer = document.getElementById("problem-buttons");
 
-  let allEssays = []; // 全ての問題文テキストを格納する配列
-  let archiveStructure = []; // 新しいバックナンバー情報の構造を格納する配列
+  let allEssays = []; 
+  let archiveStructure = []; 
 
-  let currentEssayIndex = 0; // 現在表示している問題のessays配列でのグローバルインデックス
-  let currentProblemSetStartIndex = 0; // 現在選択されている問題セットの開始インデックス
-  let currentProblemSetNumProblems = 0; // 現在選択されている問題セットの問題数
+  let currentEssayIndex = 0; 
+  let currentProblemSetStartIndex = 0; 
+  let currentProblemSetNumProblems = 0; 
   let startTime = null;
 
-let typingData = []; // ★ グローバル変数として宣言（関数外）
+let typingData = []; 
 
 async function loadTypingData() {
   try {
-    const response = await fetch('typing_data.json'); // JSONファイルを非同期で取得
+    const response = await fetch('typing_data.json'); 
     if (!response.ok) {
       throw new Error(`JSONファイルの読み込みに失敗しました。ステータス: ${response.status}`);
     }
 
-    const jsonData = await response.json(); // レスポンスをJSONとしてパース
-    typingData = jsonData; // ★ 各essayのtags取得のために保持
+    const jsonData = await response.json(); 
+    typingData = jsonData; 
 
-    // jsonDataが配列であることを確認
     if (!Array.isArray(jsonData)) {
       throw new Error("JSONデータの形式が正しくありません。ルートは配列であるべきです。");
     }
@@ -896,7 +878,7 @@ async function loadTypingData() {
         titles: titles,
         essayStartIndex: currentIndex,
         numProblems: dailyEssaysTexts.length,
-        tags: dailyEntry.tags || [] // セット全体のtags（現在は未使用）
+        tags: dailyEntry.tags || [] 
       });
 
       allEssays.push(...dailyEssaysTexts);
@@ -904,7 +886,7 @@ async function loadTypingData() {
     });
     
     initializeSite();
-showSharedProblemIfNeeded(); // ←この行を追加！
+showSharedProblemIfNeeded(); 
 
 
   } catch (error) {
@@ -918,7 +900,7 @@ function initializeSite() {
 
   if (archiveStructure.length > 0 && allEssays.length > 0) {
     const selectedProblemInfoString = localStorage.getItem('selectedTypingProblem');
-    let processedSelectedProblem = false; // バックナンバー/特集から選択された問題が処理されたかどうかのフラグ
+    let processedSelectedProblem = false; 
 
     if (selectedProblemInfoString) {
       try {
@@ -927,7 +909,6 @@ function initializeSite() {
 
         console.log("localStorageから読み取った情報:", selectedProblemInfo);
 
-        // 新しい形式 {setIndex, essayIndexInSet} かどうかをまず確認
         if (selectedProblemInfo && typeof selectedProblemInfo.setIndex === 'number' && typeof selectedProblemInfo.essayIndexInSet === 'number') {
           console.log("形式 {setIndex, essayIndexInSet} で処理します。");
           const problemSetIndex = selectedProblemInfo.setIndex;
@@ -940,9 +921,9 @@ function initializeSite() {
                 selectedProblemInfo.essayIndexInSet >= 0 && selectedProblemInfo.essayIndexInSet < problemSet.numProblems) {
                 
               console.log(`セット ${problemSetIndex} の ${selectedProblemInfo.essayIndexInSet + 1}番目の問題 (全体の通し番号: ${globalEssayIndex}) を表示します。`);
-              setActiveProblemSet(problemSetIndex); // まず問題セットをアクティブにする
-              setEssay(globalEssayIndex);         // 次に特定の問題を表示する
-              processedSelectedProblem = true;    // 処理が成功したことを記録
+              setActiveProblemSet(problemSetIndex); 
+              setEssay(globalEssayIndex);         
+              processedSelectedProblem = true;    
             } else {
               console.warn("計算された問題インデックスが無効です (setIndexベース)。詳細:", 
                            {globalEssayIndex, essaysLength: allEssays.length, essayIndexInSet: selectedProblemInfo.essayIndexInSet, setNumProblems: problemSet.numProblems});
@@ -951,7 +932,6 @@ function initializeSite() {
             console.warn("指定された問題セットのインデックスが無効です (setIndexベース):", problemSetIndex);
           }
         } 
-        // フォールバックとして古い形式 {date, essayIndex} を処理 (この形式は同じ日付を区別できません)
         else if (selectedProblemInfo && typeof selectedProblemInfo.date === 'string' && typeof selectedProblemInfo.essayIndex === 'number') {
           console.warn("古い形式の情報 {date, essayIndex} で処理を試みます。同じ日付が複数ある場合、最初のセットが対象になります。");
           const problemSetIndex = archiveStructure.findIndex(entry => entry.date === selectedProblemInfo.date); 
@@ -978,23 +958,19 @@ function initializeSite() {
         }
       } catch (e) {
         console.error("localStorageのselectedTypingProblemの解析または処理中にエラーが発生しました:", e);
-        // selectedProblemInfoString が存在していたがパース等でエラーになった場合も、
-        // removeItem は try の最初で実行済みなのでここでは不要
       }
     }
 
-    // localStorageに情報がない場合、または処理できなかった場合は、デフォルトの問題を表示
     if (!processedSelectedProblem) {
       console.log("バックナンバー/特集からの選択情報がないか、処理に失敗したため、デフォルトの問題セットを表示します。");
       if (archiveStructure.length > 0) {
-        setActiveProblemSet(0); // JSONが新しい順（最新が0番目）と仮定
+        setActiveProblemSet(0); 
       }
     }
 
-    // index.htmlに表示するバックナンバーの件数を設定 (例: 最新4件)
     const recentArchivesToShowOnIndex = 3; 
     const recentArchives = archiveStructure.slice(0, recentArchivesToShowOnIndex);
-    renderArchive(recentArchives); // index.html側のバックナンバーリスト表示関数
+    renderArchive(recentArchives); 
 
   } else {
     console.error("問題データが空か、正しく読み込めませんでした。サイトの初期化をスキップします。");
@@ -1004,17 +980,9 @@ function initializeSite() {
   }
 }
 function setActiveProblemSet(problemSetIndex) {
-  // const problemSet = archiveData[problemSetIndex]; // ← 古い行 (コメントアウトまたは削除)
-  const problemSet = archiveStructure[problemSetIndex]; // ← 新しい行
+  const problemSet = archiveStructure[problemSetIndex]; 
   if (!problemSet) {
     console.error("指定された問題セットが見つかりません:", problemSetIndex);
-    // エラー発生時はここで処理を中断するか、適切なフォールバックを行う
-    // 例えば、最初の問題セットを表示する、エラーメッセージを出すなど
-    if (archiveStructure.length > 0) {
-        // archiveStructureが空でなければ、最初の問題セットを試みる
-        // ただし、無限ループにならないように注意が必要
-        // ここでは単純にエラーログに留め、呼び出し元でケアする想定
-    }
     return; 
   }
 
@@ -1031,19 +999,16 @@ function setActiveProblemSet(problemSetIndex) {
   setEssay(problemSet.essayStartIndex); 
 }
   
-  // index.html の <script> タグ内
-// 既存の renderProblemButtons 関数を以下のように修正
 
 function renderProblemButtons() {
-  problemButtonsContainer.innerHTML = ""; // 既存のボタンをクリア
+  problemButtonsContainer.innerHTML = ""; 
 
-  // 現在選択されている問題セットのボタンを生成 (既存のループ処理)
   for (let i = 0; i < currentProblemSetNumProblems; i++) {
     const button = document.createElement("button");
     const essayGlobalIndex = currentProblemSetStartIndex + i;
     button.textContent = `問題${i + 1}`;
-    button.style.fontSize = "0.8em"; // またはCSSクラスで統一
-    button.style.padding = "5px 10px";  // またはCSSクラスで統一
+    button.style.fontSize = "0.8em"; 
+    button.style.padding = "5px 10px";  
     button.onclick = () => setEssay(essayGlobalIndex);
     if (essayGlobalIndex === currentEssayIndex) {
       button.classList.add("active"); 
@@ -1051,16 +1016,13 @@ function renderProblemButtons() {
     problemButtonsContainer.appendChild(button);
   }
 
-  // --- ↓↓↓ 「ランダム」ボタンをここに追加 ↓↓↓ ---
   const randomButton = document.createElement("button");
-  randomButton.id = "randomProblemButton"; // IDを付与
+  randomButton.id = "randomProblemButton"; 
   randomButton.textContent = "全問からランダム";
-  randomButton.style.fontSize = "0.8em"; // 他のボタンとスタイルを合わせる
-  randomButton.style.padding = "5px 10px"; // 他のボタンとスタイルを合わせる
-  randomButton.onclick = selectRandomProblem; // ★★★ ここで直接イベントハンドラを設定 ★★★
-  // randomButton.classList.add('your-button-class'); // もし共通のCSSクラスがあればそれを使う
+  randomButton.style.fontSize = "0.8em"; 
+  randomButton.style.padding = "5px 10px"; 
+  randomButton.onclick = selectRandomProblem; 
   problemButtonsContainer.appendChild(randomButton);
-  // --- ↑↑↑ 「ランダム」ボタン追加ここまで ↑↑↑ ---
 }
 
   function setEssay(index) {
@@ -1069,26 +1031,24 @@ function renderProblemButtons() {
     updateDisplay();
     typingArea.focus();
     startTime = null;
-    renderProblemButtons(); // ボタンのactive状態を更新するために再描画
-    refreshFavoriteButton(); // ★追加
+    renderProblemButtons(); 
+    refreshFavoriteButton(); 
   }
 
   function updateDisplay() {
-  // const currentEssay = essays[currentEssayIndex]; // ← 古い行
-  const currentEssayText = allEssays[currentEssayIndex]; // ← 新しい行
+  const currentEssayText = allEssays[currentEssayIndex]; 
 
   if (typeof currentEssayText === 'undefined') {
       display.innerHTML = "問題が選択されていません。";
-      // console.warn("updateDisplay: currentEssayText is undefined for index", currentEssayIndex);
       return;
   }
   const input = typingArea.value;
   display.innerHTML = "";
   let errorMarked = false;
 
-  for (let i = 0; i < currentEssayText.length; i++) { // currentEssay を currentEssayText に変更
+  for (let i = 0; i < currentEssayText.length; i++) { 
     const span = document.createElement("span");
-    const expected = currentEssayText[i]; // currentEssay を currentEssayText に変更
+    const expected = currentEssayText[i]; 
     const typed = input[i];
 
     if (i < input.length) {
@@ -1110,12 +1070,11 @@ function renderProblemButtons() {
     display.appendChild(span);
   }
 
-  if (!errorMarked && input === currentEssayText && currentEssayText.length > 0) { // currentEssay を currentEssayText に変更
+  if (!errorMarked && input === currentEssayText && currentEssayText.length > 0) { 
     showResult();
   }
 }
 
-  // index.html の <script> タグ内に追加
 
 function selectRandomProblem() {
   if (allEssays.length === 0) {
@@ -1123,14 +1082,11 @@ function selectRandomProblem() {
     return;
   }
 
-  // 1. 全問題文の中からランダムなインデックスを選ぶ
   const randomIndex = Math.floor(Math.random() * allEssays.length);
 
-  // 2. 選ばれた問題がどの問題セットに属するかを探し、ヘッダーの日付表示を更新
   let selectedProblemSetIndex = -1;
   let cumulativeEssays = 0;
   for (let i = 0; i < archiveStructure.length; i++) {
-    // archiveStructure[i].numProblems が存在することを確認
     if (typeof archiveStructure[i].numProblems === 'number') {
       cumulativeEssays += archiveStructure[i].numProblems;
       if (randomIndex < cumulativeEssays) {
@@ -1148,29 +1104,21 @@ function selectRandomProblem() {
     const year = dateObj.getFullYear();
     const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
     const day = dateObj.getDate().toString().padStart(2, '0');
-    // problemHeaderDate (グローバル変数として定義されている想定)
     if (problemHeaderDate) {
        problemHeaderDate.textContent = `${year}年${month}月${day}日 ${problemSet.sessionName || ''} 更新分`.trim(); 
     }
-    // currentProblemSetStartIndex と currentProblemSetNumProblems も更新して、
-    // renderProblemButtons で正しいボタンが active になるようにする
     currentProblemSetStartIndex = problemSet.essayStartIndex;
     currentProblemSetNumProblems = problemSet.numProblems;
 
   } else {
-    // どのセットにも属さない場合 (通常は起こらないはずだが、念のため)
     if (problemHeaderDate) {
       problemHeaderDate.textContent = "ランダムな問題";
     }
-    // currentProblemSetStartIndex と currentProblemSetNumProblems をリセットするか、
-    // あるいは、どの問題セットのボタンもアクティブにならないようにする
-    currentProblemSetStartIndex = -1; // どのセットにも属さないことを示す
+    currentProblemSetStartIndex = -1; 
     currentProblemSetNumProblems = 0;
   }
 
-  // 3. ランダムに選ばれた問題を表示
   setEssay(randomIndex); 
-  // setEssayの中で renderProblemButtons が呼ばれるので、アクティブボタンも再描画されるはず
 }
 
   function getEvaluationMessage(wpm) {
@@ -1194,8 +1142,8 @@ function selectRandomProblem() {
   }
 
   function showResult() {
-    if (!startTime) return; // startTimeがnullの場合は結果を表示しない
-    const elapsed = ((Date.now() - startTime) / 1000); // 秒
+    if (!startTime) return; 
+    const elapsed = ((Date.now() - startTime) / 1000); 
     const charCount = typingArea.value.length;
     const wpm = charCount > 0 && elapsed > 0 ? Math.round((charCount / elapsed) * 60) : 0;
 
@@ -1220,10 +1168,10 @@ function selectRandomProblem() {
   }
 
   typingArea.addEventListener("input", () => {
-    if (!startTime && typingArea.value.length > 0) { // 入力が開始されたらstartTimeを設定
+    if (!startTime && typingArea.value.length > 0) { 
       startTime = Date.now();
     }
-    if (typingArea.value.length === 0) { // 入力がクリアされたらstartTimeをリセット
+    if (typingArea.value.length === 0) { 
         startTime = null;
     }
     updateDisplay();
@@ -1237,8 +1185,7 @@ function selectRandomProblem() {
   document.addEventListener('keydown', function (e) {
   if (popup.style.display === 'block' && (e.key === 'q' || e.key === 'Q')) {
     popup.style.display = 'none';
-    // const currentProblemSet = archiveData.find(set => set.essayStartIndex === currentProblemSetStartIndex); // ← 古い行
-    const currentProblemSet = archiveStructure.find(set => set.essayStartIndex === currentProblemSetStartIndex); // ← 新しい行
+    const currentProblemSet = archiveStructure.find(set => set.essayStartIndex === currentProblemSetStartIndex); 
     if (currentProblemSet) {
         const nextProblemInSetIndex = currentEssayIndex + 1;
         if (nextProblemInSetIndex < currentProblemSet.essayStartIndex + currentProblemSet.numProblems) {
@@ -1251,35 +1198,18 @@ function selectRandomProblem() {
     e.preventDefault();
   }
 });
-  //入力フォームの自動調整 (今回は使っていないが、必要であれば)
-  // function adjustHeight(element) {
-  //   element.style.height = "auto"; // 高さをリセット
-  //   element.style.height = element.scrollHeight + "px"; // 自動調整
-  // }
 
-// バックナンバーを表示する関数
-function renderArchive(archivesToDisplay) { // ← 新しい定義 (引数を追加)
+
+function renderArchive(archivesToDisplay) { 
   const archiveList = document.getElementById("archive-list");
   archiveList.innerHTML = ""; 
 
-  // archiveStructure.forEach((entry, problemSetGlobalIndex) => { // ← 古いループ
-  archivesToDisplay.forEach((entry, index) => { // ← 新しいループ (引数のデータを使用)
-    // problemSetGlobalIndex を entry から取得するか、元の archiveStructure でのインデックスを保持する必要がある。
-    // 簡単なのは、archiveStructure 全体から元のインデックスを検索するか、
-    // archivesToDisplay に渡す時点で元のインデックス情報も付与すること。
-    // ここでは、archiveStructure全体から検索する方法を取ります。
-    // ただし、パフォーマンス的にはデータが多いと不利なので、データ構造の工夫も考えられます。
-    // よりシンプルなのは、`index` が `archivesToDisplay` 内でのインデックスなので、
-    // `setActiveProblemSet` に渡すのは `archiveStructure` 全体でのインデックスである必要がある。
-    // `entry` オブジェクト自体は `archiveStructure` の要素なので、`archiveStructure.indexOf(entry)` で元のインデックスを取得可能。
+  archivesToDisplay.forEach((entry, index) => { 
     const problemSetGlobalIndex = archiveStructure.indexOf(entry);
 
     const dateDiv = document.createElement("div");
     dateDiv.classList.add("archive-entry");
 
-    // ... (以降のdateDivを組み立てる部分は変更なし、ただし setActiveProblemSet に渡すインデックスに注意) ...
-    // dateLink.onclick の中の setActiveProblemSet(problemSetGlobalIndex) はそのままでOK
-    // titleButton.onclick の中の setActiveProblemSet(problemSetGlobalIndex) もそのままでOK
     const dateElement = document.createElement("p");
     const dateLink = document.createElement("a");
     dateLink.href = "#"; 
@@ -1295,7 +1225,7 @@ function renderArchive(archivesToDisplay) { // ← 新しい定義 (引数を追
     dateLink.style.color = "#333";
     dateLink.onclick = (e) => {
       e.preventDefault();
-      setActiveProblemSet(problemSetGlobalIndex); // ここは元の配列でのインデックスを使う
+      setActiveProblemSet(problemSetGlobalIndex); 
     };
     dateElement.appendChild(dateLink);
     dateDiv.appendChild(dateElement);
@@ -1306,7 +1236,7 @@ function renderArchive(archivesToDisplay) { // ← 新しい定義 (引数を追
       const titleButton = document.createElement("button");
       titleButton.textContent = title;
       titleButton.onclick = () => {
-          setActiveProblemSet(problemSetGlobalIndex); // ここは元の配列でのインデックスを使う
+          setActiveProblemSet(problemSetGlobalIndex); 
           setEssay(entry.essayStartIndex + indexInSet); 
       };
       titleDiv.appendChild(titleButton);
@@ -1316,9 +1246,8 @@ function renderArchive(archivesToDisplay) { // ← 新しい定義 (引数を追
     archiveList.appendChild(dateDiv);
   });
 }
-loadTypingData(); // ← これを新しく追加
+loadTypingData(); 
 
-// ★ タイピングエリア下にぴったり右寄せするため、位置調整スクリプト
 function positionFavoriteButton() {
   const typingArea = document.getElementById('typingArea');
   const favContainer = document.getElementById('favoriteButtonContainer');
@@ -1326,83 +1255,49 @@ function positionFavoriteButton() {
   if (!typingArea || !favContainer) return;
 
   const rect = typingArea.getBoundingClientRect();
-  favContainer.style.top = `${window.scrollY + rect.bottom - 32}px`; // 32px = ボタン高さ想定
-  favContainer.style.left = `${window.scrollX + rect.right + 8}px`; // 少し右にオフセット
+  favContainer.style.top = `${window.scrollY + rect.bottom - 32}px`; 
+  favContainer.style.left = `${window.scrollX + rect.right + 8}px`; 
 }
 
-// ★ ページ読み込みとリサイズ時に位置調整
 window.addEventListener('load', positionFavoriteButton);
 window.addEventListener('resize', positionFavoriteButton);
 window.addEventListener('scroll', positionFavoriteButton);
 
 
-// index.html の <script> タグ内に追加 (既存のコードの下など)
-
 document.addEventListener('DOMContentLoaded', function() {
-    // (既存のDOMContentLoaded内の処理はこのまま or この中に追加しても良い)
-
     const showUsageGuideButton = document.getElementById('showUsageGuideButton');
     const closeUsageGuideButton = document.getElementById('closeUsageGuideButton');
     const usageGuideContainer = document.getElementById('usageGuideContainer');
     const accordionHeaders = document.querySelectorAll('.accordion-header');
 
-    // 「使い方」ボタンの処理
     if (showUsageGuideButton && usageGuideContainer) {
         showUsageGuideButton.addEventListener('click', function() {
             usageGuideContainer.classList.add('visible');
-            // 背景をスクロールさせないようにする (任意)
-            // document.body.style.overflow = 'hidden'; 
         });
     }
 
-    // 「閉じる」ボタンの処理
     if (closeUsageGuideButton && usageGuideContainer) {
         closeUsageGuideButton.addEventListener('click', function() {
             usageGuideContainer.classList.remove('visible');
-            // 背景のスクロール禁止を解除 (任意)
-            // document.body.style.overflow = '';
         });
     }
 
-    // モーダル背景クリックで閉じる (任意)
     if (usageGuideContainer) {
         usageGuideContainer.addEventListener('click', function(event) {
-            if (event.target === usageGuideContainer) { // 背景部分のクリックか判定
+            if (event.target === usageGuideContainer) { 
                 usageGuideContainer.classList.remove('visible');
-                // document.body.style.overflow = '';
             }
         });
     }
 
-    // index.html の <script> タグ内、アコーディオンの処理部分を以下のように修正
-
-// --- アコーディオンの処理 ---
 if (accordionHeaders.length > 0) {
     accordionHeaders.forEach(header => {
         header.addEventListener('click', function() {
-            console.log('アコーディオンヘッダー「' + this.textContent.trim() + '」がクリックされました！');
-            
-            this.classList.toggle('active'); // ヘッダーの .active クラスをトグル
-            console.log('ヘッダーのクラスリスト:', this.classList.toString());
-
+            this.classList.toggle('active'); 
             const panel = this.nextElementSibling;
-            console.log('取得したパネル要素:', panel);
-
             if (panel && panel.classList.contains('accordion-panel')) {
-                panel.classList.toggle('open'); // ★パネルの .open クラスをトグル
-
-                if (panel.classList.contains('open')) {
-                    console.log('パネルを開きました (クラス .open を付与)');
-                } else {
-                    console.log('パネルを閉じました (クラス .open を削除)');
-                }
-                // console.log('パネルの現在の max-height:', window.getComputedStyle(panel).maxHeight); // デバッグ用
-            } else {
-                console.error('エラー: 対応する .accordion-panel が見つかりませんでした。HTML構造を確認してください。');
-                if(panel) console.log('取得した次の要素のクラス名:', panel.className);
+                panel.classList.toggle('open'); 
             }
-
-            // 他の開いているパネルを閉じる (オプション：もし一つだけ開くようにしたい場合)
              accordionHeaders.forEach(otherHeader => {
                  if (otherHeader !== this && otherHeader.classList.contains('active')) {
                      otherHeader.classList.remove('active');
@@ -1414,90 +1309,7 @@ if (accordionHeaders.length > 0) {
              });
         });
     });
-} else {
-    console.warn('アコーディオンヘッダー (.accordion-header) が見つかりません。');
 }
-});
-
-// index.html の <script> タグ内
-document.addEventListener('DOMContentLoaded', function() {
-    // 要素取得の確認
-    const showUsageGuideButton = document.getElementById('showUsageGuideButton');
-    const closeUsageGuideButton = document.getElementById('closeUsageGuideButton');
-    const usageGuideContainer = document.getElementById('usageGuideContainer');
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
-
-    console.log('showUsageGuideButton:', showUsageGuideButton);
-    console.log('closeUsageGuideButton:', closeUsageGuideButton);
-    console.log('usageGuideContainer:', usageGuideContainer);
-    console.log('accordionHeaders:', accordionHeaders); // NodeListが表示されるはず
-    console.log('accordionHeaders.length:', accordionHeaders.length); // アコーディオンの項目数が表示されるはず
-
-    // --- 「使い方」ボタンの処理 ---
-    if (showUsageGuideButton && usageGuideContainer) {
-        showUsageGuideButton.addEventListener('click', function() {
-            console.log('「使い方」ボタンがクリックされました！'); // ★クリック時にコンソールに出るか確認
-            usageGuideContainer.classList.add('visible');
-        });
-    } else {
-        console.error('「使い方」ボタンまたはコンテナが見つかりません。'); // ★もし要素が見つからない場合
-    }
-
-    // --- 「閉じる」ボタンの処理 ---
-    if (closeUsageGuideButton && usageGuideContainer) {
-        closeUsageGuideButton.addEventListener('click', function() {
-            console.log('「閉じる」ボタンがクリックされました！'); // ★クリック時にコンソールに出るか確認
-            usageGuideContainer.classList.remove('visible');
-        });
-    } else {
-        console.error('「閉じる」ボタンまたはコンテナが見つかりません。'); // ★もし要素が見つからない場合
-    }
-    
-    // --- モーダル背景クリックで閉じる ---
-    if (usageGuideContainer) {
-        usageGuideContainer.addEventListener('click', function(event) {
-            if (event.target === usageGuideContainer) { 
-                console.log('モーダル背景がクリックされました！'); // ★クリック時にコンソールに出るか確認
-                usageGuideContainer.classList.remove('visible');
-            }
-        });
-    }
-
-    // index.html の <script> タグ内、アコーディオンの処理部分
-
-// --- アコーディオンの処理 ---
-if (accordionHeaders.length > 0) {
-    accordionHeaders.forEach(header => {
-        header.addEventListener('click', function() {
-            console.log('アコーディオンヘッダー「' + this.textContent.trim() + '」がクリックされました！'); // クリックされたヘッダーのテキスト
-            
-            // 'active' クラスをヘッダーに付けたり外したりします
-            this.classList.toggle('active'); 
-            console.log('クリックされたヘッダーの現在のクラスリスト:', this.classList.toString()); // クラスリストの状態を確認
-
-            const panel = this.nextElementSibling; // ヘッダーの「次の兄弟要素」を取得
-            console.log('取得したパネル要素 (panel):', panel); // panel が正しいHTML要素か、それとも null かを確認
-
-            if (panel && panel.classList.contains('accordion-panel')) { // panel が存在し、かつ accordion-panel クラスを持っているか確認
-                if (panel.style.display === "block") {
-                    console.log('パネルを閉じます。');
-                    panel.style.display = "none";
-                } else {
-                    console.log('パネルを開きます。');
-                    panel.style.display = "block";
-                }
-                console.log('パネルの現在の display スタイル:', panel.style.display);
-            } else {
-                console.error('エラー: 対応する .accordion-panel が見つかりませんでした。HTML構造を確認してください。');
-                if(panel) console.log('取得した次の要素のクラス名:', panel.className); // もし panel が null でないなら、そのクラス名を表示
-            }
-        });
-    });
-} else {
-    console.warn('アコーディオンヘッダー (.accordion-header) が見つかりません。');
-}
-
-    // (↓既存の他のDOMContentLoaded内の処理があれば、それはこの下に続けるか、このコードを既存のDOMContentLoaded内に追加)
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -1509,9 +1321,17 @@ document.addEventListener("DOMContentLoaded", function () {
       siteIntro.style.display = "none";
     });
   }
+
+  // 寄付エリアへのスムーズスクロール
+  const scrollBtn = document.getElementById('scrollToDonation');
+  const target = document.getElementById('donationSectionTitle');
+  if (scrollBtn && target) {
+    scrollBtn.addEventListener('click', function() {
+      target.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
 });
 
-//お気に入り登録ロジック
 const favoriteBtn = document.getElementById('favoriteToggleButton');
 
 function getCurrentProblemInfo() {
@@ -1521,14 +1341,14 @@ function getCurrentProblemInfo() {
     const end = start + entry.numProblems;
     if (currentEssayIndex >= start && currentEssayIndex < end) {
       const localIndex = currentEssayIndex - start;
-      const essay = typingData[i].essays[localIndex]; // ← essayごとのtags参照
+      const essay = typingData[i].essays[localIndex]; 
       return {
         setIndex: i,
         essayIndexInSet: localIndex,
         title: entry.titles[localIndex],
         date: entry.date,
         text: allEssays[currentEssayIndex],
-        tags: essay.tags || [] // ← ✅ 個別essayのtags
+        tags: essay.tags || [] 
       };
     }
   }
@@ -1556,10 +1376,9 @@ function toggleFavorite() {
   );
 
   if (index >= 0) {
-    favs.splice(index, 1); // 削除
+    favs.splice(index, 1); 
     updateFavoriteButton(false);
   } else {
-    // ✅ 個別の essay から tags を取得
     const tags = typingData[info.setIndex].essays[info.essayIndexInSet].tags || [];
 
     favs.push({
