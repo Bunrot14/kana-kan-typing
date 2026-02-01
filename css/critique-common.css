@@ -254,8 +254,55 @@ body {
         font-size: 1.3em;
     }
 
-    /* フッターの改行を調整 */
+  /* フッターの改行を調整 */
     footer .br-sp {
         display: block; /* SPでは改行 */
     }
+} /* <--- このカッコが超重要です。ここでスマホ設定を閉じます */
+
+/* ========== ここから下はPC・スマホ共通のデザイン ========== */
+
+/* Google Fontsの読み込み（一番上に書くのが理想ですが、ここでも機能します） */
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&display=swap');
+
+.donation-sidebar {
+    font-family: 'Shippori Mincho', serif !important; /* 他の設定に負けないよう!importantを付与 */
+    font-size: 14px;
+    line-height: 1.8;
+    color: #444;
+    padding: 20px;
+    background-color: #fcfcfc;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    margin: 20px 0;
+}
+
+.donation-title {
+    font-family: 'Shippori Mincho', serif !important;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #222;
+    display: block;
+}
+
+.donation-text {
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.scroll-to-donation-btn {
+    font-family: 'Shippori Mincho', serif !important;
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.scroll-to-donation-btn:hover {
+    background-color: #333;
 }
