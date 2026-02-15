@@ -95,7 +95,46 @@
     .archive-titles a:hover { background-color: #e9ecef; }
     .back-to-main a { display: inline-block; margin-top: 2rem; padding: 0.5em 1em; background: #007acc; color: white; border-radius: 5px; text-decoration: none; }
     .back-to-main a:hover { background: #005fa3; }
-  </style>
+
+    /* --- レイアウト切替用のスタイル --- */
+.view-controls {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.view-button {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  border-radius: 4px;
+}
+
+.view-button.active {
+  background: #007acc;
+  color: white;
+  border-color: #007acc;
+}
+
+/* --- カード内の本文プレビュー --- */
+.problem-preview {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0.8em 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 2行で省略 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+/* リスト表示（1列）用のクラス */
+.archive-titles.list-view li {
+  width: 100%;
+}
+
+</style>
 
 <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -325,6 +364,83 @@ localStorage.setItem('selectedTypingProblem', JSON.stringify(problemInfo));
 
   // ページ読み込み時に実行
   loadAndDisplayFullArchive();
+
+// グローバル変数に追加
+let currentViewMode = 'grid'; // 'grid' または 'list'
+
+function renderFullArchive() {
+    if (localArchiveStructure.length === 0 && !currentFilterTag) {
+      fullArchiveListContainer.innerHTML = '<p>バックナンバーはありません。</p>';
+      return;
+    }
+
+    // レイアウト切替ボタンの生成（初回のみ、またはコンテナ外に配置）
+    let controlsHtml = `
+      <div class="view-controls">
+        <button class="view-button ${currentViewMode === 'grid' ? 'active' : ''}" onclick="switchView('grid')">グリッド</button>
+        <button class="view-button ${currentViewMode === 'list' ? 'active' : ''}" onclick="switchView('list')">リスト</button>
+      </div>
+    `;
+
+    let htmlContent = controlsHtml;
+    let hasAnyProblemDisplayed = false;
+
+    localArchiveStructure.forEach((entry, setIndex) => {
+      const dateObj = new Date(entry.date);
+      const year = dateObj.getFullYear();
+      const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+      const day = dateObj.getDate().toString().padStart(2, '0');
+
+      let titlesHtmlForDate = '';
+      let dateHasMatchingProblems = false;
+
+      entry.essays.forEach((essay, indexInSet) => {
+        if (!currentFilterTag || (essay.tags && essay.tags.includes(currentFilterTag))) {
+          dateHasMatchingProblems = true;
+          hasAnyProblemDisplayed = true;
+
+          // 本文の冒頭を取得（HTMLタグを除去して純粋なテキストのみ）
+          const plainText = essay.text.replace(/<[^>]*>/g, ''); 
+          
+          titlesHtmlForDate += `
+            <li>
+              <a href="#" data-set-index="${setIndex}" data-essay-index-in-set="${indexInSet}">
+                <strong style="display:block; margin-bottom:0.5em;">${essay.title}</strong>
+                <p class="problem-preview">${plainText}</p>
+              </a>`;
+          
+          if (essay.tags && essay.tags.length > 0) {
+            titlesHtmlForDate += `<div class="problem-tags">`;
+            essay.tags.forEach(tag => {
+              titlesHtmlForDate += `<span class="tag">${tag}</span>`;
+            });
+            titlesHtmlForDate += `</div>`;
+          }
+          titlesHtmlForDate += `</li>`;
+        }
+      });
+
+      if (dateHasMatchingProblems) {
+        htmlContent += `<div class="archive-entry">`;
+        htmlContent += `<h2 class="archive-date">${year}年${month}月${day}日</h2>`;
+        // 現在の表示モードをクラスとして付与
+        const viewClass = currentViewMode === 'list' ? 'list-view' : '';
+        htmlContent += `<ul class="archive-titles ${viewClass}">${titlesHtmlForDate}</ul>`;
+        htmlContent += `</div>`;
+      }
+    });
+
+    // ...（以下、エラーハンドリングなどは既存通り）
+    fullArchiveListContainer.innerHTML = htmlContent;
+    addArchiveLinkListeners();
+}
+
+// レイアウト切り替え用関数
+function switchView(mode) {
+  currentViewMode = mode;
+  renderFullArchive();
+}
+
 </script>
   
 </body>
