@@ -2,18 +2,15 @@
 <html lang="ja">
 <head>
   <link rel="canonical" href="https://typingwithclavier.com/archive.html">
-
   <meta charset="UTF-8" />
-   <script async src="https://www.googletagmanager.com/gtag/js?id=G-84N6PLRMJY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-84N6PLRMJY');
-</script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8332431277909692"
-     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-84N6PLRMJY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-84N6PLRMJY');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8332431277909692" crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>すべてのバックナンバー - かな漢タイピング</title>
   <style>
@@ -21,427 +18,218 @@
     h1 { text-align: center; margin-bottom: 2rem; }
     a { color: #007acc; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    .archive-container { max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .archive-entry { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee; }
-    .archive-entry:last-child { border-bottom: none; }
-    .archive-date { font-weight: bold; font-size: 1.2em; margin-bottom: 0.8em; color: #333; }
-   /* --- 既存のCSSに追加・修正 --- */
-.tag-filter-container { /* タグボタンを囲むコンテナ */
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-.tag-button {
-  background-color: #e0e0e0;
-  color: #333;
-  border: none;
-  padding: 0.5em 1em;
-  margin: 0.3em;
-  border-radius: 15px; /* 角を丸くする */
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-.tag-button:hover {
-  background-color: #c0c0c0;
-}
-.tag-button.active { /* 選択中のタグボタン */
-  background-color: #007acc;
-  color: white;
-}
-/* 問題リストの横並び対応 */
-.archive-titles {
-  list-style-type: none;
-  padding-left: 0;
-  display: flex; /* Flexbox を利用 */
-  flex-wrap: wrap; /* はみ出た要素を折り返す */
-  gap: 1rem; /* 各問題間の隙間 */
-}
-.archive-titles li {
-  /* margin-bottom: 0.5em; */ /* Flexboxのgapで調整するため不要になるかも */
-  background-color: #f9f9f9; /* カード背景色 */
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 0.8em;
-  width: calc(33.333% - 1rem); /* 例: 3列表示 (gapを考慮) */
-  box-sizing: border-box; /* paddingとborderをwidthに含める */
-}
-.archive-titles li a {
-  display: block; /* リンクをブロック要素にしてカード全体をクリック可能に */
-  /* padding: 0.3em 0.6em; */ /* カード自体のpaddingで調整 */
-  border-radius: 0; /* カードの角丸に合わせる */
-}
-/* 問題カード内のタグ表示（オプション） */
-.problem-tags {
-  font-size: 0.8em;
-  margin-top: 0.5em;
-}
-.problem-tags .tag {
-  background-color: #eee;
-  padding: 0.2em 0.5em;
-  border-radius: 3px;
-  margin-right: 0.3em;
-  color: #555;
-}
-/* スマートフォンなど小さい画面向けの調整 */
-@media (max-width: 768px) {
-  .archive-titles li {
-    width: calc(50% - 1rem); /* 2列表示 */
-  }
-}
-@media (max-width: 480px) {
-  .archive-titles li {
-    width: 100%; /* 1列表示 */
-  }
-}
-    .archive-titles a:hover { background-color: #e9ecef; }
-    .back-to-main a { display: inline-block; margin-top: 2rem; padding: 0.5em 1em; background: #007acc; color: white; border-radius: 5px; text-decoration: none; }
-    .back-to-main a:hover { background: #005fa3; }
+    .archive-container { max-width: 850px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    
+    /* 検索窓 */
+    .search-container { margin-bottom: 1.5rem; text-align: center; }
+    #archive-search { width: 100%; max-width: 500px; padding: 12px 20px; border: 2px solid #ddd; border-radius: 25px; font-size: 1rem; outline: none; transition: border-color 0.3s; }
+    #archive-search:focus { border-color: #007acc; }
 
-    /* --- レイアウト切替用のスタイル --- */
-.view-controls {
-  text-align: right;
-  margin-bottom: 1rem;
-}
+    /* タグフィルター */
+    .tag-filter-container { text-align: center; margin-bottom: 1.5rem; }
+    .tag-button { background-color: #e0e0e0; border: none; padding: 0.5em 1em; margin: 0.3em; border-radius: 15px; cursor: pointer; transition: 0.2s; }
+    .tag-button.active { background-color: #007acc; color: white; }
 
-.view-button {
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 0.4rem 0.8rem;
-  cursor: pointer;
-  font-size: 0.9rem;
-  border-radius: 4px;
-}
+    /* レイアウト切替 */
+    .view-controls { text-align: right; margin-bottom: 1rem; }
+    .view-button { background: #fff; border: 1px solid #ccc; padding: 0.4rem 0.8rem; cursor: pointer; border-radius: 4px; font-size: 0.9rem; }
+    .view-button.active { background: #007acc; color: white; border-color: #007acc; }
 
-.view-button.active {
-  background: #007acc;
-  color: white;
-  border-color: #007acc;
-}
+    /* 年別・月別アコーディオン */
+    .year-section { margin-bottom: 2.5rem; }
+    .year-title { font-size: 1.8rem; border-bottom: 3px solid #007acc; padding-bottom: 5px; margin-bottom: 1rem; }
+    .month-group { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 1rem; background: #fff; overflow: hidden; }
+    .month-header { background: #f8f9fa; padding: 12px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; user-select: none; }
+    .month-header:hover { background: #e9ecef; }
+    .month-header::after { content: '▼'; font-size: 0.8rem; transition: transform 0.3s; }
+    .month-group.open .month-header::after { transform: rotate(180deg); }
+    .month-content { display: none; padding: 1rem; border-top: 1px solid #eee; }
+    .month-group.open .month-content { display: block; }
 
-/* --- カード内の本文プレビュー --- */
-.problem-preview {
-  font-size: 0.85rem;
-  color: #666;
-  margin: 0.8em 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* 2行で省略 */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  line-height: 1.5;
-}
+    /* アーカイブリスト（グリッド・リスト共通） */
+    .archive-titles { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 1rem; }
+    .archive-titles li { background: #f9f9f9; border: 1px solid #ddd; border-radius: 6px; padding: 1rem; width: calc(33.333% - 0.7rem); box-sizing: border-box; transition: 0.2s; }
+    .archive-titles li:hover { background: #f0f7ff; }
+    .archive-titles.list-view li { width: 100%; }
 
-/* リスト表示（1列）用のクラス */
-.archive-titles.list-view li {
-  width: 100%;
-}
+    .problem-preview { font-size: 0.85rem; color: #666; margin: 0.5em 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.5; }
+    .problem-tags { font-size: 0.75em; margin-top: 0.5em; display: flex; flex-wrap: wrap; gap: 4px; }
+    .tag { background: #eee; padding: 2px 6px; border-radius: 3px; color: #555; }
 
-</style>
+    @media (max-width: 768px) { .archive-titles li { width: calc(50% - 0.5rem); } }
+    @media (max-width: 480px) { .archive-titles li { width: 100%; } }
+    
+    .back-to-main a { display: inline-block; margin-top: 2rem; padding: 0.5em 1.5em; background: #007acc; color: white; border-radius: 5px; text-decoration: none; }
+  </style>
 
-<link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="favicon.svg" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-<link rel="manifest" href="site.webmanifest" />
-
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+  <link rel="shortcut icon" href="favicon.ico" />
 </head>
 <body>
   <div class="archive-container">
     <h1>すべてのバックナンバー</h1>
-    <div id="full-archive-list">
-      </div>
+
+    <div class="search-container">
+      <input type="text" id="archive-search" placeholder="タイトルや本文で検索...">
+    </div>
+
+    <div id="full-archive-list"></div>
+    
     <p class="back-to-main"><a href="index.html">メインページに戻る</a></p>
   </div>
 
- <footer style="position: static; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 1px; background: #f5f5f5; margin-top: 2rem;">
-    <p style="margin: 0;">
-       <a href="meditation_typing.html">瞑想的タイピングのすすめ</a> |
-            <a href="philosophy.html">問題文に込めた想い</a> |
-            <a href="Misconversion.html">誤変換のポエジー</a> <br>
-      練習用テキストはすべてフィクションであり、特定の思想、団体、個人を揶揄・批判する意図はありません。
-      <br>
-      <a href="terms.html" style="color: #007acc; text-decoration: none;">利用規約</a> |
-      <a href="privacy.html" style="color: #007acc; text-decoration: none;">プライバシーポリシー</a> |
-      <a href="contact.html" style="color: #007acc; text-decoration: none;">お問い合わせ</a>
+  <footer style="text-align: center; font-size: 12px; padding: 2rem 1rem; background: #f5f5f5; margin-top: 2rem;">
+    <p>
+      <a href="meditation_typing.html">瞑想的タイピングのすすめ</a> |
+      <a href="philosophy.html">問題文に込めた想い</a> |
+      <a href="Misconversion.html">誤変換のポエジー</a> <br>
+      練習用テキストはすべてフィクションであり、特定の思想、団体、個人を揶揄・批判する意図はありません。<br>
+      <a href="terms.html">利用規約</a> | <a href="privacy.html">プライバシーポリシー</a> | <a href="contact.html">お問い合わせ</a>
     </p>
-    <p style="margin: 0;">&copy; 2025 Bunrot's Typing Site. All Rights Reserved.</p>
-    <p style="margin: 0;">運営者：Bunrot</p>
- </footer>
+    <p>&copy; 2025 Bunrot's Typing Site. All Rights Reserved. 運営者：Bunrot</p>
+  </footer>
 
   <script>
-  const fullArchiveListContainer = document.getElementById('full-archive-list');
-  let localArchiveStructure = []; // archive.html専用のデータ保持用
-  let currentFilterTag = null; // 現在選択されているタグ
+    const fullArchiveListContainer = document.getElementById('full-archive-list');
+    let localArchiveStructure = [];
+    let currentFilterTag = null;
+    let searchQuery = "";
+    let currentViewMode = 'grid';
 
-  async function loadAndDisplayFullArchive() {
-    try {
-      const response = await fetch('typing_data.json');
-      if (!response.ok) {
-        throw new Error(`JSONファイルの読み込みに失敗しました。ステータス: ${response.status}`);
+    // データの読み込み
+    async function loadAndDisplayFullArchive() {
+      try {
+        const response = await fetch('typing_data.json');
+        if (!response.ok) throw new Error(`読み込み失敗: ${response.status}`);
+        const jsonData = await response.json();
+
+        localArchiveStructure = jsonData; // データを保持
+        setupTagFilters();
+        renderFullArchive();
+      } catch (error) {
+        console.error("Error:", error);
+        fullArchiveListContainer.innerHTML = `<p>データの読み込みに失敗しました。</p>`;
       }
-      const jsonData = await response.json();
-      if (!Array.isArray(jsonData)) {
-        throw new Error("JSONデータの形式が正しくありません。");
-      }
-
-      let globalEssayIndexCounter = 0; // グローバルなエッセイインデックスを計算するためのカウンター
-      localArchiveStructure = jsonData.map(dailyEntry => {
-        const essaysData = [];
-        let dailyEssayCount = 0;
-        if (dailyEntry.essays && Array.isArray(dailyEntry.essays)) {
-          dailyEntry.essays.forEach(essay => {
-            essaysData.push({
-              title: essay.title || "タイトルなし",
-              text: essay.text || "", // 今は使用していないが、将来的にプレビュー等で使う可能性を考慮
-              tags: essay.tags || []  // 各エッセイのタグ情報
-            });
-          });
-          dailyEssayCount = essaysData.length;
-        } else {
-          console.warn(`日付 ${dailyEntry.date} の 'essays' 配列処理をスキップします。`);
-        }
-
-        const entryData = {
-          date: dailyEntry.date,
-          essays: essaysData, // 個々のエッセイ情報（タイトル、タグなどを含む）
-          // titles 配列は renderFullArchive で essays から動的に生成するため、ここでは不要
-          essayStartIndex: globalEssayIndexCounter, // この日付セットの最初の問題のグローバルインデックス
-          numProblems: dailyEssayCount
-        };
-        globalEssayIndexCounter += dailyEssayCount;
-        return entryData;
-      });
-
-      setupTagFilters(); // タグフィルターをセットアップ
-      renderFullArchive(); // 初回レンダリング
-
-    } catch (error) {
-      console.error("バックナンバーデータの処理中にエラー:", error);
-      fullArchiveListContainer.innerHTML = `<p>バックナンバーの読み込みに失敗しました: ${error.message}</p>`;
     }
-  }
 
-  function setupTagFilters() {
-    const allTags = new Set();
-    localArchiveStructure.forEach(entry => {
-      entry.essays.forEach(essay => {
-        if (essay.tags && Array.isArray(essay.tags)) {
-          essay.tags.forEach(tag => allTags.add(tag));
-        }
+    // タグフィルターの生成
+    function setupTagFilters() {
+      const allTags = new Set();
+      localArchiveStructure.forEach(entry => {
+        entry.essays.forEach(essay => essay.tags?.forEach(tag => allTags.add(tag)));
       });
-    });
 
-    const tagContainer = document.createElement('div');
-    tagContainer.className = 'tag-filter-container'; // CSSでスタイルを適用
+      const tagContainer = document.createElement('div');
+      tagContainer.className = 'tag-filter-container';
 
-    // 「すべて表示」ボタン
-    const allButton = document.createElement('button');
-    allButton.className = 'tag-button active'; // 初期状態でアクティブ
-    allButton.textContent = 'すべて';
-    allButton.addEventListener('click', () => {
-      currentFilterTag = null;
-      document.querySelectorAll('.tag-filter-container .tag-button').forEach(btn => btn.classList.remove('active'));
-      allButton.classList.add('active');
+      const createBtn = (label, tagValue) => {
+        const btn = document.createElement('button');
+        btn.className = 'tag-button' + (currentFilterTag === tagValue ? ' active' : '');
+        btn.textContent = label;
+        btn.onclick = () => {
+          currentFilterTag = tagValue;
+          document.querySelectorAll('.tag-button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderFullArchive();
+        };
+        return btn;
+      };
+
+      tagContainer.appendChild(createBtn('すべて', null));
+      allTags.forEach(tag => tagContainer.appendChild(createBtn(tag, tag)));
+      document.querySelector('h1').after(tagContainer);
+    }
+
+    // 検索入力イベント
+    document.getElementById('archive-search').addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase();
       renderFullArchive();
     });
-    tagContainer.appendChild(allButton);
 
-    allTags.forEach(tag => {
-      const button = document.createElement('button');
-      button.className = 'tag-button';
-      button.textContent = tag;
-      button.dataset.tag = tag; // data属性にタグ名を保持
-      button.addEventListener('click', function() {
-        currentFilterTag = this.dataset.tag;
-        document.querySelectorAll('.tag-filter-container .tag-button').forEach(btn => btn.classList.remove('active'));
-        this.classList.add('active');
-        renderFullArchive();
+    // レイアウト切り替え
+    window.switchView = (mode) => {
+      currentViewMode = mode;
+      renderFullArchive();
+    };
+
+    // メイン描画関数
+    function renderFullArchive() {
+      if (localArchiveStructure.length === 0) return;
+
+      const hierarchy = {};
+      let hasMatch = false;
+
+      localArchiveStructure.forEach((entry, setIndex) => {
+        const d = new Date(entry.date);
+        const yKey = `${d.getFullYear()}年`;
+        const mKey = `${d.getMonth() + 1}月`;
+
+        entry.essays.forEach((essay, essayIdx) => {
+          const plainText = essay.text.replace(/<[^>]*>/g, '');
+          const matchesTag = !currentFilterTag || essay.tags?.includes(currentFilterTag);
+          const matchesSearch = essay.title.toLowerCase().includes(searchQuery) || 
+                                plainText.toLowerCase().includes(searchQuery);
+
+          if (matchesTag && matchesSearch) {
+            hasMatch = true;
+            if (!hierarchy[yKey]) hierarchy[yKey] = {};
+            if (!hierarchy[yKey][mKey]) hierarchy[yKey][mKey] = [];
+            hierarchy[yKey][mKey].push({ ...essay, plainText, setIndex, indexInSet: essayIdx });
+          }
+        });
       });
-      tagContainer.appendChild(button);
-    });
 
-    // h1要素の後にタグフィルターコンテナを挿入
-    const heading = document.querySelector('.archive-container h1');
-    if (heading && heading.parentNode) {
-      // h1の次の要素の前に挿入 (つまりh1の直後)
-      heading.parentNode.insertBefore(tagContainer, heading.nextSibling);
-    } else {
-      // h1が見つからない場合のフォールバック (コンテナの先頭など)
-      const archiveContainer = document.querySelector('.archive-container');
-      if (archiveContainer) {
-        archiveContainer.insertBefore(tagContainer, archiveContainer.firstChild);
+      let html = `
+        <div class="view-controls">
+          <button class="view-button ${currentViewMode === 'grid' ? 'active' : ''}" onclick="switchView('grid')">グリッド</button>
+          <button class="view-button ${currentViewMode === 'list' ? 'active' : ''}" onclick="switchView('list')">リスト</button>
+        </div>
+      `;
+
+      if (!hasMatch) {
+        html += '<p style="text-align:center;">一致する問題はありません。</p>';
       } else {
-        console.error("'.archive-container' が見つかりません。タグフィルターを配置できませんでした。");
+        Object.keys(hierarchy).sort((a, b) => b.localeCompare(a)).forEach(y => {
+          html += `<div class="year-section"><h2 class="year-title">${y}</h2>`;
+          Object.keys(hierarchy[y]).sort((a, b) => parseInt(b) - parseInt(a)).forEach(m => {
+            const items = hierarchy[y][m];
+            html += `
+              <div class="month-group">
+                <div class="month-header" onclick="this.parentElement.classList.toggle('open')">
+                  ${m} (${items.length}件)
+                </div>
+                <div class="month-content">
+                  <ul class="archive-titles ${currentViewMode === 'list' ? 'list-view' : ''}">
+                    ${items.map(item => `
+                      <li>
+                        <a href="#" onclick="saveAndGo(${item.setIndex}, ${item.indexInSet}); return false;">
+                          <strong>${item.title}</strong>
+                          <p class="problem-preview">${item.plainText.substring(0, 60)}...</p>
+                        </a>
+                        <div class="problem-tags">
+                          ${item.tags ? item.tags.map(t => `<span class="tag">${t}</span>`).join('') : ''}
+                        </div>
+                      </li>
+                    `).join('')}
+                  </ul>
+                </div>
+              </div>`;
+          });
+          html += `</div>`;
+        });
       }
-    }
-  }
-
-  function renderFullArchive() {
-    if (localArchiveStructure.length === 0 && !currentFilterTag) { // 初期ロードでデータがない場合
-      fullArchiveListContainer.innerHTML = '<p>バックナンバーはありません。</p>';
-      return;
+      fullArchiveListContainer.innerHTML = html;
     }
 
-    let htmlContent = '';
-    let hasAnyProblemDisplayed = false; // 何か一つでも問題が表示されたか
+    // ページ遷移処理
+    window.saveAndGo = (si, ei) => {
+      const info = { setIndex: si, essayIndexInSet: ei };
+      localStorage.setItem('selectedTypingProblem', JSON.stringify(info));
+      window.location.href = 'index.html';
+    };
 
-    localArchiveStructure.forEach((entry, setIndex) => { // setIndex は localArchiveStructure でのインデックス
-      const dateObj = new Date(entry.date);
-      const year = dateObj.getFullYear();
-      const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-      const day = dateObj.getDate().toString().padStart(2, '0');
-
-      let titlesHtmlForDate = '';
-      let dateHasMatchingProblems = false;
-
-      entry.essays.forEach((essay, indexInSet) => {
-        // タグでフィルタリング
-        if (!currentFilterTag || (essay.tags && essay.tags.includes(currentFilterTag))) {
-          dateHasMatchingProblems = true;
-          hasAnyProblemDisplayed = true; // 表示される問題があった
-
-          titlesHtmlForDate += `<li><a href="#" data-set-index="${setIndex}" data-essay-index-in-set="${indexInSet}">${essay.title}</a>`;
-          // オプション: 問題カード内にタグを表示 (CSSで .problem-tags .tag のスタイル定義が必要)
-          if (essay.tags && essay.tags.length > 0) {
-            titlesHtmlForDate += `<div class="problem-tags">`;
-            essay.tags.forEach(tag => {
-              titlesHtmlForDate += `<span class="tag">${tag}</span>`;
-            });
-            titlesHtmlForDate += `</div>`;
-          }
-          titlesHtmlForDate += `</li>`;
-        }
-      });
-
-      if (dateHasMatchingProblems) {
-        htmlContent += `<div class="archive-entry">`;
-        htmlContent += `<h2 class="archive-date">${year}年${month}月${day}日</h2>`;
-        // CSSで .archive-titles を横並びにするスタイルを適用してください (例: display: flex; flex-wrap: wrap;)
-        htmlContent += `<ul class="archive-titles">${titlesHtmlForDate}</ul>`;
-        htmlContent += `</div>`;
-      }
-    });
-
-    if (!hasAnyProblemDisplayed && currentFilterTag) {
-      fullArchiveListContainer.innerHTML = `<p>タグ「${currentFilterTag}」に一致する問題はありませんでした。</p>`;
-    } else if (!hasAnyProblemDisplayed && localArchiveStructure.length > 0) {
-        // データはあるが、何らかの理由で何も表示されなかった場合（通常はフィルタ結果なしの場合）
-        // currentFilterTag が null の場合は上の「バックナンバーはありません」が優先されるべき
-        // この分岐は主にデバッグ用か、より複雑なフィルターが追加された場合
-        fullArchiveListContainer.innerHTML = '<p>表示できる問題がありません。</p>';
-    } else if (localArchiveStructure.length === 0 && !currentFilterTag) {
-        // データがそもそもない場合 (再掲、上の条件でカバーされるはずだが念のため)
-        fullArchiveListContainer.innerHTML = '<p>バックナンバーはありません。</p>';
-    } else {
-      fullArchiveListContainer.innerHTML = htmlContent;
-    }
-
-    addArchiveLinkListeners();
-  }
-
-  function addArchiveLinkListeners() {
-    const links = fullArchiveListContainer.querySelectorAll('.archive-titles a');
-    links.forEach(link => {
-      link.addEventListener('click', function(event) {
-        event.preventDefault();
-        const setIndex = parseInt(this.dataset.setIndex, 10);
-        const essayIndexInSet = parseInt(this.dataset.essayIndexInSet, 10);
-
-        // localArchiveStructure の構造変更に合わせて、必要な情報を特定する
-        // ここでは setIndex と essayIndexInSet があれば、
-        // localStorage に渡す情報としては十分かもしれない。
-        // index.html 側で localArchiveStructure と同様の構造から問題を取得することを想定。
-
-       // ...
-const problemInfo = {
-  setIndex: setIndex,         // ★ data-set-index から取得したセットの通し番号
-  essayIndexInSet: essayIndexInSet // ★ data-essay-index-in-set から取得したセット内問題の通し番号
-};
-localStorage.setItem('selectedTypingProblem', JSON.stringify(problemInfo));
-// ...
-        window.location.href = 'index.html'; // index.htmlに遷移
-      });
-    });
-  }
-
-  // ページ読み込み時に実行
-  loadAndDisplayFullArchive();
-
-// グローバル変数に追加
-let currentViewMode = 'grid'; // 'grid' または 'list'
-
-function renderFullArchive() {
-    if (localArchiveStructure.length === 0 && !currentFilterTag) {
-      fullArchiveListContainer.innerHTML = '<p>バックナンバーはありません。</p>';
-      return;
-    }
-
-    // レイアウト切替ボタンの生成（初回のみ、またはコンテナ外に配置）
-    let controlsHtml = `
-      <div class="view-controls">
-        <button class="view-button ${currentViewMode === 'grid' ? 'active' : ''}" onclick="switchView('grid')">グリッド</button>
-        <button class="view-button ${currentViewMode === 'list' ? 'active' : ''}" onclick="switchView('list')">リスト</button>
-      </div>
-    `;
-
-    let htmlContent = controlsHtml;
-    let hasAnyProblemDisplayed = false;
-
-    localArchiveStructure.forEach((entry, setIndex) => {
-      const dateObj = new Date(entry.date);
-      const year = dateObj.getFullYear();
-      const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-      const day = dateObj.getDate().toString().padStart(2, '0');
-
-      let titlesHtmlForDate = '';
-      let dateHasMatchingProblems = false;
-
-      entry.essays.forEach((essay, indexInSet) => {
-        if (!currentFilterTag || (essay.tags && essay.tags.includes(currentFilterTag))) {
-          dateHasMatchingProblems = true;
-          hasAnyProblemDisplayed = true;
-
-          // 本文の冒頭を取得（HTMLタグを除去して純粋なテキストのみ）
-          const plainText = essay.text.replace(/<[^>]*>/g, ''); 
-          
-          titlesHtmlForDate += `
-            <li>
-              <a href="#" data-set-index="${setIndex}" data-essay-index-in-set="${indexInSet}">
-                <strong style="display:block; margin-bottom:0.5em;">${essay.title}</strong>
-                <p class="problem-preview">${plainText}</p>
-              </a>`;
-          
-          if (essay.tags && essay.tags.length > 0) {
-            titlesHtmlForDate += `<div class="problem-tags">`;
-            essay.tags.forEach(tag => {
-              titlesHtmlForDate += `<span class="tag">${tag}</span>`;
-            });
-            titlesHtmlForDate += `</div>`;
-          }
-          titlesHtmlForDate += `</li>`;
-        }
-      });
-
-      if (dateHasMatchingProblems) {
-        htmlContent += `<div class="archive-entry">`;
-        htmlContent += `<h2 class="archive-date">${year}年${month}月${day}日</h2>`;
-        // 現在の表示モードをクラスとして付与
-        const viewClass = currentViewMode === 'list' ? 'list-view' : '';
-        htmlContent += `<ul class="archive-titles ${viewClass}">${titlesHtmlForDate}</ul>`;
-        htmlContent += `</div>`;
-      }
-    });
-
-    // ...（以下、エラーハンドリングなどは既存通り）
-    fullArchiveListContainer.innerHTML = htmlContent;
-    addArchiveLinkListeners();
-}
-
-// レイアウト切り替え用関数
-function switchView(mode) {
-  currentViewMode = mode;
-  renderFullArchive();
-}
-
-</script>
-  
+    // 初期実行
+    loadAndDisplayFullArchive();
+  </script>
 </body>
 </html>
