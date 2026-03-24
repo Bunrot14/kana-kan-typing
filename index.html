@@ -661,6 +661,7 @@ html, body {
 
 </head>
 <body>
+ <!--
   <header style="display: flex; flex-direction: column; align-items: center;">
    <p class="site-intro" id="siteIntro">
   このサイトは静かに集中してタイピングの瞑想性を引き出すことと、変換ありの実践的なタイピングスキルを向上させることを目的とした無償の学習サービスです。<br>
@@ -668,7 +669,7 @@ html, body {
   ここではただ速さを追い求めるのではなく、ひとつひとつの文字に心を込めてタイピングを楽しんでください。
   <button id="closeIntroBtn" class="intro-close-button">閉じる</button>
 </p>
-
+-->
 <h1 class="visually-hidden">かな漢タイピング｜変換あり長文で毎日練習できる無料サイト</h1>
 
 
@@ -750,16 +751,17 @@ html, body {
 
 <section id="archive" style="margin-top: 2rem;">
  
-  <div style="margin-top: 1rem; text-align: left;  font-weight: bold;">
-    <a href="clavier_collection.html" class="archive-link">クラヴィエの寓話集</a>
-    <span style="margin: 0 0.5em; color: #555;">｜</span>
+  <div style="margin-top: 3rem; text-align: left;  font-weight: bold;">
+    <!-- <a href="clavier_collection.html" class="archive-link">クラヴィエの寓話集</a> -->
+    <!-- <span style="margin: 0 0.5em; color: #555;">｜</span> -->
     <a href="archive.html" class="archive-link">すべてのバックナンバー</a>
     <span style="margin: 0 0.5em; color: #555;">｜</span>
     <a href="Criticism_index.html" class="criticism-link">問題文の裏庭（解説アーカイブ）</a>
      <span style="margin: 0 0.5em; color: #555;">｜</span>
     <a href="favorites.html" class="criticism-link">お気に入りページ</a>
      <span style="margin: 0 0.5em; color: #555;">｜</span>
-    <a href="https://note.com/kanakantyping" class="criticism-link">note</a>
+    <!-- <a href="https://note.com/kanakantyping" class="criticism-link">note</a> -->
+     <button id="openFeedbackBtn" class="usage-action-button">感想や要望を送ってください</button>
   </div>
    
   <div id="archive-list"></div>
@@ -781,7 +783,7 @@ html, body {
       <br>
       <a href="terms.html" style="color: #007acc; text-decoration: none;">利用規約</a> |
       <a href="privacy.html" style="color: #007acc; text-decoration: none;">プライバシーポリシー</a> |
-      <a href="contact.html" style="color: #007acc; text-decoration: none;">お問い合わせ</a>
+      <a href="contact.html" style="color: #007acc; text-decoration: none;">お問い合わせ・応援メッセージ</a>
     </p>
     <p style="margin: 0;">&copy; 2025 Bunrot's Typing Site. All Rights Reserved.</p>
     <p style="margin: 0;">運営者：Bunrot</p>
@@ -895,78 +897,17 @@ showSharedProblemIfNeeded();
 }
 
 function initializeSite() {
-  console.log("JSONデータが読み込まれ、データ構造が準備できました。");
+console.log("JSONデータが読み込まれました。");
 
   if (archiveStructure.length > 0 && allEssays.length > 0) {
-    const selectedProblemInfoString = localStorage.getItem('selectedTypingProblem');
-    let processedSelectedProblem = false; 
-
-    if (selectedProblemInfoString) {
-      try {
-        const selectedProblemInfo = JSON.parse(selectedProblemInfoString);
-        
-
-        console.log("localStorageから読み取った情報:", selectedProblemInfo);
-
-        if (selectedProblemInfo && typeof selectedProblemInfo.setIndex === 'number' && typeof selectedProblemInfo.essayIndexInSet === 'number') {
-          console.log("形式 {setIndex, essayIndexInSet} で処理します。");
-          const problemSetIndex = selectedProblemInfo.setIndex;
-
-          if (problemSetIndex >= 0 && problemSetIndex < archiveStructure.length) {
-            const problemSet = archiveStructure[problemSetIndex];
-            const globalEssayIndex = problemSet.essayStartIndex + selectedProblemInfo.essayIndexInSet;
-
-            if (globalEssayIndex >= 0 && globalEssayIndex < allEssays.length &&
-                selectedProblemInfo.essayIndexInSet >= 0 && selectedProblemInfo.essayIndexInSet < problemSet.numProblems) {
-                
-              console.log(`セット ${problemSetIndex} の ${selectedProblemInfo.essayIndexInSet + 1}番目の問題 (全体の通し番号: ${globalEssayIndex}) を表示します。`);
-              setActiveProblemSet(problemSetIndex); 
-              setEssay(globalEssayIndex);         
-              processedSelectedProblem = true;    
-            } else {
-              console.warn("計算された問題インデックスが無効です (setIndexベース)。詳細:", 
-                           {globalEssayIndex, essaysLength: allEssays.length, essayIndexInSet: selectedProblemInfo.essayIndexInSet, setNumProblems: problemSet.numProblems});
-            }
-          } else {
-            console.warn("指定された問題セットのインデックスが無効です (setIndexベース):", problemSetIndex);
-          }
-        } 
-        else if (selectedProblemInfo && typeof selectedProblemInfo.date === 'string' && typeof selectedProblemInfo.essayIndex === 'number') {
-          console.warn("古い形式の情報 {date, essayIndex} で処理を試みます。同じ日付が複数ある場合、最初のセットが対象になります。");
-          const problemSetIndex = archiveStructure.findIndex(entry => entry.date === selectedProblemInfo.date); 
-
-          if (problemSetIndex !== -1) {
-            const problemSet = archiveStructure[problemSetIndex];
-            const globalEssayIndex = problemSet.essayStartIndex + selectedProblemInfo.essayIndex;
-
-            if (globalEssayIndex >= 0 && globalEssayIndex < allEssays.length &&
-                selectedProblemInfo.essayIndex >= 0 && selectedProblemInfo.essayIndex < problemSet.numProblems) {
-              console.log(`日付 ${selectedProblemInfo.date} の最初のセットの ${selectedProblemInfo.essayIndex + 1}番目の問題 (全体の通し番号: ${globalEssayIndex}) を表示します。`);
-              setActiveProblemSet(problemSetIndex);
-              setEssay(globalEssayIndex);
-              processedSelectedProblem = true;
-            } else {
-              console.warn("計算された問題インデックスが無効です (dateベース)。詳細:",
-                           {globalEssayIndex, essaysLength: allEssays.length, essayIndexInSet: selectedProblemInfo.essayIndex, setNumProblems: problemSet.numProblems});
-            }
-          } else {
-            console.warn("指定された日付の問題セットが見つかりませんでした (dateベース):", selectedProblemInfo.date);
-          }
-        } else {
-          console.warn("localStorageから読み取ったselectedTypingProblemの形式が期待するいずれの形式とも異なります。", selectedProblemInfo);
-        }
-      } catch (e) {
-        console.error("localStorageのselectedTypingProblemの解析または処理中にエラーが発生しました:", e);
-      }
+    
+    // 【修正の肝：常に最新を表示させる設定】
+    // バックナンバー等から遷移してきた時(URLにパラメータがある時)以外は、
+    // 強制的に一番新しいセット（インデックス0）を表示します。
+    const params = new URLSearchParams(window.location.search);
+    if (!params.has('date')) {
+        setActiveProblemSet(0); // これで常に最新が選ばれます
     }
-
-    if (!processedSelectedProblem) {
-      console.log("バックナンバー/特集からの選択情報がないか、処理に失敗したため、デフォルトの問題セットを表示します。");
-      if (archiveStructure.length > 0) {
-        setActiveProblemSet(0); 
-      }
-    }
-
     const recentArchivesToShowOnIndex = 3; 
     const recentArchives = archiveStructure.slice(0, recentArchivesToShowOnIndex);
     renderArchive(recentArchives); 
@@ -1024,12 +965,16 @@ function renderProblemButtons() {
   problemButtonsContainer.appendChild(randomButton);
 }
 
-  function setEssay(index) {
+ function setEssay(index) {
     currentEssayIndex = index;
     typingArea.value = "";
     updateDisplay();
-    typingArea.focus();
-    startTime = null;
+
+    // 画面幅が768px以上（PCなど）の場合のみ自動フォーカスする
+    if (window.innerWidth >= 768) {
+        typingArea.focus();
+    }
+
     renderProblemButtons(); 
     refreshFavoriteButton(); 
   }
@@ -1254,8 +1199,8 @@ function positionFavoriteButton() {
   if (!typingArea || !favContainer) return;
 
   const rect = typingArea.getBoundingClientRect();
-  favContainer.style.top = `${window.scrollY + rect.bottom - 32}px`; 
-  favContainer.style.left = `${window.scrollX + rect.right + 8}px`; 
+  favContainer.style.top = `${window.scrollY + rect.bottom + 8}px`;  // 枠の下
+  favContainer.style.left = `${window.scrollX + rect.left}px`;       // 左端に揃える
 }
 
 window.addEventListener('load', positionFavoriteButton);
@@ -1312,21 +1257,46 @@ if (accordionHeaders.length > 0) {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  // 1. サイト紹介文を閉じる処理
   const closeIntroBtn = document.getElementById("closeIntroBtn");
   const siteIntro = document.getElementById("siteIntro");
-
   if (closeIntroBtn && siteIntro) {
     closeIntroBtn.addEventListener("click", function () {
       siteIntro.style.display = "none";
     });
   }
 
-  // 寄付エリアへのスムーズスクロール
+  // 2. 寄付エリアへのスムーズスクロール
   const scrollBtn = document.getElementById('scrollToDonation');
   const target = document.getElementById('donationSectionTitle');
   if (scrollBtn && target) {
     scrollBtn.addEventListener('click', function() {
       target.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  // 3. フィードバックモーダル（Googleフォーム）の制御
+  const openFeedbackBtn = document.getElementById('openFeedbackBtn');
+  const closeFeedbackBtn = document.getElementById('closeFeedbackBtn');
+  const feedbackModal = document.getElementById('feedbackModal');
+
+  if (openFeedbackBtn && feedbackModal) {
+    openFeedbackBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      feedbackModal.style.display = 'flex';
+    });
+  }
+
+  if (closeFeedbackBtn && feedbackModal) {
+    const closeModal = () => {
+      feedbackModal.style.display = 'none';
+      // 再度開いた時に送信完了画面にならないようリセット
+      const iframe = feedbackModal.querySelector('iframe');
+      if (iframe) iframe.src = iframe.src;
+    };
+    closeFeedbackBtn.addEventListener('click', closeModal);
+    feedbackModal.addEventListener('click', (e) => {
+      if (e.target === feedbackModal) closeModal();
     });
   }
 });
@@ -1422,6 +1392,44 @@ function showSharedProblemIfNeeded() {
 }
 
   </script>
-  
+  <div id="feedbackModal" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 10001;
+  align-items: center;
+  justify-content: center;
+">
+  <div style="
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 90%;
+    max-width: 640px;
+    position: relative;
+  ">
+    <button id="closeFeedbackBtn" style="
+      position: absolute;
+      top: 10px; right: 14px;
+      background: none;
+      border: none;
+      font-size: 1.4em;
+      cursor: pointer;
+      color: #555;
+    ">✕</button>
+    <iframe
+      src="https://docs.google.com/forms/d/e/1FAIpQLSd38ZKqmr67IEuaUTmav3HIzVJ0Z7mVWEyp1IZwNvx5mP0-lQ/viewform?usp=dialog"
+      width="100%"
+      height="500"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0">
+      読み込んでいます…
+    </iframe>
+  </div>
+</div>
+
 </body>
 </html>
