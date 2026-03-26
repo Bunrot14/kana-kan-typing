@@ -897,20 +897,26 @@ showSharedProblemIfNeeded();
 }
 
 function initializeSite() {
-console.log("JSONデータが読み込まれました。");
+  console.log("JSONデータが読み込まれました。");
 
   if (archiveStructure.length > 0 && allEssays.length > 0) {
-    
-    // 【修正の肝：常に最新を表示させる設定】
-    // バックナンバー等から遷移してきた時(URLにパラメータがある時)以外は、
-    // 強制的に一番新しいセット（インデックス0）を表示します。
     const params = new URLSearchParams(window.location.search);
-    if (!params.has('date')) {
-        setActiveProblemSet(0); // これで常に最新が選ばれます
+    
+    // URLに 'date' パラメータが含まれているかチェック
+    const hasDateParam = params.has('date');
+
+    if (!hasDateParam) {
+        // パラメータがない（＝トップページに直接来た）場合のみ、最新を表示
+        setActiveProblemSet(0);
+    } else {
+        // パラメータがある（＝バックナンバーから来た）場合は、
+        // ここでは何もしない（後続の showSharedProblemIfNeeded に任せる）
+        console.log("バックナンバーからの遷移を検知しました。指定の問題を読み込みます。");
     }
+
     const recentArchivesToShowOnIndex = 3; 
     const recentArchives = archiveStructure.slice(0, recentArchivesToShowOnIndex);
-    renderArchive(recentArchives); 
+    renderArchive(recentArchives);
 
   } else {
     console.error("問題データが空か、正しく読み込めませんでした。サイトの初期化をスキップします。");
