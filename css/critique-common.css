@@ -306,3 +306,157 @@ body {
 .scroll-to-donation-btn:hover {
     background-color: #333;
 }
+
+/* PDF・印刷用のスタイル設定 */
+@media print {
+    /* 1. ページ全体の基本設定（A4） */
+    @page {
+        size: A4;
+        margin: 25mm 22mm;
+    }
+
+    body {
+        background: white !important;
+        color: #1a1a1a !important;
+        font-family: "Sawarabi Mincho", "Yu Mincho", "Hiragino Mincho ProN", serif;
+        line-height: 1.9;
+        font-size: 10.5pt;
+        -webkit-print-color-adjust: exact;
+    }
+
+    /* 2. PDFに不要なWeb要素をすべて隠す */
+    #return-link, 
+    .nav-links, 
+    .typing-practice-section, 
+    footer, 
+    #payment-gate,
+    .stripe-button,
+    script, 
+    ins, 
+    hr {
+        display: none !important;
+    }
+
+    /* 3. 表紙のようなタイトル演出 */
+    header {
+        text-align: center;
+        margin-top: 50mm;
+        margin-bottom: 90mm;
+    }
+
+    header h1 {
+        font-size: 26pt;
+        font-weight: normal;
+        letter-spacing: 0.3em;
+        margin-bottom: 20px;
+    }
+
+    header .subtitle {
+        font-size: 14pt;
+        color: #555;
+    }
+
+    /* 4. 本文・各章のレイアウト */
+    article h2 {
+        break-before: page;
+        margin-top: 20mm;
+        margin-bottom: 30px;
+        font-size: 18pt;
+        font-weight: normal;
+        border-bottom: 1px solid #333;
+        padding-bottom: 10px;
+    }
+
+    article h3 {
+        font-size: 11pt;
+        color: #666;
+        margin-bottom: 15px;
+        margin-top: 30px;
+    }
+
+    blockquote {
+        margin: 30px 0;
+        padding: 25px;
+        border-left: 5px solid #3498db !important; 
+        background-color: #f0f7ff !important; 
+        font-size: 9.5pt;
+        line-height: 1.7;
+        color: #333 !important;
+    }
+
+    strong {
+        font-weight: 600;
+        color: #2980b9 !important;
+    }
+
+    /* 7. 【追加】巻末の秘密の鍵エリア（PDF専用） */
+    .print-only, .pdf-secret-key {
+        display: block !important;
+        break-before: page;
+        margin-top: 70mm;
+        text-align: center;
+        padding: 40px;
+        border: 1px double #333;
+    }
+
+    .pdf-secret-key .key-code {
+        display: block;
+        font-family: "Courier New", monospace;
+        font-size: 24pt;
+        font-weight: bold;
+        letter-spacing: 0.4em;
+        margin: 20px 0;
+        background: #f0f0f0 !important;
+        padding: 15px;
+    }
+
+    /* 8. 【追加】PDF専用の奥付 */
+    .pdf-colophon {
+        display: block !important;
+        margin-top: 50mm;
+        text-align: center;
+        font-size: 9pt;
+        color: #999;
+    }
+} /* <--- ここで print 設定を閉じます */
+
+/* --- 2. 通常のブラウザ画面（screen）での設定 --- */
+@media screen {
+    .print-only, 
+    .pdf-secret-key, 
+    .pdf-colophon {
+        display: none !important;
+    }
+}
+
+/* 入力エリアの親要素を基準点にする */
+.typing-column {
+    position: relative;
+}
+
+.favorite-button-fixed {
+    position: absolute;
+    bottom: -40px;  /* 枠の外・下に出す */
+    left: 0;        /* 左端に揃える */
+}
+
+.typing-column {
+    position: relative;
+    padding-bottom: 50px; /* ボタン分の余白 */
+}
+
+.typing-main-wrapper {
+    display: block; /* flexになっていれば解除 */
+    position: relative;
+}
+
+.typing-column {
+    position: relative;
+    padding-bottom: 50px;
+}
+
+.favorite-button-fixed {
+    position: fixed;
+    bottom: 0;  /* padding-bottomの範囲内に収める */
+    left: 0;
+}
