@@ -222,11 +222,16 @@
     }
 
     // ページ遷移処理
-    window.saveAndGo = (si, ei) => {
-      const info = { setIndex: si, essayIndexInSet: ei };
-      localStorage.setItem('selectedTypingProblem', JSON.stringify(info));
-      window.location.href = 'index.html';
-    };
+   window.saveAndGo = (si, ei) => {
+  // archiveStructureから該当する日付を取得
+   const targetEntry = localArchiveStructure[si];
+  if (targetEntry) {
+    // URLに日付と問題番号を付けて遷移する
+    window.location.href = `index.html?date=${targetEntry.date}&index=${ei}`;
+  } else {
+    window.location.href = 'index.html';
+  }
+};
 
     // 初期実行
     loadAndDisplayFullArchive();

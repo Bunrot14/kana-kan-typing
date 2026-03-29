@@ -615,12 +615,12 @@ html, body {
   }
 }
 
+/* ↓ 変更後 */
 .favorite-button-fixed {
   position: absolute;
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  pointer-events: none; 
+  justify-content: flex-start;
+  pointer-events: none;
 }
 
 .favorite-button-fixed button {
@@ -678,6 +678,14 @@ html, body {
         <div class="problem-header" id="problem-header-date" style="font-size: 0.9em; color: #555; text-align: left; margin-bottom: 5px;"></div>
         <div class="problem-buttons" id="problem-buttons"></div>
     </div>
+    <div style="margin-top: 10px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+  <select id="tagSelector" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 0.8em;">
+    <option value="">タグを選択...</option>
+  </select>
+  <button id="randomByTagBtn" class="usage-action-button" style="padding: 5px 10px; font-size: 0.8em; ">
+    「<span id="selectedTagName">○○</span>」からランダム
+  </button>
+</div>
 
     <div class="title-and-usage-container">
         <div class="header-right-controls"> <button id="showUsageGuideButton" class="usage-action-button">使い方とクラヴィエについて</button>
@@ -731,12 +739,8 @@ html, body {
   <div class="typing-main-wrapper">
     <div class="typing-column">
       <div id="display"></div>
-      <textarea id="typingArea" placeholder="ここに全文を入力してください..."></textarea>
-      
-      <div class="favorite-button-fixed" id="favoriteButtonContainer">
-        <button id="favoriteToggleButton">☆ お気に入りに追加</button>
-      </div>
-    </div>
+      <textarea id="typingArea" placeholder="ここに全文を入力してください..."></textarea> 
+ </div>
 
   <aside class="donation-sidebar">
   <h4 class="donation-title">運営の継続に関するお願い</h4>
@@ -745,7 +749,10 @@ html, body {
   </p>
   <p>少額のご支援でも一つの練習用テキストを作る大きな励みになります。</p>
   <button class="scroll-to-donation-btn" id="scrollToDonation">この場所を支える（寄付へ）</button>
-</aside>
+  </aside>
+  <div class="favorite-button-fixed" id="favoriteButtonContainer">
+        <button id="favoriteToggleButton">☆ お気に入りに追加</button>
+      </div>
   </div>
 
 
@@ -886,9 +893,53 @@ async function loadTypingData() {
       currentIndex += dailyEssaysTexts.length;
     });
     
-    initializeSite();
-showSharedProblemIfNeeded(); 
+    // タグ選択リストの生成
+const tagSelector = document.getElementById('tagSelector');
+const allTags = new Set();
+jsonData.forEach(day => {
+  day.essays.forEach(essay => {
+    if (essay.tags) essay.tags.forEach(tag => allTags.add(tag));
+  });
+});
+Array.from(allTags).sort().forEach(tag => {
+  const option = document.createElement('option');
+  option.value = tag; option.textContent = tag;
+  tagSelector.appendChild(option);
+});
+tagSelector.addEventListener('change', (e) => {
+  document.getElementById('selectedTagName').textContent = e.target.value || "○○";
+});
 
+// タグからランダムに選ぶ関数
+function selectRandomByTag() {
+  const selectedTag = document.getElementById('tagSelector').value;
+  if (!selectedTag) return alert("タグを選択してください");
+
+  const filtered = [];
+  allEssays.forEach((essay, index) => {
+    // typingDataからタグ情報を探して照合
+    let cum = 0;
+    for (let i = 0; i < typingData.length; i++) {
+      if (index < cum + typingData[i].essays.length) {
+        if (typingData[i].essays[index - cum].tags?.includes(selectedTag)) filtered.push(index);
+        break;
+      }
+      cum += typingData[i].essays.length;
+    }
+  });
+
+  if (filtered.length > 0) {
+    const idx = filtered[Math.floor(Math.random() * filtered.length)];
+    problemHeaderDate.textContent = `タグ：${selectedTag} から選出`;
+    setEssay(idx);
+  }
+}
+document.getElementById('randomByTagBtn').addEventListener('click', selectRandomByTag);
+// initializeSiteを先に呼び、パラメータがない場合のみ最新をセットさせる
+    initializeSite();
+    
+    // URLパラメータがある場合は、こちらの関数が上書きして特定の問題を表示する
+    showSharedProblemIfNeeded();
 
   } catch (error) {
     console.error("問題データの処理中にエラーが発生しました:", error);
@@ -974,6 +1025,7 @@ function renderProblemButtons() {
  function setEssay(index) {
     currentEssayIndex = index;
     typingArea.value = "";
+     startTime = null;
     updateDisplay();
 
     // 画面幅が768px以上（PCなど）の場合のみ自動フォーカスする
@@ -1199,16 +1251,15 @@ function renderArchive(archivesToDisplay) {
 loadTypingData(); 
 
 function positionFavoriteButton() {
-  const typingArea = document.getElementById('typingArea');
+  const sidebar = document.querySelector('.donation-sidebar');
   const favContainer = document.getElementById('favoriteButtonContainer');
+  if (!sidebar || !favContainer) return;
 
-  if (!typingArea || !favContainer) return;
-
-  const rect = typingArea.getBoundingClientRect();
-  favContainer.style.top = `${window.scrollY + rect.bottom + 8}px`;  // 枠の下
-  favContainer.style.left = `${window.scrollX + rect.left}px`;       // 左端に揃える
+  const rect = sidebar.getBoundingClientRect();
+  favContainer.style.top = `${window.scrollY + rect.bottom + 8}px`;  // サイドバーの下
+  favContainer.style.left = `${window.scrollX + rect.left}px`;        // 左端を揃える
+  favContainer.style.width = `${rect.width}px`;                        // 幅も揃える
 }
-
 window.addEventListener('load', positionFavoriteButton);
 window.addEventListener('resize', positionFavoriteButton);
 window.addEventListener('scroll', positionFavoriteButton);
@@ -1382,6 +1433,7 @@ if (favoriteBtn) {
   favoriteBtn.addEventListener('click', toggleFavorite);
 }
 
+// index.html の showSharedProblemIfNeeded を以下に修正
 function showSharedProblemIfNeeded() {
   const params = new URLSearchParams(window.location.search);
   const date = params.get('date');
@@ -1394,7 +1446,9 @@ function showSharedProblemIfNeeded() {
   const entry = archiveStructure[setIndex];
   if (index < 0 || index >= entry.numProblems) return;
 
-  loadProblemByIndices(setIndex, index);
+  // ✅ loadProblemByIndices の代わりに既存の関数を使う
+  setActiveProblemSet(setIndex);
+  setEssay(entry.essayStartIndex + index);
 }
 
   </script>
