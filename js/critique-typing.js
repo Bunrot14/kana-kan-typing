@@ -1,86 +1,108 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // --- タイピング練習機能のための要素と変数 ---
-    const displayElement = document.getElementById('display');
-    const typingAreaElement = document.getElementById('typingArea');
-    const popupElement = document.getElementById('popup');
-    const popupListElement = document.getElementById('popupList');
 
-    let currentPracticeText = ""; // このページの解説文から取得した練習用テキスト
+    let currentPracticeText = "";
     let practiceStartTime = null;
 
-    // --- 解説文本文の取得と整形 (引用部分も含むように修正) ---
+    // ★ DOM要素は毎回取得し直すヘルパー関数
+    function getEls() {
+        return {
+            display:    document.getElementById('display'),
+            typingArea: document.getElementById('typingArea'),
+            popup:      document.getElementById('popup'),
+            popupList:  document.getElementById('popupList'),
+        };
+    }
+
     function getArticleTextForTyping() {
         const articleNode = document.querySelector('article');
-        let textParts = []; // 各テキストブロックを格納する配列
-        if (articleNode) {
-            // articleNodeの直接の子要素を順番に処理
-            for (const child of articleNode.children) {
-                let currentPartText = "";
-                if (child.tagName === 'P') {
-                    // <p>タグのテキストを取得
-                    currentPartText = child.textContent.trim();
-                } else if (child.tagName === 'BLOCKQUOTE') {
-                    // <blockquote>タグの場合、その中の<p>タグのテキストを連結して取得
-                    const quoteParagraphs = child.querySelectorAll('p');
-                    let blockquoteContent = "";
-                    quoteParagraphs.forEach((p, index) => {
-                        if (index > 0) {
-                            blockquoteContent += "\n"; // 引用内の複数段落間は改行1つで区切る
-                        }
-                        blockquoteContent += p.textContent.trim();
-                    });
-                    currentPartText = blockquoteContent;
-                }
-                // H2, H3, UL などの見出しやリストは練習対象外とする
-                // (上記以外で練習に含めたい要素があれば、ここに条件分岐を追加)
+        if (!articleNode) return "";
 
-                if (currentPartText.length > 0) {
-                    textParts.push(currentPartText);
-                }
+        let textParts = [];
+        const targetElements = articleNode.querySelectorAll('p, blockquote');
+
+        targetElements.forEach(el => {
+            if (el.closest('#payment-gate')) return;
+            // blockquote内のpは個別に取得しない（二重取得防止）
+            if (el.tagName === 'P' && el.closest('blockquote')) return;
+
+            let currentPartText = "";
+            if (el.tagName === 'P') {
+                currentPartText = el.textContent.trim();
+            } else if (el.tagName === 'BLOCKQUOTE') {
+                const quoteParagraphs = el.querySelectorAll('p');
+                currentPartText = Array.from(quoteParagraphs)
+                    .map(p => p.textContent.trim())
+                    .join("\n");
             }
-        }
-        // 各テキストブロックを改行2つで結合し、最終的な練習テキストとする
-        return textParts.join("\n\n").trim(); 
+
+            if (currentPartText.length > 0) {
+                textParts.push(currentPartText);
+            }
+        });
+
+        return textParts.join("\n\n").trim();
     }
 
-    // --- タイピング練習の初期化 ---
     function initializeTypingPractice(textToType) {
-        if (!displayElement || !typingAreaElement) return;
+        // ★ 解錠後にDOMが生成されるため、ここで毎回取得
+        const { display, typingArea } = getEls();
+        if (!display || !typingArea) return;
 
         currentPracticeText = textToType;
-        displayElement.innerHTML = ""; // 表示エリアをクリア
+        display.innerHTML = "";
         for (let i = 0; i < currentPracticeText.length; i++) {
             const span = document.createElement("span");
-            span.className = "untyped"; // 初期クラス
+            span.className = "untyped";
             span.textContent = currentPracticeText[i];
-            displayElement.appendChild(span);
+            display.appendChild(span);
         }
-        typingAreaElement.value = "";
-        typingAreaElement.focus();
+        typingArea.value = "";
+        typingArea.focus();
         practiceStartTime = null;
+
+        // ★ イベントリスナーも解錠後に付け直す（古いリスナーと重複しないようcloneで置換）
+        const newTextarea = typingArea.cloneNode(true);
+        typingArea.parentNode.replaceChild(newTextarea, typingArea);
+
+        newTextarea.addEventListener("input", () => {
+            if (!practiceStartTime && newTextarea.value.length > 0) {
+                practiceStartTime = Date.now();
+            }
+            if (newTextarea.value.length === 0) {
+                practiceStartTime = null;
+            }
+            updatePracticeDisplay();
+        });
+
+        newTextarea.addEventListener("paste", function(event) {
+            event.preventDefault();
+            alert("ペーストは無効です。");
+        });
+
+        newTextarea.focus();
     }
 
-    // --- 入力時の正誤判定 (index.htmlのupdateDisplayをベースに調整) ---
     function updatePracticeDisplay() {
-        if (!displayElement || !typingAreaElement || !currentPracticeText) return;
+        const { display, typingArea } = getEls();
+        if (!display || !typingArea || !currentPracticeText) return;
 
-        const typedText = typingAreaElement.value;
-        const spans = displayElement.querySelectorAll('span');
-        let errorMarkedThisTurn = false; // このターンで最初のミスか
+        const typedText = typingArea.value;
+        const spans = display.querySelectorAll('span');
+        let errorMarkedThisTurn = false;
 
         for (let i = 0; i < currentPracticeText.length; i++) {
             const charSpan = spans[i];
             if (!charSpan) continue;
 
             if (i < typedText.length) {
-                if (!errorMarkedThisTurn) { // まだこの入力でミスがマークされていなければ
+                if (!errorMarkedThisTurn) {
                     if (typedText[i] === currentPracticeText[i]) {
                         charSpan.className = "correct";
                     } else {
                         charSpan.className = "incorrect";
-                        errorMarkedThisTurn = true; // ミスをマーク
+                        errorMarkedThisTurn = true;
                     }
-                } else { // この入力で既にミスがあった場合、それ以降はuntyped
+                } else {
                     charSpan.className = "untyped";
                 }
             } else {
@@ -88,81 +110,66 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // 全文正しく入力完了した場合
         if (!errorMarkedThisTurn && typedText.length === currentPracticeText.length && typedText === currentPracticeText) {
             showPracticeResult();
         }
     }
-    
-    // --- 結果表示 (index.htmlのshowResultをベースに調整) ---
+
     function showPracticeResult() {
-        if (!practiceStartTime || !popupElement || !popupListElement) return;
+        const { popup, popupList, typingArea } = getEls();
+        if (!practiceStartTime || !popup || !popupList) return;
+
         const elapsed = ((Date.now() - practiceStartTime) / 1000);
         const charCount = currentPracticeText.length;
         const wpm = charCount > 0 && elapsed > 0 ? Math.round((charCount / elapsed) * 60) : 0;
 
-        // createItem関数 (index.htmlからコピーまたは共通化)
         const createItem = (label, content) => {
             const li = document.createElement("li");
-            li.style.whiteSpace = "nowrap"; // 必要に応じて調整
+            li.style.whiteSpace = "nowrap";
             li.style.overflow = "hidden";
             li.style.textOverflow = "ellipsis";
             li.innerHTML = `<strong>${label}</strong> ${content}`;
             return li;
         };
-        // getLevelComment関数, getEvaluationMessage関数 (index.htmlからコピーまたは共通化)
-        // ここでは仮のものを直接書きます。実際にはindex.htmlのものを参照・共通化してください。
+
         const getLevelComment = (w) => (w > 100 ? "素晴らしい速度です！" : "着実なペースです。");
         const getEvaluationMessage = (w) => (w > 100 ? "解説文読破、お疲れ様でした！" : "じっくりと味わえましたね。");
 
+        popupList.innerHTML = "";
+        popupList.appendChild(createItem("所要時間：", `${elapsed.toFixed(1)}秒`));
+        popupList.appendChild(createItem("入力文字数：", `${charCount}文字`));
+        popupList.appendChild(createItem("WPM：", `${wpm}文字/分　${getLevelComment(wpm)}`));
+        popupList.appendChild(createItem("評価：", getEvaluationMessage(wpm)));
 
-        popupListElement.innerHTML = "";
-        popupListElement.appendChild(createItem("所要時間：", `${elapsed.toFixed(1)}秒`));
-        popupListElement.appendChild(createItem("入力文字数：", `${charCount}文字`));
-        popupListElement.appendChild(createItem("WPM：", `${wpm}文字/分〠 ${getLevelComment(wpm)}`)); // 「〠」は元のコードのままです
-        popupListElement.appendChild(createItem("評価：", getEvaluationMessage(wpm)));
-
-        popupElement.style.display = "block";
-        typingAreaElement.blur();
+        popup.style.display = "block";
+        if (typingArea) typingArea.blur();
     }
 
-    // --- イベントリスナーの設定 ---
-    if (typingAreaElement) {
-        typingAreaElement.addEventListener("input", () => {
-            if (!practiceStartTime && typingAreaElement.value.length > 0) {
-                practiceStartTime = Date.now();
-            }
-            if (typingAreaElement.value.length === 0) {
-                practiceStartTime = null;
-            }
-            updatePracticeDisplay();
-        });
-        
-        // ペースト禁止 (index.htmlからコピー)
-        typingAreaElement.addEventListener("paste", function (event) {
-            event.preventDefault();
-            alert("ペーストは無効です。");
-        });
-    }
+    // Qキーでポップアップを閉じる
+    document.addEventListener('keydown', function(e) {
+        const { popup } = getEls();
+        if (popup && popup.style.display === 'block' && (e.key === 'q' || e.key === 'Q')) {
+            popup.style.display = 'none';
+            initializeTypingPractice(currentPracticeText);
+            e.preventDefault();
+        }
+    });
 
-    if (popupElement) {
-        // Qキーでポップアップを閉じる (index.htmlからコピー)
-        document.addEventListener('keydown', function (e) {
-            if (popupElement.style.display === 'block' && (e.key === 'q' || e.key === 'Q')) {
-                popupElement.style.display = 'none';
-                // 練習をリセットする場合は再度initializeTypingPracticeを呼ぶなど
-                // ここでは入力エリアにフォーカスを戻すだけ
-                initializeTypingPractice(currentPracticeText); // または単に typingAreaElement.focus();
-                e.preventDefault();
-            }
-        });
-    }
-
-    // --- 初期化実行 ---
+    // ページ初期化（解錠前の序文テキストで練習）
     const articleText = getArticleTextForTyping();
     if (articleText && articleText.length > 0) {
         initializeTypingPractice(articleText);
     } else {
-        if(displayElement) displayElement.innerHTML = "<p>練習対象のテキストが見つかりませんでした。</p>";
+        const { display } = getEls();
+        if (display) display.innerHTML = "<p>練習対象のテキストが見つかりませんでした。</p>";
     }
-});
+
+    // 解錠後に呼ばれる関数
+    window.startTypingAfterUnlock = function() {
+        const articleText = getArticleTextForTyping();
+        if (articleText && articleText.length > 0) {
+            initializeTypingPractice(articleText);
+        }
+    };
+
+}); // DOMContentLoaded
