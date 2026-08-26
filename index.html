@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -651,14 +652,187 @@ html, body {
   left: -9999px;
 }
 
-.feedback-button {
-  background: #ff9800;
-  color: #ffffff;
-  border: none;
+/* ===== ダークモード ===== */
+body.dark-mode {
+  background: #1a1d21;
+  color: #e4e6eb;
+}
+body.dark-mode h1,
+body.dark-mode .title-and-usage-container h1,
+body.dark-mode .problem-container h1 {
+  color: #e4e6eb;
+}
+body.dark-mode .problem-header {
+  color: #aaa !important;
+}
+body.dark-mode .donation-sidebar {
+  background: #24272c;
+  border-color: #3a3f46;
+  color: #cfd3d8;
+}
+body.dark-mode #display {
+  background-color: #2a2e33;
+  color: #e4e6eb;
+  border-color: #3a3f46;
+}
+body.dark-mode .untyped {
+  color: #e4e6eb !important;
+}
+body.dark-mode .correct {
+  background-color: #1f3b5c !important;
+  color: #a9d2ff !important;
+}
+body.dark-mode .incorrect {
+  background-color: #5c2626 !important;
+  color: #ff9c9c !important;
+}
+body.dark-mode #typingArea {
+  background-color: #202327;
+  color: #e4e6eb;
+  border-color: #444;
+}
+body.dark-mode #popup {
+  background: #24272c;
+  border-color: #555;
+  color: #e4e6eb;
+}
+body.dark-mode #popup ul li::before {
+  color: #999;
+}
+body.dark-mode .popup-actions button {
+  background: #24272c;
+}
+body.dark-mode .problem-buttons button,
+body.dark-mode .archive-titles button {
+  background: #3a3f46;
+  color: #e4e6eb;
+}
+body.dark-mode .problem-buttons button:hover,
+body.dark-mode .archive-titles button:hover {
+  background: #4d525a;
+}
+body.dark-mode .problem-buttons button.active {
+  background: #6cb6ff;
+  color: #1a1d21;
+}
+body.dark-mode #archive-list a,
+body.dark-mode .archive-link {
+  color: #6cb6ff;
+}
+body.dark-mode .usage-action-button {
+  background: #24272c;
+  color: #6cb6ff;
+  border-color: #6cb6ff;
+}
+body.dark-mode .usage-action-button:hover {
+  background: #6cb6ff;
+  color: #1a1d21;
+  border-color: #6cb6ff;
+}
+body.dark-mode .usage-guide-content {
+  background-color: #24272c;
+  color: #e4e6eb;
+}
+body.dark-mode .usage-guide-content h2 {
+  color: #e4e6eb;
+}
+body.dark-mode .accordion-header {
+  background-color: #2f333a;
+  color: #e4e6eb;
+}
+body.dark-mode .accordion-header:hover,
+body.dark-mode .accordion-header.active {
+  background-color: #3a3f46;
+}
+body.dark-mode .accordion-panel {
+  background-color: #24272c;
+  border-color: #3a3f46;
+  color: #e4e6eb;
+}
+body.dark-mode .accordion-panel .text-link,
+body.dark-mode .accordion-panel a {
+  color: #6cb6ff;
+}
+body.dark-mode .favorite-button-fixed button {
+  background-color: #24272c;
+  color: #cfd3d8;
+  border-color: #555;
+}
+body.dark-mode .favorite-button-fixed button:hover {
+  background-color: #3a3f46;
+  color: #fff;
+}
+body.dark-mode .favorite-button-fixed button.active {
+  background-color: #8a6d1f;
+  color: #fff;
+  border-color: #c9a634;
+}
+body.dark-mode .site-intro {
+  color: #999;
+}
+body.dark-mode .intro-close-button {
+  background-color: #24272c;
+  color: #cfd3d8;
+  border-color: #555;
+}
+body.dark-mode #siteFooter {
+  background: #16181b !important;
+  color: #cfd3d8 !important;
+}
+body.dark-mode #siteFooter a {
+  color: #6cb6ff !important;
+}
+body.dark-mode #tagSelector,
+body.dark-mode select {
+  background-color: #24272c;
+  color: #e4e6eb;
+  border-color: #555;
+}
+body.dark-mode ::placeholder {
+  color: #888;
+}
+body.dark-mode,
+body.dark-mode #display,
+body.dark-mode #typingArea,
+body.dark-mode #popup,
+body.dark-mode .donation-sidebar,
+body.dark-mode .usage-action-button,
+body.dark-mode .favorite-button-fixed button {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
-.feedback-button:hover {
-  background: #e68900;
+/* ダークモード切替スイッチ */
+.dark-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.4em 0.8em !important;
+  font-size: 0.8em !important;
+}
+.dark-mode-toggle .switch-track {
+  position: relative;
+  width: 34px;
+  height: 18px;
+  background: #ccc;
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+.dark-mode-toggle .switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+body.dark-mode .dark-mode-toggle .switch-track {
+  background: #6cb6ff;
+}
+body.dark-mode .dark-mode-toggle .switch-thumb {
+  transform: translateX(16px);
 }
 
   </style>
@@ -671,10 +845,9 @@ html, body {
 
 </head>
 <body>
-
   <header style="display: flex; flex-direction: column; align-items: center;">
    <p class="site-intro" id="siteIntro">
- ※問題文の中の「──」の入力が上手くいかないときは、「けいせん」と打ってから変換を試してください。
+ ※問題文の中の「──」の入力が上手くいかないときは、「けいせん」や「だっしゅ」と打ってから変換を試してください。<br>サイト機能改善に伴い予期せぬエラーの発生を予想しております。何かお気づきの点がございましたら、お問い合わせページからお知らせいただけると大変うれしいです。
   <button id="closeIntroBtn" class="intro-close-button">閉じる</button>
 </p>
 
@@ -697,6 +870,10 @@ html, body {
 
     <div class="title-and-usage-container">
         <div class="header-right-controls"> <button id="showUsageGuideButton" class="usage-action-button">使い方とクラヴィエについて</button>
+          <button id="darkModeToggle" class="usage-action-button dark-mode-toggle" type="button" aria-pressed="false">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <span id="darkModeToggleLabel">ダークモード</span>
+          </button>
         </div>
     </div>
     <div class="header-spacer-right">
@@ -776,7 +953,8 @@ html, body {
     <a href="favorites.html" class="criticism-link">お気に入りページ</a>
      <span style="margin: 0 0.5em; color: #555;">｜</span>
     <!-- <a href="https://note.com/kanakantyping" class="criticism-link">note</a> -->
-  <button id="openFeedbackBtn" class="usage-action-button feedback-button">アンケートへのご協力をよろしくお願いいたします</button>
+     <button id="openFeedbackBtn" class="usage-action-button">アンケートへのご協力をよろしくお願いいたします</button>
+  </div>
    
   <div id="archive-list"></div>
 </section>
@@ -784,7 +962,10 @@ html, body {
 
   <div id="popup">
     <ul id="popupList"></ul>
-    <p>（Qキーで閉じる）</p>
+    <div class="popup-actions" style="display:flex; gap:10px; margin-top:1em; justify-content:center;">
+      <button id="popupCloseBtn" class="usage-action-button" type="button">閉じる（Esc）</button>
+      <button id="popupNextBtn" class="usage-action-button" type="button">次の例題へ（Q）</button>
+    </div>
   </div>
 
   <footer id="siteFooter" style="position: static; bottom: 0; width: 100%; text-align: center; font-size: 12px; padding: 1px; background: #f5f5f5; margin-top: 2rem;">
@@ -856,7 +1037,49 @@ html, body {
   let currentProblemSetNumProblems = 0; 
   let startTime = null;
 
+  // 「〇〇からランダム」連続再生用：選択中タグと該当する問題インデックス一覧
+  let currentTagFilterIndices = null;
+  let currentTagFilterName = null;
+
 let typingData = []; 
+
+// ===== ダークモード =====
+(function initDarkMode() {
+  const THEME_KEY = "clavierTheme"; // 'light' | 'dark' が入っていれば手動設定、無ければOS設定に追従
+  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  const toggleBtn = document.getElementById("darkModeToggle");
+  const toggleLabel = document.getElementById("darkModeToggleLabel");
+
+  function applyTheme(isDark) {
+    document.body.classList.toggle("dark-mode", isDark);
+    if (toggleBtn) toggleBtn.setAttribute("aria-pressed", String(isDark));
+    if (toggleLabel) toggleLabel.textContent = isDark ? "ライトモード" : "ダークモード";
+  }
+
+  function currentIsDark() {
+    const saved = localStorage.getItem(THEME_KEY);
+    if (saved === "dark") return true;
+    if (saved === "light") return false;
+    return mediaQuery.matches; // 手動設定が無ければOSの設定に従う
+  }
+
+  applyTheme(currentIsDark());
+
+  // OS側のダーク/ライト設定が変わったとき、手動設定していなければ追従する
+  mediaQuery.addEventListener("change", (e) => {
+    if (!localStorage.getItem(THEME_KEY)) {
+      applyTheme(e.matches);
+    }
+  });
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      const nowDark = !document.body.classList.contains("dark-mode");
+      localStorage.setItem(THEME_KEY, nowDark ? "dark" : "light");
+      applyTheme(nowDark);
+    });
+  }
+})();
 
 async function loadTypingData() {
   try {
@@ -917,7 +1140,20 @@ tagSelector.addEventListener('change', (e) => {
   document.getElementById('selectedTagName').textContent = e.target.value || "○○";
 });
 
-// タグからランダムに選ぶ関数
+// ✅ タグ関連の選出処理はグローバルスコープの selectRandomByTag / selectNextFromTagFilter で行う（下部に定義）
+
+    initializeSite();
+    
+    // URLパラメータがある場合は、こちらの関数が上書きして特定の問題を表示する
+    showSharedProblemIfNeeded();
+
+  } catch (error) {
+    console.error("問題データの処理中にエラーが発生しました:", error);
+    document.body.innerHTML = `<p style="text-align:center; padding: 20px; font-size: 1.2em;">サイトのデータの読み込みに失敗しました。<br>お手数ですが、ページを再読み込みするか、しばらくしてから再度お試しください。<br><small>エラー詳細: ${error.message}</small></p>`;
+  }
+}
+
+// タグからランダムに選ぶ関数（グローバルスコープ：ボタン以外からも呼べるようにする）
 function selectRandomByTag() {
   const selectedTag = document.getElementById('tagSelector').value;
   if (!selectedTag) return alert("タグを選択してください");
@@ -936,23 +1172,30 @@ function selectRandomByTag() {
   });
 
   if (filtered.length > 0) {
+    currentTagFilterIndices = filtered;
+    currentTagFilterName = selectedTag;
     const idx = filtered[Math.floor(Math.random() * filtered.length)];
     problemHeaderDate.textContent = `タグ：${selectedTag} から選出`;
     setEssay(idx);
   }
 }
-document.getElementById('randomByTagBtn').addEventListener('click', selectRandomByTag);
-// initializeSiteを先に呼び、パラメータがない場合のみ最新をセットさせる
-    initializeSite();
-    
-    // URLパラメータがある場合は、こちらの関数が上書きして特定の問題を表示する
-    showSharedProblemIfNeeded();
 
-  } catch (error) {
-    console.error("問題データの処理中にエラーが発生しました:", error);
-    document.body.innerHTML = `<p style="text-align:center; padding: 20px; font-size: 1.2em;">サイトのデータの読み込みに失敗しました。<br>お手数ですが、ページを再読み込みするか、しばらくしてから再度お試しください。<br><small>エラー詳細: ${error.message}</small></p>`;
+// 「〇〇からランダム」で選んだタグの中から、続けて次の問題を選ぶ
+function selectNextFromTagFilter() {
+  if (!currentTagFilterIndices || currentTagFilterIndices.length === 0) return false;
+
+  let nextIndex = currentTagFilterIndices[0];
+  if (currentTagFilterIndices.length > 1) {
+    do {
+      nextIndex = currentTagFilterIndices[Math.floor(Math.random() * currentTagFilterIndices.length)];
+    } while (nextIndex === currentEssayIndex);
   }
+
+  problemHeaderDate.textContent = `タグ：${currentTagFilterName} から選出`;
+  setEssay(nextIndex);
+  return true;
 }
+document.getElementById('randomByTagBtn').addEventListener('click', selectRandomByTag);
 
 function initializeSite() {
   console.log("JSONデータが読み込まれました。");
@@ -992,6 +1235,8 @@ function setActiveProblemSet(problemSetIndex) {
 
   currentProblemSetStartIndex = problemSet.essayStartIndex;
   currentProblemSetNumProblems = problemSet.numProblems;
+  currentTagFilterIndices = null; // タグからの連続ランダムモードを解除
+  currentTagFilterName = null;
 
   const dateObj = new Date(problemSet.date);
   const year = dateObj.getFullYear();
@@ -1013,7 +1258,11 @@ function renderProblemButtons() {
     button.textContent = `問題${i + 1}`;
     button.style.fontSize = "0.8em"; 
     button.style.padding = "5px 10px";  
-    button.onclick = () => setEssay(essayGlobalIndex);
+    button.onclick = () => {
+      currentTagFilterIndices = null;
+      currentTagFilterName = null;
+      setEssay(essayGlobalIndex);
+    };
     if (essayGlobalIndex === currentEssayIndex) {
       button.classList.add("active"); 
     }
@@ -1086,6 +1335,8 @@ function renderProblemButtons() {
 
 
 function selectRandomProblem() {
+  currentTagFilterIndices = null; // タグからの連続ランダムモードを解除
+  currentTagFilterName = null;
   if (allEssays.length === 0) {
     console.warn("問題文データがまだ読み込まれていません。");
     return;
@@ -1191,22 +1442,47 @@ function selectRandomProblem() {
     alert("ペーストは無効です。");
   });
 
-  document.addEventListener('keydown', function (e) {
-  if (popup.style.display === 'block' && (e.key === 'q' || e.key === 'Q')) {
+  // ポップアップを閉じるだけ（文章はそのまま。見返したり、お気に入り登録したりできる）
+  function closePopupOnly() {
     popup.style.display = 'none';
-    const currentProblemSet = archiveStructure.find(set => set.essayStartIndex === currentProblemSetStartIndex); 
-    if (currentProblemSet) {
+    typingArea.focus();
+  }
+
+  // ポップアップを閉じて次の例題へ進む
+  function advanceToNextProblem() {
+    popup.style.display = 'none';
+
+    if (currentTagFilterIndices) {
+      // 「〇〇からランダム」中は、同じタグの中から続けて出題する
+      selectNextFromTagFilter();
+    } else {
+      const currentProblemSet = archiveStructure.find(set => set.essayStartIndex === currentProblemSetStartIndex);
+      if (currentProblemSet) {
         const nextProblemInSetIndex = currentEssayIndex + 1;
         if (nextProblemInSetIndex < currentProblemSet.essayStartIndex + currentProblemSet.numProblems) {
-            setEssay(nextProblemInSetIndex); 
+          setEssay(nextProblemInSetIndex);
         } else {
-            setEssay(currentProblemSet.essayStartIndex); 
+          setEssay(currentProblemSet.essayStartIndex);
         }
+      }
     }
     typingArea.focus();
-    e.preventDefault();
   }
-});
+
+  document.getElementById('popupCloseBtn').addEventListener('click', closePopupOnly);
+  document.getElementById('popupNextBtn').addEventListener('click', advanceToNextProblem);
+
+  document.addEventListener('keydown', function (e) {
+    if (popup.style.display !== 'block') return;
+
+    if (e.key === 'q' || e.key === 'Q') {
+      advanceToNextProblem();
+      e.preventDefault();
+    } else if (e.key === 'Escape') {
+      closePopupOnly();
+      e.preventDefault();
+    }
+  });
 
 
 function renderArchive(archivesToDisplay) { 
